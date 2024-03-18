@@ -1,0 +1,472 @@
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s 			page 1
+
+
+   1              		.file	"main.c"
+   2              		.option nopic
+   3              		.attribute arch, "rv32i2p0_m2p0_a2p0_c2p0"
+   4              		.attribute unaligned_access, 0
+   5              		.attribute stack_align, 16
+   6              		.text
+   7              	.Ltext0:
+   8              		.cfi_sections	.debug_frame
+   9              		.section	.text.startup.main,"ax",@progbits
+  10              		.align	1
+  11              		.globl	main
+  13              	main:
+  14              	.LFB2:
+  15              		.file 1 "main.c"
+   1:main.c        **** #include "gd32vf103.h"
+   2:main.c        **** #include "drivers.h"
+   3:main.c        **** #include "dac.h"
+   4:main.c        **** #include "pwm.h"
+   5:main.c        **** #include "adc.h"
+   6:main.c        **** #include "eclicw.h"
+   7:main.c        **** 
+   8:main.c        **** int main(void){
+  16              		.loc 1 8 15
+  17              		.cfi_startproc
+   9:main.c        ****     int key, idle=0, ms=0;
+  18              		.loc 1 9 5
+  19              	.LVL0:
+  10:main.c        ****     int lookUpTbl[16]={1,4,7,14,2,5,8,0,3,6,9,15,10,11,12,13};
+  20              		.loc 1 10 5
+  11:main.c        ****     int adcr, tmpr;
+  21              		.loc 1 11 5
+  12:main.c        **** 
+  13:main.c        ****     t5omsi();                               // Initialize timer5 1kHz
+  22              		.loc 1 13 5
+   8:main.c        ****     int key, idle=0, ms=0;
+  23              		.loc 1 8 15 is_stmt 0
+  24 0000 0111     		addi	sp,sp,-32
+  25              	.LCFI0:
+  26              		.cfi_def_cfa_offset 32
+  27 0002 06CE     		sw	ra,28(sp)
+  28 0004 22CC     		sw	s0,24(sp)
+  29 0006 26CA     		sw	s1,20(sp)
+  30 0008 4AC8     		sw	s2,16(sp)
+  31 000a 4EC6     		sw	s3,12(sp)
+  32 000c 56C2     		sw	s5,4(sp)
+  33 000e 52C4     		sw	s4,8(sp)
+  34              		.cfi_offset 1, -4
+  35              		.cfi_offset 8, -8
+  36              		.cfi_offset 9, -12
+  37              		.cfi_offset 18, -16
+  38              		.cfi_offset 19, -20
+  39              		.cfi_offset 21, -28
+  40              		.cfi_offset 20, -24
+  41              		.loc 1 13 5
+  42 0010 97000000 		call	t5omsi
+  42      E7800000 
+  43              	.LVL1:
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s 			page 2
+
+
+  14:main.c        ****     colinit();                              // Initialize column toolbox
+  44              		.loc 1 14 5 is_stmt 1
+  45 0018 97000000 		call	colinit
+  45      E7800000 
+  46              	.LVL2:
+  15:main.c        ****     l88init();                              // Initialize 8*8 led toolbox
+  47              		.loc 1 15 5
+  48 0020 97000000 		call	l88init
+  48      E7800000 
+  49              	.LVL3:
+  16:main.c        ****     keyinit();                              // Initialize keyboard toolbox
+  50              		.loc 1 16 5
+  51 0028 97000000 		call	keyinit
+  51      E7800000 
+  52              	.LVL4:
+  17:main.c        ****     T1powerUpInitPWM(0x1);     
+  53              		.loc 1 17 5
+  54 0030 0545     		li	a0,1
+  55 0032 97000000 		call	T1powerUpInitPWM
+  55      E7800000 
+  56              	.LVL5:
+  18:main.c        ****     ADC3powerUpInit(1);    
+  57              		.loc 1 18 5
+  58 003a 0545     		li	a0,1
+  59 003c 97000000 		call	ADC3powerUpInit
+  59      E7800000 
+  60              	.LVL6:
+  19:main.c        **** 
+  20:main.c        ****     while (1) {
+  21:main.c        ****         idle++;    
+  22:main.c        ****         
+  23:main.c        ****         if (adc_flag_get(ADC0,ADC_FLAG_EOC)==SET) { // ...ADC done?
+  24:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+  25:main.c        ****             tmpr = adc_inserted_data_read(ADC0, ADC_INSERTED_CHANNEL_0);
+  26:main.c        ****             //l88mem(6,((0x680-tmpr)/5)+25);
+  27:main.c        ****             adc_flag_clear(ADC0, ADC_FLAG_EOC);
+  28:main.c        ****             adc_flag_clear(ADC0, ADC_FLAG_EOIC);
+  29:main.c        ****           } else {
+  30:main.c        **** 
+  31:main.c        ****             //adcr is the read value from the potentiometer transformed from analog to digital sign
+  32:main.c        ****             adcr = adc_regular_data_read(ADC0); // ......get data
+  33:main.c        ****             
+  34:main.c        **** 
+  35:main.c        **** 
+  36:main.c        ****             adc_flag_clear(ADC0, ADC_FLAG_EOC); // ......clear IF
+  37:main.c        ****           }
+  38:main.c        ****         }
+  39:main.c        **** 
+  40:main.c        **** 
+  41:main.c        ****  
+  42:main.c        ****         if (t5expq()) {                     // Manage periodic tasks
+  43:main.c        ****           
+  44:main.c        ****           T1setPWMch0(map(adcr, 0, 0, 4080, 4000));
+  61              		.loc 1 44 11 is_stmt 0
+  62 0044 8566     		li	a3,4096
+  23:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+  63              		.loc 1 23 13
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s 			page 3
+
+
+  64 0046 37240140 		li	s0,1073815552
+   9:main.c        ****     int lookUpTbl[16]={1,4,7,14,2,5,8,0,3,6,9,15,10,11,12,13};
+  65              		.loc 1 9 14
+  66 004a 8144     		li	s1,0
+  23:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+  67              		.loc 1 23 13
+  68 004c 13040440 		addi	s0,s0,1024
+  23:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+  69              		.loc 1 23 12
+  70 0050 8549     		li	s3,1
+  71              		.loc 1 44 11
+  72 0052 938A06FA 		addi	s5,a3,-96
+  73 0056 138906FF 		addi	s2,a3,-16
+  74              	.LVL7:
+  75              	.L2:
+  20:main.c        ****         idle++;    
+  76              		.loc 1 20 5 is_stmt 1
+  21:main.c        ****         
+  77              		.loc 1 21 9
+  23:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+  78              		.loc 1 23 13 is_stmt 0
+  79 005a 8945     		li	a1,2
+  80 005c 2285     		mv	a0,s0
+  21:main.c        ****         
+  81              		.loc 1 21 13
+  82 005e 8504     		addi	s1,s1,1
+  83              	.LVL8:
+  23:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+  84              		.loc 1 23 9 is_stmt 1
+  23:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+  85              		.loc 1 23 13 is_stmt 0
+  86 0060 97000000 		call	adc_flag_get
+  86      E7800000 
+  87              	.LVL9:
+  23:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+  88              		.loc 1 23 12
+  89 0068 631C3503 		bne	a0,s3,.L3
+  24:main.c        ****             tmpr = adc_inserted_data_read(ADC0, ADC_INSERTED_CHANNEL_0);
+  90              		.loc 1 24 11 is_stmt 1
+  24:main.c        ****             tmpr = adc_inserted_data_read(ADC0, ADC_INSERTED_CHANNEL_0);
+  91              		.loc 1 24 15 is_stmt 0
+  92 006c 9145     		li	a1,4
+  93 006e 2285     		mv	a0,s0
+  94 0070 97000000 		call	adc_flag_get
+  94      E7800000 
+  95              	.LVL10:
+  24:main.c        ****             tmpr = adc_inserted_data_read(ADC0, ADC_INSERTED_CHANNEL_0);
+  96              		.loc 1 24 14
+  97 0078 63133509 		bne	a0,s3,.L4
+  25:main.c        ****             //l88mem(6,((0x680-tmpr)/5)+25);
+  98              		.loc 1 25 13 is_stmt 1
+  25:main.c        ****             //l88mem(6,((0x680-tmpr)/5)+25);
+  99              		.loc 1 25 20 is_stmt 0
+ 100 007c 8145     		li	a1,0
+ 101 007e 2285     		mv	a0,s0
+ 102 0080 97000000 		call	adc_inserted_data_read
+ 102      E7800000 
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s 			page 4
+
+
+ 103              	.LVL11:
+  27:main.c        ****             adc_flag_clear(ADC0, ADC_FLAG_EOIC);
+ 104              		.loc 1 27 13 is_stmt 1
+ 105 0088 8945     		li	a1,2
+ 106 008a 2285     		mv	a0,s0
+ 107 008c 97000000 		call	adc_flag_clear
+ 107      E7800000 
+ 108              	.LVL12:
+  28:main.c        ****           } else {
+ 109              		.loc 1 28 13
+ 110 0094 9145     		li	a1,4
+ 111              	.LVL13:
+ 112              	.L10:
+  36:main.c        ****           }
+ 113              		.loc 1 36 13 is_stmt 0
+ 114 0096 2285     		mv	a0,s0
+ 115 0098 97000000 		call	adc_flag_clear
+ 115      E7800000 
+ 116              	.LVL14:
+ 117              	.L3:
+  42:main.c        ****           
+ 118              		.loc 1 42 9 is_stmt 1
+  42:main.c        ****           
+ 119              		.loc 1 42 13 is_stmt 0
+ 120 00a0 97000000 		call	t5expq
+ 120      E7800000 
+ 121              	.LVL15:
+  42:main.c        ****           
+ 122              		.loc 1 42 12
+ 123 00a8 4DD9     		beq	a0,zero,.L2
+ 124              		.loc 1 44 11 is_stmt 1
+ 125 00aa 5687     		mv	a4,s5
+ 126 00ac CA86     		mv	a3,s2
+ 127 00ae 0146     		li	a2,0
+ 128 00b0 8145     		li	a1,0
+ 129 00b2 5285     		mv	a0,s4
+ 130 00b4 97000000 		call	map
+ 130      E7800000 
+ 131              	.LVL16:
+ 132 00bc 97000000 		call	T1setPWMch0
+ 132      E7800000 
+ 133              	.LVL17:
+  45:main.c        **** 
+  46:main.c        **** 
+  47:main.c        ****           l88row(colset());               // ...8*8LED and Keyboard
+ 134              		.loc 1 47 11
+ 135 00c4 97000000 		call	colset
+ 135      E7800000 
+ 136              	.LVL18:
+ 137 00cc 97000000 		call	l88row
+ 137      E7800000 
+ 138              	.LVL19:
+  48:main.c        **** 
+  49:main.c        ****         
+  50:main.c        ****           // T1setPWMmotorB(map(adcr, 0, 0, 4079, 100));
+  51:main.c        ****             
+  52:main.c        **** 
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s 			page 5
+
+
+  53:main.c        ****           #pragma region fps
+  54:main.c        ****           l88mem(6,idle>>8);              // ...Performance monitor
+ 139              		.loc 1 54 11
+ 140 00d4 93D58440 		srai	a1,s1,8
+ 141 00d8 1945     		li	a0,6
+ 142 00da 97000000 		call	l88mem
+ 142      E7800000 
+ 143              	.LVL20:
+  55:main.c        ****           l88mem(7,idle); idle=0;
+ 144              		.loc 1 55 11
+ 145 00e2 A685     		mv	a1,s1
+ 146 00e4 1D45     		li	a0,7
+ 147 00e6 97000000 		call	l88mem
+ 147      E7800000 
+ 148              	.LVL21:
+ 149              		.loc 1 55 27
+  56:main.c        ****           #pragma endregion
+  57:main.c        ****             
+  58:main.c        **** 
+  59:main.c        ****           adc_software_trigger_enable(ADC0, ADC_REGULAR_CHANNEL); //Trigger another ADC conversion!
+ 150              		.loc 1 59 11
+ 151 00ee 8545     		li	a1,1
+ 152 00f0 2285     		mv	a0,s0
+ 153 00f2 97000000 		call	adc_software_trigger_enable
+ 153      E7800000 
+ 154              	.LVL22:
+  55:main.c        ****           l88mem(7,idle); idle=0;
+ 155              		.loc 1 55 31 is_stmt 0
+ 156 00fa 8144     		li	s1,0
+ 157 00fc B9BF     		j	.L2
+ 158              	.LVL23:
+ 159              	.L4:
+  32:main.c        ****             
+ 160              		.loc 1 32 13 is_stmt 1
+  32:main.c        ****             
+ 161              		.loc 1 32 20 is_stmt 0
+ 162 00fe 2285     		mv	a0,s0
+ 163 0100 97000000 		call	adc_regular_data_read
+ 163      E7800000 
+ 164              	.LVL24:
+ 165 0108 2A8A     		mv	s4,a0
+ 166              	.LVL25:
+  36:main.c        ****           }
+ 167              		.loc 1 36 13 is_stmt 1
+ 168 010a 8945     		li	a1,2
+ 169 010c 69B7     		j	.L10
+ 170              		.cfi_endproc
+ 171              	.LFE2:
+ 173              		.text
+ 174              	.Letext0:
+ 175              		.file 2 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 176              		.file 3 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 177              		.file 4 "drivers.h"
+ 178              		.file 5 "pwm.h"
+ 179              		.file 6 "adc.h"
+ 180              		.file 7 "./../../firmware/GD32VF103_standard_peripheral/Include/gd32vf103_adc.h"
+ 181              		.file 8 "./../../firmware/GD32VF103_standard_peripheral/system_gd32vf103.h"
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s 			page 6
+
+
+ 182              		.file 9 "./../../firmware/GD32VF103_standard_peripheral/gd32vf103.h"
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 main.c
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:13     .text.startup.main:0000000000000000 main
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:17     .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:18     .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:20     .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:21     .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:22     .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:23     .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:24     .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:26     .text.startup.main:0000000000000002 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:34     .text.startup.main:0000000000000010 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:35     .text.startup.main:0000000000000010 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:36     .text.startup.main:0000000000000010 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:37     .text.startup.main:0000000000000010 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:38     .text.startup.main:0000000000000010 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:39     .text.startup.main:0000000000000010 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:40     .text.startup.main:0000000000000010 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:42     .text.startup.main:0000000000000010 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:45     .text.startup.main:0000000000000018 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:48     .text.startup.main:0000000000000020 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:51     .text.startup.main:0000000000000028 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:54     .text.startup.main:0000000000000030 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:58     .text.startup.main:000000000000003a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:62     .text.startup.main:0000000000000044 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:64     .text.startup.main:0000000000000046 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:66     .text.startup.main:000000000000004a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:68     .text.startup.main:000000000000004c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:70     .text.startup.main:0000000000000050 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:72     .text.startup.main:0000000000000052 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:77     .text.startup.main:000000000000005a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:78     .text.startup.main:000000000000005a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:79     .text.startup.main:000000000000005a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:82     .text.startup.main:000000000000005e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:85     .text.startup.main:0000000000000060 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:86     .text.startup.main:0000000000000060 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:89     .text.startup.main:0000000000000068 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:91     .text.startup.main:000000000000006c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:92     .text.startup.main:000000000000006c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:97     .text.startup.main:0000000000000078 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:99     .text.startup.main:000000000000007c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:100    .text.startup.main:000000000000007c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:105    .text.startup.main:0000000000000088 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:110    .text.startup.main:0000000000000094 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:114    .text.startup.main:0000000000000096 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:119    .text.startup.main:00000000000000a0 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:120    .text.startup.main:00000000000000a0 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:123    .text.startup.main:00000000000000a8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:125    .text.startup.main:00000000000000aa .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:135    .text.startup.main:00000000000000c4 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:140    .text.startup.main:00000000000000d4 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:145    .text.startup.main:00000000000000e2 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:150    .text.startup.main:00000000000000ee .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:151    .text.startup.main:00000000000000ee .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:156    .text.startup.main:00000000000000fa .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:161    .text.startup.main:00000000000000fe .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:162    .text.startup.main:00000000000000fe .L0 
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s 			page 8
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:168    .text.startup.main:000000000000010a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:170    .text.startup.main:000000000000010e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:173    .text.startup.main:000000000000010e .L0 
+                     .debug_frame:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:117    .text.startup.main:00000000000000a0 .L3
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:159    .text.startup.main:00000000000000fe .L4
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:75     .text.startup.main:000000000000005a .L2
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:112    .text.startup.main:0000000000000096 .L10
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:700    .debug_abbrev:0000000000000000 .Ldebug_abbrev0
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1156   .debug_str:0000000000000177 .LASF35
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1140   .debug_str:0000000000000124 .LASF36
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1170   .debug_str:0000000000000237 .LASF37
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1086   .debug_ranges:0000000000000000 .Ldebug_ranges0
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1092   .debug_line:0000000000000000 .Ldebug_line0
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1124   .debug_str:00000000000000ce .LASF0
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1166   .debug_str:0000000000000223 .LASF1
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1094   .debug_str:0000000000000000 .LASF6
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1106   .debug_str:000000000000005e .LASF2
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1148   .debug_str:0000000000000149 .LASF3
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1100   .debug_str:000000000000002f .LASF4
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1098   .debug_str:0000000000000026 .LASF5
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1114   .debug_str:0000000000000094 .LASF7
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1108   .debug_str:000000000000006c .LASF8
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1138   .debug_str:0000000000000116 .LASF9
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1104   .debug_str:0000000000000047 .LASF10
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1130   .debug_str:00000000000000f3 .LASF11
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1158   .debug_str:00000000000001ff .LASF12
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1142   .debug_str:000000000000012b .LASF38
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1110   .debug_str:000000000000007e .LASF13
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1162   .debug_str:000000000000020d .LASF14
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1120   .debug_str:00000000000000bc .LASF39
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:14     .text.startup.main:0000000000000000 .LFB2
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:171    .text.startup.main:000000000000010e .LFE2
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1024   .debug_loc:0000000000000000 .LLST0
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1102   .debug_str:0000000000000042 .LASF15
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1037   .debug_loc:0000000000000020 .LLST1
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1164   .debug_str:0000000000000219 .LASF16
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1154   .debug_str:0000000000000172 .LASF17
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1058   .debug_loc:0000000000000056 .LLST2
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1160   .debug_str:0000000000000208 .LASF18
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:43     .text.startup.main:0000000000000018 .LVL1
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:46     .text.startup.main:0000000000000020 .LVL2
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:49     .text.startup.main:0000000000000028 .LVL3
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:52     .text.startup.main:0000000000000030 .LVL4
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:56     .text.startup.main:000000000000003a .LVL5
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:60     .text.startup.main:0000000000000044 .LVL6
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:87     .text.startup.main:0000000000000068 .LVL9
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:95     .text.startup.main:0000000000000078 .LVL10
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:103    .text.startup.main:0000000000000088 .LVL11
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:108    .text.startup.main:0000000000000094 .LVL12
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:116    .text.startup.main:00000000000000a0 .LVL14
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:121    .text.startup.main:00000000000000a8 .LVL15
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:131    .text.startup.main:00000000000000bc .LVL16
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:133    .text.startup.main:00000000000000c4 .LVL17
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:136    .text.startup.main:00000000000000cc .LVL18
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:138    .text.startup.main:00000000000000d4 .LVL19
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:143    .text.startup.main:00000000000000e2 .LVL20
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s 			page 9
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:148    .text.startup.main:00000000000000ee .LVL21
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:154    .text.startup.main:00000000000000fa .LVL22
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:164    .text.startup.main:0000000000000108 .LVL24
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1128   .debug_str:00000000000000ec .LASF19
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1132   .debug_str:00000000000000fb .LASF20
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1168   .debug_str:000000000000022f .LASF21
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1152   .debug_str:000000000000016a .LASF22
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1126   .debug_str:00000000000000db .LASF23
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1112   .debug_str:0000000000000084 .LASF24
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1122   .debug_str:00000000000000c1 .LASF25
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1150   .debug_str:0000000000000153 .LASF26
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1172   .debug_str:000000000000028f .LASF27
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1144   .debug_str:000000000000013b .LASF28
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1134   .debug_str:0000000000000103 .LASF29
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1116   .debug_str:000000000000009f .LASF30
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1146   .debug_str:0000000000000142 .LASF31
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1136   .debug_str:000000000000010f .LASF32
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1096   .debug_str:000000000000000a .LASF33
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:1118   .debug_str:00000000000000a6 .LASF34
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:25     .text.startup.main:0000000000000002 .LCFI0
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:19     .text.startup.main:0000000000000000 .LVL0
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:74     .text.startup.main:000000000000005a .LVL7
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:158    .text.startup.main:00000000000000fe .LVL23
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:111    .text.startup.main:0000000000000096 .LVL13
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:166    .text.startup.main:000000000000010a .LVL25
+C:\Users\Duckb\AppData\Local\Temp\ccDtZOF1.s:184    .debug_info:0000000000000000 .Ldebug_info0
+
+UNDEFINED SYMBOLS
+t5omsi
+colinit
+l88init
+keyinit
+T1powerUpInitPWM
+ADC3powerUpInit
+adc_flag_get
+adc_inserted_data_read
+adc_flag_clear
+t5expq
+map
+T1setPWMch0
+colset
+l88row
+l88mem
+adc_software_trigger_enable
+adc_regular_data_read

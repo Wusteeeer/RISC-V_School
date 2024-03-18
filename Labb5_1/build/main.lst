@@ -1,0 +1,1371 @@
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 1
+
+
+   1              		.file	"main.c"
+   2              		.option nopic
+   3              		.attribute arch, "rv32i2p0_m2p0_a2p0_c2p0"
+   4              		.attribute unaligned_access, 0
+   5              		.attribute stack_align, 16
+   6              		.text
+   7              	.Ltext0:
+   8              		.cfi_sections	.debug_frame
+   9              		.section	.text.rtcInit,"ax",@progbits
+  10              		.align	1
+  11              		.globl	rtcInit
+  13              	rtcInit:
+  14              	.LFB2:
+  15              		.file 1 "main.c"
+   1:main.c        **** #include "gd32vf103.h"
+   2:main.c        **** #include "drivers.h"
+   3:main.c        **** #include "adc.h"
+   4:main.c        **** #include "lcd.h"
+   5:main.c        **** #include "usart.h"
+   6:main.c        **** #define EI 1
+   7:main.c        **** #define DI 0
+   8:main.c        **** 
+   9:main.c        **** void rtcInit(void){
+  16              		.loc 1 9 19
+  17              		.cfi_startproc
+  10:main.c        ****    // enable power managemenet unit - perhaps enabled by default
+  11:main.c        ****    rcu_periph_clock_enable(RCU_PMU);
+  18              		.loc 1 11 4
+   9:main.c        ****    // enable power managemenet unit - perhaps enabled by default
+  19              		.loc 1 9 19 is_stmt 0
+  20 0000 4111     		addi	sp,sp,-16
+  21              	.LCFI0:
+  22              		.cfi_def_cfa_offset 16
+  23              		.loc 1 11 4
+  24 0002 1305C071 		li	a0,1820
+   9:main.c        ****    // enable power managemenet unit - perhaps enabled by default
+  25              		.loc 1 9 19
+  26 0006 06C6     		sw	ra,12(sp)
+  27              		.cfi_offset 1, -4
+  28              		.loc 1 11 4
+  29 0008 97000000 		call	rcu_periph_clock_enable
+  29      E7800000 
+  30              	.LVL0:
+  12:main.c        ****    // enable write access to the registers in the backup domain
+  13:main.c        ****    pmu_backup_write_enable();
+  31              		.loc 1 13 4 is_stmt 1
+  32 0010 97000000 		call	pmu_backup_write_enable
+  32      E7800000 
+  33              	.LVL1:
+  14:main.c        ****    // enable backup domain
+  15:main.c        ****    rcu_periph_clock_enable(RCU_BKPI);
+  34              		.loc 1 15 4
+  35 0018 1305B071 		li	a0,1819
+  36 001c 97000000 		call	rcu_periph_clock_enable
+  36      E7800000 
+  37              	.LVL2:
+  16:main.c        ****    // reset backup domain registers
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 2
+
+
+  17:main.c        ****    bkp_deinit();
+  38              		.loc 1 17 4
+  39 0024 97000000 		call	bkp_deinit
+  39      E7800000 
+  40              	.LVL3:
+  18:main.c        ****    // set the results of a previous calibration procedure
+  19:main.c        ****    // bkp_rtc_calibration_value_set(x);
+  20:main.c        **** 
+  21:main.c        ****    // setup RTC
+  22:main.c        ****    // enable external low speed XO
+  23:main.c        ****    //rcu_osci_on(RCU_LXTAL);
+  24:main.c        ****    if (rcu_osci_stab_wait(RCU_HXTAL)) {
+  41              		.loc 1 24 4
+  42              		.loc 1 24 8 is_stmt 0
+  43 002c 4145     		li	a0,16
+  44 002e 97000000 		call	rcu_osci_stab_wait
+  44      E7800000 
+  45              	.LVL4:
+  46              		.loc 1 24 7
+  47 0036 21CD     		beq	a0,zero,.L1
+  25:main.c        ****      // use external low speed oscillaotr, i.e. 32.768 kHz
+  26:main.c        ****      rcu_rtc_clock_config(RCU_RTCSRC_HXTAL_DIV_128);
+  48              		.loc 1 26 6 is_stmt 1
+  49 0038 13050030 		li	a0,768
+  50 003c 97000000 		call	rcu_rtc_clock_config
+  50      E7800000 
+  51              	.LVL5:
+  27:main.c        ****      rcu_periph_clock_enable(RCU_RTC);
+  52              		.loc 1 27 6
+  53 0044 0565     		li	a0,4096
+  54 0046 1305F580 		addi	a0,a0,-2033
+  55 004a 97000000 		call	rcu_periph_clock_enable
+  55      E7800000 
+  56              	.LVL6:
+  28:main.c        ****      // wait until shadow registers are synced from the backup domain
+  29:main.c        ****      // over the APB bus
+  30:main.c        ****      rtc_register_sync_wait();
+  57              		.loc 1 30 6
+  58 0052 97000000 		call	rtc_register_sync_wait
+  58      E7800000 
+  59              	.LVL7:
+  31:main.c        ****      // wait until shadow register changes are synced over APB
+  32:main.c        ****      // to the backup doamin
+  33:main.c        ****      rtc_lwoff_wait();
+  60              		.loc 1 33 6
+  61 005a 97000000 		call	rtc_lwoff_wait
+  61      E7800000 
+  62              	.LVL8:
+  34:main.c        ****      // prescale to 1 second
+  35:main.c        ****      rtc_prescaler_set(62500 - 1);
+  63              		.loc 1 35 6
+  64 0062 3D65     		li	a0,61440
+  65 0064 13053542 		addi	a0,a0,1059
+  66 0068 97000000 		call	rtc_prescaler_set
+  66      E7800000 
+  67              	.LVL9:
+  36:main.c        ****      rtc_lwoff_wait();
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 3
+
+
+  68              		.loc 1 36 6
+  69 0070 97000000 		call	rtc_lwoff_wait
+  69      E7800000 
+  70              	.LVL10:
+  37:main.c        ****      rtc_flag_clear(RTC_INT_FLAG_SECOND);
+  71              		.loc 1 37 6
+  72 0078 0545     		li	a0,1
+  73 007a 97000000 		call	rtc_flag_clear
+  73      E7800000 
+  74              	.LVL11:
+  38:main.c        ****      //rtc_interrupt_enable(RTC_INT_SECOND);
+  39:main.c        ****      rtc_lwoff_wait();
+  75              		.loc 1 39 6
+  40:main.c        ****    }
+  41:main.c        **** }
+  76              		.loc 1 41 1 is_stmt 0
+  77 0082 B240     		lw	ra,12(sp)
+  78              		.cfi_remember_state
+  79              		.cfi_restore 1
+  80 0084 4101     		addi	sp,sp,16
+  81              	.LCFI1:
+  82              		.cfi_def_cfa_offset 0
+  39:main.c        ****    }
+  83              		.loc 1 39 6
+  84 0086 17030000 		tail	rtc_lwoff_wait
+  84      67000300 
+  85              	.LVL12:
+  86              	.L1:
+  87              	.LCFI2:
+  88              		.cfi_restore_state
+  89              		.loc 1 41 1
+  90 008e B240     		lw	ra,12(sp)
+  91              		.cfi_restore 1
+  92 0090 4101     		addi	sp,sp,16
+  93              	.LCFI3:
+  94              		.cfi_def_cfa_offset 0
+  95 0092 8280     		jr	ra
+  96              		.cfi_endproc
+  97              	.LFE2:
+  99              		.section	.text.startup.main,"ax",@progbits
+ 100              		.align	1
+ 101              		.globl	main
+ 103              	main:
+ 104              	.LFB3:
+  42:main.c        **** 
+  43:main.c        **** int main(void){
+ 105              		.loc 1 43 15 is_stmt 1
+ 106              		.cfi_startproc
+  44:main.c        ****     int ms=0, s=0, key, pKey=-1, c=0, idle=0, rtc, hh, mm, ss;
+ 107              		.loc 1 44 5
+ 108              	.LVL13:
+  45:main.c        ****     int lookUpTbl[16]={1,4,7,14,2,5,8,0,3,6,9,15,10,11,12,13};
+ 109              		.loc 1 45 5
+  43:main.c        ****     int ms=0, s=0, key, pKey=-1, c=0, idle=0, rtc, hh, mm, ss;
+ 110              		.loc 1 43 15 is_stmt 0
+ 111 0000 7571     		addi	sp,sp,-144
+ 112              	.LCFI4:
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 4
+
+
+ 113              		.cfi_def_cfa_offset 144
+ 114              		.loc 1 45 9
+ 115 0002 B7050000 		lui	a1,%hi(.LANCHOR0)
+ 116 0006 13060004 		li	a2,64
+ 117 000a 93850500 		addi	a1,a1,%lo(.LANCHOR0)
+ 118 000e 0810     		addi	a0,sp,32
+  43:main.c        ****     int ms=0, s=0, key, pKey=-1, c=0, idle=0, rtc, hh, mm, ss;
+ 119              		.loc 1 43 15
+ 120 0010 06C7     		sw	ra,140(sp)
+ 121 0012 22C5     		sw	s0,136(sp)
+ 122 0014 26C3     		sw	s1,132(sp)
+ 123 0016 4AC1     		sw	s2,128(sp)
+ 124 0018 D2DC     		sw	s4,120(sp)
+ 125 001a D6DA     		sw	s5,116(sp)
+ 126 001c DAD8     		sw	s6,112(sp)
+ 127 001e CEDE     		sw	s3,124(sp)
+ 128 0020 DED6     		sw	s7,108(sp)
+ 129              		.cfi_offset 1, -4
+ 130              		.cfi_offset 8, -8
+ 131              		.cfi_offset 9, -12
+ 132              		.cfi_offset 18, -16
+ 133              		.cfi_offset 20, -24
+ 134              		.cfi_offset 21, -28
+ 135              		.cfi_offset 22, -32
+ 136              		.cfi_offset 19, -20
+ 137              		.cfi_offset 23, -36
+ 138              		.loc 1 45 9
+ 139 0022 97000000 		call	memcpy
+ 139      E7800000 
+ 140              	.LVL14:
+  46:main.c        ****     int hexDigits[2] = {0}, currentDig=0;
+ 141              		.loc 1 46 5 is_stmt 1
+  47:main.c        ****     int currentPosition[2] = {10, 0};
+ 142              		.loc 1 47 9 is_stmt 0
+ 143 002a A947     		li	a5,10
+ 144 002c 3ECC     		sw	a5,24(sp)
+  46:main.c        ****     int hexDigits[2] = {0}, currentDig=0;
+ 145              		.loc 1 46 9
+ 146 002e 02C8     		sw	zero,16(sp)
+ 147 0030 02CA     		sw	zero,20(sp)
+ 148              	.LVL15:
+ 149              		.loc 1 47 5 is_stmt 1
+ 150              		.loc 1 47 9 is_stmt 0
+ 151 0032 02CE     		sw	zero,28(sp)
+  48:main.c        ****     int dac=0, speed=-100;
+ 152              		.loc 1 48 5 is_stmt 1
+ 153              	.LVL16:
+  49:main.c        ****     int adcr, tmpr;
+ 154              		.loc 1 49 5
+  50:main.c        ****     //char time[7]={0};
+  51:main.c        **** 
+  52:main.c        ****     t5omsi();                               // Initialize timer5 1kHz
+ 155              		.loc 1 52 5
+ 156 0034 97000000 		call	t5omsi
+ 156      E7800000 
+ 157              	.LVL17:
+  53:main.c        ****     colinit();                              // Initialize column toolbox
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 5
+
+
+ 158              		.loc 1 53 5
+ 159 003c 97000000 		call	colinit
+ 159      E7800000 
+ 160              	.LVL18:
+  54:main.c        ****     l88init();                              // Initialize 8*8 led toolbox
+ 161              		.loc 1 54 5
+ 162 0044 97000000 		call	l88init
+ 162      E7800000 
+ 163              	.LVL19:
+  55:main.c        ****     keyinit();                              // Initialize keyboard toolbox
+ 164              		.loc 1 55 5
+ 165 004c 97000000 		call	keyinit
+ 165      E7800000 
+ 166              	.LVL20:
+  56:main.c        ****     ADC3powerUpInit(1);                     // Initialize ADC0, Ch3
+ 167              		.loc 1 56 5
+ 168 0054 0545     		li	a0,1
+ 169 0056 97000000 		call	ADC3powerUpInit
+ 169      E7800000 
+ 170              	.LVL21:
+  57:main.c        ****     Lcd_SetType(LCD_NORMAL);//NORMAL);                // or use LCD_INVERTED!
+ 171              		.loc 1 57 5
+ 172 005e 0145     		li	a0,0
+ 173 0060 97000000 		call	Lcd_SetType
+ 173      E7800000 
+ 174              	.LVL22:
+  58:main.c        ****     Lcd_Init();
+ 175              		.loc 1 58 5
+ 176 0068 97000000 		call	Lcd_Init
+ 176      E7800000 
+ 177              	.LVL23:
+  59:main.c        ****     LCD_Clear(BLACK);
+ 178              		.loc 1 59 5
+ 179 0070 0145     		li	a0,0
+ 180 0072 97000000 		call	LCD_Clear
+ 180      E7800000 
+ 181              	.LVL24:
+  60:main.c        ****     //rtcInit();                              // Initialize RTC
+  61:main.c        ****     //rtc_counter_set(3600+60+1);
+  62:main.c        ****     u0init(EI);                             // Initialize USART0 toolbox
+ 182              		.loc 1 62 5
+ 183 007a 0545     		li	a0,1
+  63:main.c        **** 
+  64:main.c        ****     eclic_global_interrupt_enable();        // !!! INTERRUPT ENABLED !!!
+  65:main.c        **** 
+  66:main.c        ****     while (1) {
+  67:main.c        ****         idle++;                             // Manage Async events
+  68:main.c        ****         LCD_WR_Queue();                     // Manage LCD com queue!
+  69:main.c        ****         //u0_TX_Queue();                      // Manage U(S)ART TX Queue!
+  70:main.c        ****         if (adc_flag_get(ADC0,ADC_FLAG_EOC)==SET) { // ...ADC done?
+ 184              		.loc 1 70 13 is_stmt 0
+ 185 007c 37240140 		li	s0,1073815552
+  71:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+  72:main.c        ****             tmpr = adc_inserted_data_read(ADC0, ADC_INSERTED_CHANNEL_0);
+  73:main.c        ****             //l88mem(6,((0x680-tmpr)/5)+25);
+  74:main.c        ****             // usart_data_transmit(USART0, ((0x680-tmpr)/5)+25); // USRAT0 TX!
+  75:main.c        ****             adc_flag_clear(ADC0, ADC_FLAG_EOC);
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 6
+
+
+  76:main.c        ****             adc_flag_clear(ADC0, ADC_FLAG_EOIC);
+  77:main.c        ****           } else {
+  78:main.c        ****             adcr = adc_regular_data_read(ADC0); // ......get data
+  79:main.c        **** 
+  80:main.c        ****             adc_flag_clear(ADC0, ADC_FLAG_EOC); // ......clear IF
+  81:main.c        ****           }
+  82:main.c        ****         }
+  83:main.c        ****         if (usart_flag_get(USART0,USART_FLAG_RBNE)){ // USART0 RX?
+ 186              		.loc 1 83 13
+ 187 0080 B7440140 		li	s1,1073823744
+  84:main.c        ****           // l88mem(6,usart_data_receive(USART0)); // Yes: Retrive & display!
+  85:main.c        **** 
+  86:main.c        ****           if(usart_data_receive(USART0) == 127){
+  87:main.c        ****             LCD_DeleteChar(&currentPosition[0], &currentPosition[1], BLACK); 
+  88:main.c        **** 
+  89:main.c        ****           }else{
+  90:main.c        **** 
+  91:main.c        ****             LCD_ShowChar(currentPosition[0],currentPosition[1],usart_data_receive(USART0), OPAQUE, 
+ 188              		.loc 1 91 13
+ 189 0084 416B     		li	s6,65536
+  62:main.c        **** 
+ 190              		.loc 1 62 5
+ 191 0086 97000000 		call	u0init
+ 191      E7800000 
+ 192              	.LVL25:
+  64:main.c        **** 
+ 193              		.loc 1 64 5 is_stmt 1
+  46:main.c        ****     int currentPosition[2] = {10, 0};
+ 194              		.loc 1 46 29 is_stmt 0
+ 195 008e 014A     		li	s4,0
+  64:main.c        **** 
+ 196              		.loc 1 64 5
+ 197 0090 97000000 		call	eclic_global_interrupt_enable
+ 197      E7800000 
+ 198              	.LVL26:
+  44:main.c        ****     int lookUpTbl[16]={1,4,7,14,2,5,8,0,3,6,9,15,10,11,12,13};
+ 199              		.loc 1 44 15
+ 200 0098 814A     		li	s5,0
+  44:main.c        ****     int lookUpTbl[16]={1,4,7,14,2,5,8,0,3,6,9,15,10,11,12,13};
+ 201              		.loc 1 44 9
+ 202 009a 0149     		li	s2,0
+  70:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+ 203              		.loc 1 70 13
+ 204 009c 13040440 		addi	s0,s0,1024
+  83:main.c        ****           // l88mem(6,usart_data_receive(USART0)); // Yes: Retrive & display!
+ 205              		.loc 1 83 13
+ 206 00a0 93840480 		addi	s1,s1,-2048
+ 207              		.loc 1 91 13
+ 208 00a4 7D1B     		addi	s6,s6,-1
+ 209              	.LVL27:
+ 210              	.L17:
+  44:main.c        ****     int lookUpTbl[16]={1,4,7,14,2,5,8,0,3,6,9,15,10,11,12,13};
+ 211              		.loc 1 44 9
+ 212 00a6 8149     		li	s3,0
+ 213              	.LVL28:
+ 214              	.L11:
+  66:main.c        ****         idle++;                             // Manage Async events
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 7
+
+
+ 215              		.loc 1 66 5 is_stmt 1
+  67:main.c        ****         LCD_WR_Queue();                     // Manage LCD com queue!
+ 216              		.loc 1 67 9
+  68:main.c        ****         //u0_TX_Queue();                      // Manage U(S)ART TX Queue!
+ 217              		.loc 1 68 9 is_stmt 0
+ 218 00a8 97000000 		call	LCD_WR_Queue
+ 218      E7800000 
+ 219              	.LVL29:
+  70:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+ 220              		.loc 1 70 13
+ 221 00b0 8945     		li	a1,2
+ 222 00b2 2285     		mv	a0,s0
+ 223 00b4 97000000 		call	adc_flag_get
+ 223      E7800000 
+ 224              	.LVL30:
+  70:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+ 225              		.loc 1 70 12
+ 226 00bc 8547     		li	a5,1
+  67:main.c        ****         LCD_WR_Queue();                     // Manage LCD com queue!
+ 227              		.loc 1 67 13
+ 228 00be 8509     		addi	s3,s3,1
+ 229              	.LVL31:
+  68:main.c        ****         //u0_TX_Queue();                      // Manage U(S)ART TX Queue!
+ 230              		.loc 1 68 9 is_stmt 1
+  70:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+ 231              		.loc 1 70 9
+  70:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+ 232              		.loc 1 70 13 is_stmt 0
+ 233 00c0 AA8B     		mv	s7,a0
+  70:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+ 234              		.loc 1 70 12
+ 235 00c2 631CF502 		bne	a0,a5,.L5
+  71:main.c        ****             tmpr = adc_inserted_data_read(ADC0, ADC_INSERTED_CHANNEL_0);
+ 236              		.loc 1 71 11 is_stmt 1
+  71:main.c        ****             tmpr = adc_inserted_data_read(ADC0, ADC_INSERTED_CHANNEL_0);
+ 237              		.loc 1 71 15 is_stmt 0
+ 238 00c6 9145     		li	a1,4
+ 239 00c8 2285     		mv	a0,s0
+ 240 00ca 97000000 		call	adc_flag_get
+ 240      E7800000 
+ 241              	.LVL32:
+  71:main.c        ****             tmpr = adc_inserted_data_read(ADC0, ADC_INSERTED_CHANNEL_0);
+ 242              		.loc 1 71 14
+ 243 00d2 631A750D 		bne	a0,s7,.L6
+  72:main.c        ****             //l88mem(6,((0x680-tmpr)/5)+25);
+ 244              		.loc 1 72 13 is_stmt 1
+  72:main.c        ****             //l88mem(6,((0x680-tmpr)/5)+25);
+ 245              		.loc 1 72 20 is_stmt 0
+ 246 00d6 8145     		li	a1,0
+ 247 00d8 2285     		mv	a0,s0
+ 248 00da 97000000 		call	adc_inserted_data_read
+ 248      E7800000 
+ 249              	.LVL33:
+  75:main.c        ****             adc_flag_clear(ADC0, ADC_FLAG_EOIC);
+ 250              		.loc 1 75 13 is_stmt 1
+ 251 00e2 8945     		li	a1,2
+ 252 00e4 2285     		mv	a0,s0
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 8
+
+
+ 253 00e6 97000000 		call	adc_flag_clear
+ 253      E7800000 
+ 254              	.LVL34:
+  76:main.c        ****           } else {
+ 255              		.loc 1 76 13
+ 256 00ee 9145     		li	a1,4
+ 257              	.L21:
+  80:main.c        ****           }
+ 258              		.loc 1 80 13 is_stmt 0
+ 259 00f0 2285     		mv	a0,s0
+ 260 00f2 97000000 		call	adc_flag_clear
+ 260      E7800000 
+ 261              	.LVL35:
+ 262              	.L5:
+  83:main.c        ****           // l88mem(6,usart_data_receive(USART0)); // Yes: Retrive & display!
+ 263              		.loc 1 83 9 is_stmt 1
+  83:main.c        ****           // l88mem(6,usart_data_receive(USART0)); // Yes: Retrive & display!
+ 264              		.loc 1 83 13 is_stmt 0
+ 265 00fa 9545     		li	a1,5
+ 266 00fc 2685     		mv	a0,s1
+ 267 00fe 97000000 		call	usart_flag_get
+ 267      E7800000 
+ 268              	.LVL36:
+  83:main.c        ****           // l88mem(6,usart_data_receive(USART0)); // Yes: Retrive & display!
+ 269              		.loc 1 83 12
+ 270 0106 0DC1     		beq	a0,zero,.L8
+  86:main.c        ****             LCD_DeleteChar(&currentPosition[0], &currentPosition[1], BLACK); 
+ 271              		.loc 1 86 11 is_stmt 1
+  86:main.c        ****             LCD_DeleteChar(&currentPosition[0], &currentPosition[1], BLACK); 
+ 272              		.loc 1 86 14 is_stmt 0
+ 273 0108 2685     		mv	a0,s1
+ 274 010a 97000000 		call	usart_data_receive
+ 274      E7800000 
+ 275              	.LVL37:
+  86:main.c        ****             LCD_DeleteChar(&currentPosition[0], &currentPosition[1], BLACK); 
+ 276              		.loc 1 86 13
+ 277 0112 9307F007 		li	a5,127
+ 278 0116 631FF508 		bne	a0,a5,.L9
+  87:main.c        **** 
+ 279              		.loc 1 87 13 is_stmt 1
+ 280 011a 0146     		li	a2,0
+ 281 011c 6C08     		addi	a1,sp,28
+ 282 011e 2808     		addi	a0,sp,24
+ 283 0120 97000000 		call	LCD_DeleteChar
+ 283      E7800000 
+ 284              	.LVL38:
+ 285              	.L8:
+  92:main.c        ****             currentPosition[0] += 10;
+  93:main.c        **** 
+  94:main.c        ****             if(currentPosition[0] >= 150){
+  95:main.c        ****               currentPosition[1] += 20;
+  96:main.c        ****               currentPosition[0] = 10;
+  97:main.c        ****             }
+  98:main.c        **** 
+  99:main.c        ****           }
+ 100:main.c        ****           
+ 101:main.c        ****         }
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 9
+
+
+ 102:main.c        **** 
+ 103:main.c        ****         if (t5expq()) {                     // Manage periodic tasks
+ 286              		.loc 1 103 9
+ 287              		.loc 1 103 13 is_stmt 0
+ 288 0128 97000000 		call	t5expq
+ 288      E7800000 
+ 289              	.LVL39:
+ 290              		.loc 1 103 12
+ 291 0130 25DD     		beq	a0,zero,.L11
+ 104:main.c        ****             l88row(colset());               // ...8*8LED and Keyboard
+ 292              		.loc 1 104 13 is_stmt 1
+ 293 0132 97000000 		call	colset
+ 293      E7800000 
+ 294              	.LVL40:
+ 295 013a 97000000 		call	l88row
+ 295      E7800000 
+ 296              	.LVL41:
+ 105:main.c        ****             ms++;                           // ...One second heart beat
+ 297              		.loc 1 105 13
+ 298              		.loc 1 105 15 is_stmt 0
+ 299 0142 0509     		addi	s2,s2,1
+ 300              	.LVL42:
+ 106:main.c        ****             if (ms==1000){
+ 301              		.loc 1 106 13 is_stmt 1
+ 302              		.loc 1 106 16 is_stmt 0
+ 303 0144 9307803E 		li	a5,1000
+ 304 0148 631CF900 		bne	s2,a5,.L12
+ 107:main.c        ****               ms=0;
+ 305              		.loc 1 107 15 is_stmt 1
+ 306              	.LVL43:
+ 108:main.c        ****               l88mem(0,s++);
+ 307              		.loc 1 108 15
+ 308 014c 13891A00 		addi	s2,s5,1
+ 309              	.LVL44:
+ 310 0150 D685     		mv	a1,s5
+ 311 0152 0145     		li	a0,0
+ 312 0154 CA8A     		mv	s5,s2
+ 313 0156 97000000 		call	l88mem
+ 313      E7800000 
+ 314              	.LVL45:
+ 107:main.c        ****               ms=0;
+ 315              		.loc 1 107 17 is_stmt 0
+ 316 015e 0149     		li	s2,0
+ 317              	.LVL46:
+ 318              	.L12:
+ 109:main.c        ****               //LCD_ShowStr(10, 30, digits[s%10], WHITE, OPAQUE);
+ 110:main.c        ****               //LCD_ShowChar(10, 50, 0x7E, OPAQUE, WHITE);
+ 111:main.c        ****             }
+ 112:main.c        ****             if ((key=keyscan())>=0) {       // ...Any key pressed?
+ 319              		.loc 1 112 13 is_stmt 1
+ 320              		.loc 1 112 22 is_stmt 0
+ 321 0160 97000000 		call	keyscan
+ 321      E7800000 
+ 322              	.LVL47:
+ 323              		.loc 1 112 16
+ 324 0168 634A0508 		blt	a0,zero,.L13
+ 113:main.c        ****               hexDigits[currentDig] = lookUpTbl[key];
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 10
+
+
+ 325              		.loc 1 113 15 is_stmt 1
+ 326              		.loc 1 113 37 is_stmt 0
+ 327 016c 9810     		addi	a4,sp,96
+ 328              		.loc 1 113 48
+ 329 016e 0A05     		slli	a0,a0,2
+ 330              	.LVL48:
+ 331              		.loc 1 113 37
+ 332 0170 93172A00 		slli	a5,s4,2
+ 333              		.loc 1 113 48
+ 334 0174 3A95     		add	a0,a4,a0
+ 335              		.loc 1 113 37
+ 336 0176 BA97     		add	a5,a4,a5
+ 337 0178 032705FC 		lw	a4,-64(a0)
+ 338 017c 23A8E7FA 		sw	a4,-80(a5)
+ 114:main.c        **** 
+ 115:main.c        ****               if(currentDig == 1){
+ 339              		.loc 1 115 15 is_stmt 1
+ 340 0180 C245     		lw	a1,16(sp)
+ 341              		.loc 1 115 17 is_stmt 0
+ 342 0182 63010A0A 		beq	s4,zero,.L14
+ 343              	.LBB2:
+ 116:main.c        **** 
+ 117:main.c        ****                 uint16_t total = hexDigits[0] + hexDigits[1];
+ 344              		.loc 1 117 17 is_stmt 1
+ 345              		.loc 1 117 47 is_stmt 0
+ 346 0186 D247     		lw	a5,20(sp)
+ 347              		.loc 1 117 26
+ 348 0188 BE95     		add	a1,a1,a5
+ 349 018a C205     		slli	a1,a1,16
+ 350 018c C181     		srli	a1,a1,16
+ 351              	.LVL49:
+ 118:main.c        ****                 
+ 119:main.c        ****                 if(total == 127){
+ 352              		.loc 1 119 17 is_stmt 1
+ 353              		.loc 1 119 19 is_stmt 0
+ 354 018e 9307F007 		li	a5,127
+ 355 0192 6390F506 		bne	a1,a5,.L15
+ 120:main.c        ****                   
+ 121:main.c        ****                   usart_data_transmit(USART0, 127);
+ 356              		.loc 1 121 19 is_stmt 1
+ 357 0196 9305F007 		li	a1,127
+ 358              	.LVL50:
+ 359              	.L22:
+ 122:main.c        ****                 }
+ 123:main.c        ****                 else if(total > 31){
+ 124:main.c        **** 
+ 125:main.c        ****                   usart_data_transmit(USART0, total);
+ 360              		.loc 1 125 19
+ 361 019a 2685     		mv	a0,s1
+ 362 019c 97000000 		call	usart_data_transmit
+ 362      E7800000 
+ 363              	.LVL51:
+ 364 01a4 91A8     		j	.L16
+ 365              	.LVL52:
+ 366              	.L6:
+ 367              	.LBE2:
+  78:main.c        **** 
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 11
+
+
+ 368              		.loc 1 78 13
+  78:main.c        **** 
+ 369              		.loc 1 78 20 is_stmt 0
+ 370 01a6 2285     		mv	a0,s0
+ 371 01a8 97000000 		call	adc_regular_data_read
+ 371      E7800000 
+ 372              	.LVL53:
+  80:main.c        ****           }
+ 373              		.loc 1 80 13 is_stmt 1
+ 374 01b0 8945     		li	a1,2
+ 375 01b2 3DBF     		j	.L21
+ 376              	.L9:
+  91:main.c        ****             currentPosition[0] += 10;
+ 377              		.loc 1 91 13
+ 378 01b4 F245     		lw	a1,28(sp)
+  91:main.c        ****             currentPosition[0] += 10;
+ 379              		.loc 1 91 64 is_stmt 0
+ 380 01b6 2685     		mv	a0,s1
+  91:main.c        ****             currentPosition[0] += 10;
+ 381              		.loc 1 91 13
+ 382 01b8 E24B     		lw	s7,24(sp)
+ 383 01ba 2EC6     		sw	a1,12(sp)
+  91:main.c        ****             currentPosition[0] += 10;
+ 384              		.loc 1 91 64
+ 385 01bc 97000000 		call	usart_data_receive
+ 385      E7800000 
+ 386              	.LVL54:
+  91:main.c        ****             currentPosition[0] += 10;
+ 387              		.loc 1 91 13
+ 388 01c4 B245     		lw	a1,12(sp)
+ 389 01c6 5A87     		mv	a4,s6
+ 390 01c8 1376F50F 		andi	a2,a0,0xff
+ 391 01cc 8146     		li	a3,0
+ 392 01ce 5E85     		mv	a0,s7
+ 393 01d0 97000000 		call	LCD_ShowChar
+ 393      E7800000 
+ 394              	.LVL55:
+  92:main.c        **** 
+ 395              		.loc 1 92 13 is_stmt 1
+  92:main.c        **** 
+ 396              		.loc 1 92 32 is_stmt 0
+ 397 01d8 E247     		lw	a5,24(sp)
+  94:main.c        ****               currentPosition[1] += 20;
+ 398              		.loc 1 94 15
+ 399 01da 13075009 		li	a4,149
+  92:main.c        **** 
+ 400              		.loc 1 92 32
+ 401 01de A907     		addi	a5,a5,10
+ 402 01e0 3ECC     		sw	a5,24(sp)
+  94:main.c        ****               currentPosition[1] += 20;
+ 403              		.loc 1 94 13 is_stmt 1
+  94:main.c        ****               currentPosition[1] += 20;
+ 404              		.loc 1 94 15 is_stmt 0
+ 405 01e2 E353F7F4 		ble	a5,a4,.L8
+  95:main.c        ****               currentPosition[0] = 10;
+ 406              		.loc 1 95 15 is_stmt 1
+  95:main.c        ****               currentPosition[0] = 10;
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 12
+
+
+ 407              		.loc 1 95 34 is_stmt 0
+ 408 01e6 F247     		lw	a5,28(sp)
+ 409 01e8 D107     		addi	a5,a5,20
+ 410 01ea 3ECE     		sw	a5,28(sp)
+  96:main.c        ****             }
+ 411              		.loc 1 96 15 is_stmt 1
+  96:main.c        ****             }
+ 412              		.loc 1 96 34 is_stmt 0
+ 413 01ec A947     		li	a5,10
+ 414 01ee 3ECC     		sw	a5,24(sp)
+ 415 01f0 25BF     		j	.L8
+ 416              	.LVL56:
+ 417              	.L15:
+ 418              	.LBB3:
+ 123:main.c        **** 
+ 419              		.loc 1 123 22 is_stmt 1
+ 123:main.c        **** 
+ 420              		.loc 1 123 24 is_stmt 0
+ 421 01f2 FD47     		li	a5,31
+ 422 01f4 E3E3B7FA 		bgtu	a1,a5,.L22
+ 423              	.LVL57:
+ 424              	.L16:
+ 425              	.LBE3:
+ 126:main.c        **** 
+ 127:main.c        **** 
+ 128:main.c        ****                 }
+ 129:main.c        ****                 
+ 130:main.c        ****                 
+ 131:main.c        ****                 
+ 132:main.c        **** 
+ 133:main.c        ****               }
+ 134:main.c        **** 
+ 135:main.c        ****               if(currentDig == 0){
+ 136:main.c        ****                 hexDigits[0] *= 16;
+ 137:main.c        ****               }
+ 138:main.c        **** 
+ 139:main.c        ****               currentDig++;
+ 426              		.loc 1 139 15 is_stmt 1
+ 140:main.c        **** 
+ 141:main.c        ****               currentDig %= 2;
+ 427              		.loc 1 141 15
+ 428              		.loc 1 141 26 is_stmt 0
+ 429 01f8 134A1A00 		xori	s4,s4,1
+ 430              	.LVL58:
+ 431              	.L13:
+ 142:main.c        ****             }
+ 143:main.c        ****             l88mem(2,idle>>8);              // ...Performance monitor
+ 432              		.loc 1 143 13 is_stmt 1
+ 433 01fc 93D58940 		srai	a1,s3,8
+ 434 0200 0945     		li	a0,2
+ 435 0202 97000000 		call	l88mem
+ 435      E7800000 
+ 436              	.LVL59:
+ 144:main.c        ****             l88mem(3,idle); idle=0;
+ 437              		.loc 1 144 13
+ 438 020a CE85     		mv	a1,s3
+ 439 020c 0D45     		li	a0,3
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 13
+
+
+ 440 020e 97000000 		call	l88mem
+ 440      E7800000 
+ 441              	.LVL60:
+ 442              		.loc 1 144 29
+ 145:main.c        ****             adc_software_trigger_enable(ADC0, //Trigger another ADC conversion!
+ 443              		.loc 1 145 13
+ 444 0216 8545     		li	a1,1
+ 445 0218 2285     		mv	a0,s0
+ 446 021a 97000000 		call	adc_software_trigger_enable
+ 446      E7800000 
+ 447              	.LVL61:
+ 448 0222 51B5     		j	.L17
+ 449              	.LVL62:
+ 450              	.L14:
+ 135:main.c        ****                 hexDigits[0] *= 16;
+ 451              		.loc 1 135 15
+ 136:main.c        ****               }
+ 452              		.loc 1 136 17
+ 136:main.c        ****               }
+ 453              		.loc 1 136 30 is_stmt 0
+ 454 0224 9205     		slli	a1,a1,4
+ 455 0226 2EC8     		sw	a1,16(sp)
+ 456 0228 C1BF     		j	.L16
+ 457              		.cfi_endproc
+ 458              	.LFE3:
+ 460              		.section	.rodata
+ 461              		.align	2
+ 462              		.set	.LANCHOR0,. + 0
+ 463              	.LC0:
+ 464 0000 01000000 		.word	1
+ 465 0004 04000000 		.word	4
+ 466 0008 07000000 		.word	7
+ 467 000c 0E000000 		.word	14
+ 468 0010 02000000 		.word	2
+ 469 0014 05000000 		.word	5
+ 470 0018 08000000 		.word	8
+ 471 001c 00000000 		.word	0
+ 472 0020 03000000 		.word	3
+ 473 0024 06000000 		.word	6
+ 474 0028 09000000 		.word	9
+ 475 002c 0F000000 		.word	15
+ 476 0030 0A000000 		.word	10
+ 477 0034 0B000000 		.word	11
+ 478 0038 0C000000 		.word	12
+ 479 003c 0D000000 		.word	13
+ 480              		.text
+ 481              	.Letext0:
+ 482              		.file 2 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 483              		.file 3 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 484              		.file 4 "./../../firmware/GD32VF103_standard_peripheral/gd32vf103.h"
+ 485              		.file 5 "./../../firmware/GD32VF103_standard_peripheral/Include/gd32vf103_rcu.h"
+ 486              		.file 6 "./../../firmware/GD32VF103_standard_peripheral/Include/gd32vf103_usart.h"
+ 487              		.file 7 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 488              		.file 8 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 489              		.file 9 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 490              		.file 10 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler
+ 491              		.file 11 "./../../firmware/GD32VF103_standard_peripheral/system_gd32vf103.h"
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 14
+
+
+ 492              		.file 12 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler
+ 493              		.file 13 "lcd.h"
+ 494              		.file 14 "drivers.h"
+ 495              		.file 15 "adc.h"
+ 496              		.file 16 "usart.h"
+ 497              		.file 17 "./../../firmware/GD32VF103_standard_peripheral/Include/gd32vf103_eclic.h"
+ 498              		.file 18 "./../../firmware/GD32VF103_standard_peripheral/Include/gd32vf103_adc.h"
+ 499              		.file 19 "./../../firmware/GD32VF103_standard_peripheral/Include/gd32vf103_pmu.h"
+ 500              		.file 20 "./../../firmware/GD32VF103_standard_peripheral/Include/gd32vf103_bkp.h"
+ 501              		.file 21 "./../../firmware/GD32VF103_standard_peripheral/Include/gd32vf103_rtc.h"
+ 502              		.file 22 "<built-in>"
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 15
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 main.c
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:13     .text.rtcInit:0000000000000000 rtcInit
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:17     .text.rtcInit:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:18     .text.rtcInit:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:19     .text.rtcInit:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:20     .text.rtcInit:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:22     .text.rtcInit:0000000000000002 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:24     .text.rtcInit:0000000000000002 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:26     .text.rtcInit:0000000000000006 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:27     .text.rtcInit:0000000000000008 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:29     .text.rtcInit:0000000000000008 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:32     .text.rtcInit:0000000000000010 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:35     .text.rtcInit:0000000000000018 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:39     .text.rtcInit:0000000000000024 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:42     .text.rtcInit:000000000000002c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:43     .text.rtcInit:000000000000002c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:47     .text.rtcInit:0000000000000036 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:49     .text.rtcInit:0000000000000038 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:53     .text.rtcInit:0000000000000044 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:58     .text.rtcInit:0000000000000052 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:61     .text.rtcInit:000000000000005a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:64     .text.rtcInit:0000000000000062 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:69     .text.rtcInit:0000000000000070 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:72     .text.rtcInit:0000000000000078 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:76     .text.rtcInit:0000000000000082 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:77     .text.rtcInit:0000000000000082 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:78     .text.rtcInit:0000000000000084 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:79     .text.rtcInit:0000000000000084 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:82     .text.rtcInit:0000000000000086 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:84     .text.rtcInit:0000000000000086 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:88     .text.rtcInit:000000000000008e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:90     .text.rtcInit:000000000000008e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:91     .text.rtcInit:0000000000000090 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:94     .text.rtcInit:0000000000000092 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:96     .text.rtcInit:0000000000000094 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:103    .text.startup.main:0000000000000000 main
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:106    .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:107    .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:109    .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:110    .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:111    .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:113    .text.startup.main:0000000000000002 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:115    .text.startup.main:0000000000000002 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:120    .text.startup.main:0000000000000010 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:129    .text.startup.main:0000000000000022 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:130    .text.startup.main:0000000000000022 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:131    .text.startup.main:0000000000000022 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:132    .text.startup.main:0000000000000022 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:133    .text.startup.main:0000000000000022 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:134    .text.startup.main:0000000000000022 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:135    .text.startup.main:0000000000000022 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:136    .text.startup.main:0000000000000022 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:137    .text.startup.main:0000000000000022 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:139    .text.startup.main:0000000000000022 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:142    .text.startup.main:000000000000002a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:143    .text.startup.main:000000000000002a .L0 
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 16
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:146    .text.startup.main:000000000000002e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:150    .text.startup.main:0000000000000032 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:151    .text.startup.main:0000000000000032 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:154    .text.startup.main:0000000000000034 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:155    .text.startup.main:0000000000000034 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:156    .text.startup.main:0000000000000034 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:159    .text.startup.main:000000000000003c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:162    .text.startup.main:0000000000000044 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:165    .text.startup.main:000000000000004c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:168    .text.startup.main:0000000000000054 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:172    .text.startup.main:000000000000005e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:176    .text.startup.main:0000000000000068 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:179    .text.startup.main:0000000000000070 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:183    .text.startup.main:000000000000007a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:185    .text.startup.main:000000000000007c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:187    .text.startup.main:0000000000000080 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:189    .text.startup.main:0000000000000084 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:191    .text.startup.main:0000000000000086 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:194    .text.startup.main:000000000000008e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:195    .text.startup.main:000000000000008e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:197    .text.startup.main:0000000000000090 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:200    .text.startup.main:0000000000000098 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:202    .text.startup.main:000000000000009a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:204    .text.startup.main:000000000000009c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:206    .text.startup.main:00000000000000a0 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:208    .text.startup.main:00000000000000a4 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:212    .text.startup.main:00000000000000a6 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:216    .text.startup.main:00000000000000a8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:217    .text.startup.main:00000000000000a8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:218    .text.startup.main:00000000000000a8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:221    .text.startup.main:00000000000000b0 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:226    .text.startup.main:00000000000000bc .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:228    .text.startup.main:00000000000000be .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:231    .text.startup.main:00000000000000c0 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:232    .text.startup.main:00000000000000c0 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:233    .text.startup.main:00000000000000c0 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:235    .text.startup.main:00000000000000c2 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:237    .text.startup.main:00000000000000c6 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:238    .text.startup.main:00000000000000c6 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:243    .text.startup.main:00000000000000d2 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:245    .text.startup.main:00000000000000d6 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:246    .text.startup.main:00000000000000d6 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:251    .text.startup.main:00000000000000e2 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:256    .text.startup.main:00000000000000ee .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:259    .text.startup.main:00000000000000f0 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:264    .text.startup.main:00000000000000fa .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:265    .text.startup.main:00000000000000fa .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:270    .text.startup.main:0000000000000106 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:272    .text.startup.main:0000000000000108 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:273    .text.startup.main:0000000000000108 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:277    .text.startup.main:0000000000000112 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:280    .text.startup.main:000000000000011a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:287    .text.startup.main:0000000000000128 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:288    .text.startup.main:0000000000000128 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:291    .text.startup.main:0000000000000130 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:293    .text.startup.main:0000000000000132 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:298    .text.startup.main:0000000000000142 .L0 
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 17
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:299    .text.startup.main:0000000000000142 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:302    .text.startup.main:0000000000000144 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:303    .text.startup.main:0000000000000144 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:307    .text.startup.main:000000000000014c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:308    .text.startup.main:000000000000014c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:316    .text.startup.main:000000000000015e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:320    .text.startup.main:0000000000000160 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:321    .text.startup.main:0000000000000160 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:324    .text.startup.main:0000000000000168 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:326    .text.startup.main:000000000000016c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:327    .text.startup.main:000000000000016c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:329    .text.startup.main:000000000000016e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:332    .text.startup.main:0000000000000170 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:334    .text.startup.main:0000000000000174 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:336    .text.startup.main:0000000000000176 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:340    .text.startup.main:0000000000000180 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:342    .text.startup.main:0000000000000182 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:345    .text.startup.main:0000000000000186 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:346    .text.startup.main:0000000000000186 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:348    .text.startup.main:0000000000000188 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:353    .text.startup.main:000000000000018e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:354    .text.startup.main:000000000000018e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:357    .text.startup.main:0000000000000196 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:361    .text.startup.main:000000000000019a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:369    .text.startup.main:00000000000001a6 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:370    .text.startup.main:00000000000001a6 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:374    .text.startup.main:00000000000001b0 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:378    .text.startup.main:00000000000001b4 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:380    .text.startup.main:00000000000001b6 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:382    .text.startup.main:00000000000001b8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:385    .text.startup.main:00000000000001bc .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:388    .text.startup.main:00000000000001c4 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:396    .text.startup.main:00000000000001d8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:397    .text.startup.main:00000000000001d8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:399    .text.startup.main:00000000000001da .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:401    .text.startup.main:00000000000001de .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:404    .text.startup.main:00000000000001e2 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:405    .text.startup.main:00000000000001e2 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:407    .text.startup.main:00000000000001e6 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:408    .text.startup.main:00000000000001e6 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:412    .text.startup.main:00000000000001ec .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:413    .text.startup.main:00000000000001ec .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:420    .text.startup.main:00000000000001f2 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:421    .text.startup.main:00000000000001f2 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:427    .text.startup.main:00000000000001f8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:428    .text.startup.main:00000000000001f8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:429    .text.startup.main:00000000000001f8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:433    .text.startup.main:00000000000001fc .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:438    .text.startup.main:000000000000020a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:443    .text.startup.main:0000000000000216 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:444    .text.startup.main:0000000000000216 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:452    .text.startup.main:0000000000000224 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:453    .text.startup.main:0000000000000224 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:454    .text.startup.main:0000000000000224 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:457    .text.startup.main:000000000000022a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:462    .rodata:0000000000000000 .LANCHOR0
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:99     .text.rtcInit:0000000000000094 .L0 
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 18
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:460    .text.startup.main:000000000000022a .L0 
+                     .debug_frame:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:86     .text.rtcInit:000000000000008e .L1
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:262    .text.startup.main:00000000000000fa .L5
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:366    .text.startup.main:00000000000001a6 .L6
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:285    .text.startup.main:0000000000000128 .L8
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:376    .text.startup.main:00000000000001b4 .L9
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:214    .text.startup.main:00000000000000a8 .L11
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:318    .text.startup.main:0000000000000160 .L12
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:431    .text.startup.main:00000000000001fc .L13
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:450    .text.startup.main:0000000000000224 .L14
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:417    .text.startup.main:00000000000001f2 .L15
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:424    .text.startup.main:00000000000001f8 .L16
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:257    .text.startup.main:00000000000000f0 .L21
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:359    .text.startup.main:000000000000019a .L22
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:210    .text.startup.main:00000000000000a6 .L17
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:3071   .debug_abbrev:0000000000000000 .Ldebug_abbrev0
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4096   .debug_str:0000000000000140 .LASF229
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4310   .debug_str:00000000000006d7 .LASF230
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4162   .debug_str:000000000000033c .LASF231
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4016   .debug_ranges:0000000000000000 .Ldebug_ranges0
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4030   .debug_line:0000000000000000 .Ldebug_line0
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4330   .debug_str:0000000000000732 .LASF0
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4156   .debug_str:0000000000000320 .LASF1
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4112   .debug_str:0000000000000226 .LASF4
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4166   .debug_str:00000000000003a5 .LASF2
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4430   .debug_str:0000000000000903 .LASF3
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4194   .debug_str:000000000000044f .LASF5
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4484   .debug_str:0000000000000a00 .LASF6
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4126   .debug_str:000000000000027e .LASF7
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4280   .debug_str:0000000000000648 .LASF8
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4238   .debug_str:0000000000000553 .LASF9
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4288   .debug_str:0000000000000670 .LASF10
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4388   .debug_str:0000000000000839 .LASF11
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4158   .debug_str:000000000000032c .LASF12
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4390   .debug_str:0000000000000850 .LASF13
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4468   .debug_str:00000000000009b1 .LASF14
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4248   .debug_str:0000000000000590 .LASF179
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4412   .debug_str:00000000000008bb .LASF15
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4418   .debug_str:00000000000008d1 .LASF16
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4420   .debug_str:00000000000008da .LASF17
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4332   .debug_str:000000000000073f .LASF18
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4460   .debug_str:0000000000000991 .LASF19
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4270   .debug_str:0000000000000601 .LASF20
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4072   .debug_str:00000000000000bf .LASF21
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4074   .debug_str:00000000000000ca .LASF22
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4076   .debug_str:00000000000000d5 .LASF23
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4078   .debug_str:00000000000000e0 .LASF24
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4080   .debug_str:00000000000000eb .LASF25
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4082   .debug_str:00000000000000f6 .LASF26
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4360   .debug_str:00000000000007c0 .LASF27
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4148   .debug_str:00000000000002f2 .LASF28
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4150   .debug_str:00000000000002fb .LASF29
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4090   .debug_str:0000000000000124 .LASF30
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4092   .debug_str:000000000000012f .LASF31
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4056   .debug_str:0000000000000073 .LASF32
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4058   .debug_str:000000000000007d .LASF33
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 19
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4470   .debug_str:00000000000009ba .LASF34
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4472   .debug_str:00000000000009c3 .LASF35
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4182   .debug_str:000000000000041c .LASF36
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4184   .debug_str:0000000000000425 .LASF37
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4444   .debug_str:000000000000094d .LASF38
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4044   .debug_str:0000000000000031 .LASF39
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4160   .debug_str:0000000000000334 .LASF40
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4372   .debug_str:00000000000007f9 .LASF41
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4252   .debug_str:00000000000005a8 .LASF42
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4290   .debug_str:000000000000067e .LASF43
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4292   .debug_str:0000000000000688 .LASF44
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4294   .debug_str:0000000000000692 .LASF45
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4296   .debug_str:000000000000069c .LASF46
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4298   .debug_str:00000000000006a6 .LASF47
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4284   .debug_str:000000000000065e .LASF48
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4286   .debug_str:0000000000000667 .LASF49
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4070   .debug_str:00000000000000b4 .LASF50
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4146   .debug_str:00000000000002e9 .LASF51
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4088   .debug_str:0000000000000119 .LASF52
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4128   .debug_str:0000000000000287 .LASF53
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4316   .debug_str:00000000000006f7 .LASF54
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4172   .debug_str:00000000000003d5 .LASF55
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4212   .debug_str:00000000000004d3 .LASF56
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4084   .debug_str:0000000000000101 .LASF57
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4496   .debug_str:0000000000000a59 .LASF58
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4278   .debug_str:000000000000063c .LASF59
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4502   .debug_str:0000000000000a7b .LASF60
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4154   .debug_str:0000000000000311 .LASF61
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4438   .debug_str:000000000000092f .LASF62
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4054   .debug_str:0000000000000065 .LASF63
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4320   .debug_str:0000000000000707 .LASF64
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4210   .debug_str:00000000000004c3 .LASF65
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4476   .debug_str:00000000000009d4 .LASF66
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4180   .debug_str:000000000000040c .LASF67
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4120   .debug_str:0000000000000249 .LASF68
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4186   .debug_str:000000000000042e .LASF69
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4368   .debug_str:00000000000007e3 .LASF70
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4422   .debug_str:00000000000008e3 .LASF71
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4478   .debug_str:00000000000009e5 .LASF72
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4378   .debug_str:000000000000080d .LASF73
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4032   .debug_str:0000000000000000 .LASF74
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4110   .debug_str:0000000000000220 .LASF75
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4380   .debug_str:0000000000000815 .LASF76
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4362   .debug_str:00000000000007ca .LASF77
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4036   .debug_str:0000000000000014 .LASF78
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4414   .debug_str:00000000000008c1 .LASF79
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4466   .debug_str:00000000000009a9 .LASF80
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4254   .debug_str:00000000000005af .LASF81
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4408   .debug_str:00000000000008ab .LASF82
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4262   .debug_str:00000000000005db .LASF87
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4424   .debug_str:00000000000008ea .LASF83
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4268   .debug_str:00000000000005f9 .LASF84
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4324   .debug_str:000000000000071d .LASF85
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4222   .debug_str:000000000000050d .LASF86
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4062   .debug_str:000000000000008f .LASF88
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4068   .debug_str:00000000000000ab .LASF89
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4498   .debug_str:0000000000000a65 .LASF90
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 20
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4486   .debug_str:0000000000000a13 .LASF91
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4340   .debug_str:000000000000076c .LASF92
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4142   .debug_str:00000000000002cc .LASF93
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4440   .debug_str:000000000000093e .LASF94
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4366   .debug_str:00000000000007d9 .LASF95
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4370   .debug_str:00000000000007ef .LASF96
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4494   .debug_str:0000000000000a4e .LASF97
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4118   .debug_str:000000000000023b .LASF98
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4492   .debug_str:0000000000000a46 .LASF99
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4392   .debug_str:0000000000000859 .LASF100
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4434   .debug_str:0000000000000917 .LASF101
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4458   .debug_str:0000000000000989 .LASF102
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4358   .debug_str:00000000000007b8 .LASF103
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4452   .debug_str:0000000000000976 .LASF104
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4190   .debug_str:0000000000000443 .LASF105
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4454   .debug_str:000000000000097b .LASF106
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4400   .debug_str:000000000000087e .LASF107
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4134   .debug_str:00000000000002a7 .LASF108
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4242   .debug_str:0000000000000575 .LASF109
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4356   .debug_str:00000000000007b1 .LASF110
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4116   .debug_str:0000000000000235 .LASF111
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4448   .debug_str:0000000000000968 .LASF112
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4218   .debug_str:00000000000004ff .LASF113
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4040   .debug_str:0000000000000021 .LASF114
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4046   .debug_str:0000000000000039 .LASF115
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4376   .debug_str:0000000000000807 .LASF116
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4192   .debug_str:0000000000000448 .LASF117
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4344   .debug_str:000000000000077b .LASF118
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4066   .debug_str:00000000000000a5 .LASF119
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4398   .debug_str:0000000000000875 .LASF120
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4230   .debug_str:0000000000000537 .LASF121
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4426   .debug_str:00000000000008f0 .LASF122
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4094   .debug_str:000000000000013a .LASF123
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4350   .debug_str:0000000000000797 .LASF124
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4246   .debug_str:0000000000000588 .LASF125
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4174   .debug_str:00000000000003df .LASF126
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4256   .debug_str:00000000000005c1 .LASF127
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4204   .debug_str:0000000000000494 .LASF128
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4396   .debug_str:000000000000086d .LASF129
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4346   .debug_str:0000000000000781 .LASF130
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4450   .debug_str:0000000000000971 .LASF131
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4282   .debug_str:0000000000000653 .LASF132
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4170   .debug_str:00000000000003bc .LASF133
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4464   .debug_str:00000000000009a1 .LASF134
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4244   .debug_str:000000000000057d .LASF135
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4272   .debug_str:000000000000060b .LASF136
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4474   .debug_str:00000000000009cc .LASF137
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4132   .debug_str:000000000000029d .LASF138
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4236   .debug_str:000000000000054e .LASF139
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4314   .debug_str:00000000000006ed .LASF140
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4052   .debug_str:000000000000005d .LASF141
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4232   .debug_str:000000000000053f .LASF142
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4342   .debug_str:0000000000000776 .LASF143
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4274   .debug_str:0000000000000615 .LASF144
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4226   .debug_str:0000000000000521 .LASF145
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4302   .debug_str:00000000000006b7 .LASF146
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4038   .debug_str:000000000000001c .LASF147
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 21
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4188   .debug_str:000000000000043e .LASF148
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4410   .debug_str:00000000000008b4 .LASF149
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4322   .debug_str:0000000000000717 .LASF150
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4300   .debug_str:00000000000006b0 .LASF151
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4318   .debug_str:0000000000000701 .LASF152
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4394   .debug_str:0000000000000865 .LASF153
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4374   .debug_str:0000000000000801 .LASF154
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4098   .debug_str:00000000000001c8 .LASF155
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4482   .debug_str:00000000000009fb .LASF156
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4152   .debug_str:0000000000000304 .LASF157
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4402   .debug_str:0000000000000884 .LASF158
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4050   .debug_str:0000000000000050 .LASF159
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4136   .debug_str:00000000000002ad .LASF160
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4312   .debug_str:00000000000006de .LASF161
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4352   .debug_str:00000000000007a0 .LASF162
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4416   .debug_str:00000000000008cc .LASF163
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4428   .debug_str:00000000000008f6 .LASF164
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4386   .debug_str:000000000000082b .LASF165
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4348   .debug_str:0000000000000789 .LASF166
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4382   .debug_str:000000000000081c .LASF167
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4258   .debug_str:00000000000005c8 .LASF168
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4500   .debug_str:0000000000000a6e .LASF169
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4124   .debug_str:0000000000000270 .LASF170
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4404   .debug_str:0000000000000891 .LASF171
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4488   .debug_str:0000000000000a1d .LASF172
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4338   .debug_str:000000000000075d .LASF173
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4064   .debug_str:0000000000000094 .LASF174
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4334   .debug_str:0000000000000747 .LASF175
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4462   .debug_str:000000000000099a .LASF176
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4304   .debug_str:00000000000006bf .LASF177
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4060   .debug_str:0000000000000087 .LASF178
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4034   .debug_str:0000000000000009 .LASF232
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4130   .debug_str:0000000000000291 .LASF180
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4178   .debug_str:00000000000003f9 .LASF181
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4432   .debug_str:000000000000090d .LASF182
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4406   .debug_str:00000000000008a0 .LASF183
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4138   .debug_str:00000000000002bc .LASF233
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:104    .text.startup.main:0000000000000000 .LFB3
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:458    .text.startup.main:000000000000022a .LFE3
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:3843   .debug_loc:0000000000000000 .LLST1
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:3856   .debug_loc:0000000000000021 .LLST2
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:3877   .debug_loc:0000000000000057 .LLST3
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:3897   .debug_loc:000000000000008c .LLST4
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4114   .debug_str:0000000000000230 .LASF184
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4442   .debug_str:0000000000000948 .LASF185
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:3904   .debug_loc:000000000000009f .LLST5
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4214   .debug_str:00000000000004de .LASF186
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4306   .debug_str:00000000000006c8 .LASF187
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4196   .debug_str:000000000000045a .LASF188
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:3925   .debug_loc:00000000000000d5 .LLST6
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4240   .debug_str:0000000000000565 .LASF189
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4220   .debug_str:0000000000000507 .LASF190
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4308   .debug_str:00000000000006d2 .LASF191
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4384   .debug_str:0000000000000826 .LASF192
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4354   .debug_str:00000000000007ab .LASF193
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:3947   .debug_loc:000000000000010c .LLST7
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:363    .text.startup.main:00000000000001a4 .LVL51
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 22
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:140    .text.startup.main:000000000000002a .LVL14
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:157    .text.startup.main:000000000000003c .LVL17
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:160    .text.startup.main:0000000000000044 .LVL18
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:163    .text.startup.main:000000000000004c .LVL19
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:166    .text.startup.main:0000000000000054 .LVL20
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:170    .text.startup.main:000000000000005e .LVL21
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:174    .text.startup.main:0000000000000068 .LVL22
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:177    .text.startup.main:0000000000000070 .LVL23
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:181    .text.startup.main:000000000000007a .LVL24
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:192    .text.startup.main:000000000000008e .LVL25
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:198    .text.startup.main:0000000000000098 .LVL26
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:219    .text.startup.main:00000000000000b0 .LVL29
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:224    .text.startup.main:00000000000000bc .LVL30
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:241    .text.startup.main:00000000000000d2 .LVL32
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:249    .text.startup.main:00000000000000e2 .LVL33
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:254    .text.startup.main:00000000000000ee .LVL34
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:261    .text.startup.main:00000000000000fa .LVL35
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:268    .text.startup.main:0000000000000106 .LVL36
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:275    .text.startup.main:0000000000000112 .LVL37
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:284    .text.startup.main:0000000000000128 .LVL38
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:289    .text.startup.main:0000000000000130 .LVL39
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:294    .text.startup.main:000000000000013a .LVL40
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:296    .text.startup.main:0000000000000142 .LVL41
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:314    .text.startup.main:000000000000015e .LVL45
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:322    .text.startup.main:0000000000000168 .LVL47
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:372    .text.startup.main:00000000000001b0 .LVL53
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:386    .text.startup.main:00000000000001c4 .LVL54
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:394    .text.startup.main:00000000000001d8 .LVL55
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:436    .text.startup.main:000000000000020a .LVL59
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:441    .text.startup.main:0000000000000216 .LVL60
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:447    .text.startup.main:0000000000000222 .LVL61
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4504   .debug_str:0000000000000a8a .LASF234
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:14     .text.rtcInit:0000000000000000 .LFB2
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:97     .text.rtcInit:0000000000000094 .LFE2
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:3973   .debug_loc:0000000000000142 .LLST0
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:30     .text.rtcInit:0000000000000010 .LVL0
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:33     .text.rtcInit:0000000000000018 .LVL1
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:37     .text.rtcInit:0000000000000024 .LVL2
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:40     .text.rtcInit:000000000000002c .LVL3
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:45     .text.rtcInit:0000000000000036 .LVL4
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:51     .text.rtcInit:0000000000000044 .LVL5
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:56     .text.rtcInit:0000000000000052 .LVL6
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:59     .text.rtcInit:000000000000005a .LVL7
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:62     .text.rtcInit:0000000000000062 .LVL8
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:67     .text.rtcInit:0000000000000070 .LVL9
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:70     .text.rtcInit:0000000000000078 .LVL10
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:74     .text.rtcInit:0000000000000082 .LVL11
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:85     .text.rtcInit:000000000000008e .LVL12
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4144   .debug_str:00000000000002d5 .LASF194
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4456   .debug_str:0000000000000982 .LASF235
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4104   .debug_str:00000000000001f1 .LASF236
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4234   .debug_str:0000000000000547 .LASF195
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4200   .debug_str:000000000000047d .LASF196
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4250   .debug_str:00000000000005a0 .LASF197
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4326   .debug_str:0000000000000723 .LASF198
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4048   .debug_str:0000000000000040 .LASF199
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4228   .debug_str:000000000000052b .LASF200
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 23
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4168   .debug_str:00000000000003b3 .LASF201
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4042   .debug_str:0000000000000027 .LASF202
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4364   .debug_str:00000000000007d2 .LASF203
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4276   .debug_str:000000000000061e .LASF204
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4086   .debug_str:000000000000010c .LASF205
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4336   .debug_str:0000000000000750 .LASF206
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4216   .debug_str:00000000000004e8 .LASF207
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4266   .debug_str:00000000000005ea .LASF208
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4436   .debug_str:0000000000000920 .LASF209
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4208   .debug_str:00000000000004b0 .LASF210
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4202   .debug_str:0000000000000485 .LASF211
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4264   .debug_str:00000000000005e3 .LASF212
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4328   .debug_str:000000000000072b .LASF213
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4260   .debug_str:00000000000005d4 .LASF214
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4100   .debug_str:00000000000001ce .LASF215
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4108   .debug_str:0000000000000218 .LASF216
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4106   .debug_str:0000000000000202 .LASF217
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4164   .debug_str:0000000000000398 .LASF218
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4102   .debug_str:00000000000001d5 .LASF219
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4490   .debug_str:0000000000000a2e .LASF220
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4198   .debug_str:0000000000000465 .LASF221
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4140   .debug_str:00000000000002c1 .LASF222
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4176   .debug_str:00000000000003e6 .LASF223
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4206   .debug_str:000000000000049b .LASF224
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4122   .debug_str:0000000000000259 .LASF225
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4224   .debug_str:0000000000000512 .LASF226
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4446   .debug_str:0000000000000956 .LASF227
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:4480   .debug_str:00000000000009ec .LASF228
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:112    .text.startup.main:0000000000000002 .LCFI4
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:108    .text.startup.main:0000000000000000 .LVL13
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:209    .text.startup.main:00000000000000a6 .LVL27
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:213    .text.startup.main:00000000000000a8 .LVL28
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:306    .text.startup.main:000000000000014c .LVL43
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:317    .text.startup.main:0000000000000160 .LVL46
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:309    .text.startup.main:0000000000000150 .LVL44
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:330    .text.startup.main:0000000000000170 .LVL48
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:449    .text.startup.main:0000000000000224 .LVL62
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:148    .text.startup.main:0000000000000032 .LVL15
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:423    .text.startup.main:00000000000001f8 .LVL57
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:430    .text.startup.main:00000000000001fc .LVL58
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:351    .text.startup.main:000000000000018e .LVL49
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:358    .text.startup.main:000000000000019a .LVL50
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:365    .text.startup.main:00000000000001a6 .LVL52
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:416    .text.startup.main:00000000000001f2 .LVL56
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:21     .text.rtcInit:0000000000000002 .LCFI0
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:81     .text.rtcInit:0000000000000086 .LCFI1
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:87     .text.rtcInit:000000000000008e .LCFI2
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:93     .text.rtcInit:0000000000000092 .LCFI3
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:504    .debug_info:0000000000000000 .Ldebug_info0
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:343    .text.startup.main:0000000000000186 .LBB2
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:367    .text.startup.main:00000000000001a6 .LBE2
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:418    .text.startup.main:00000000000001f2 .LBB3
+C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s:425    .text.startup.main:00000000000001f8 .LBE3
+
+UNDEFINED SYMBOLS
+rcu_periph_clock_enable
+pmu_backup_write_enable
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccr5VLZp.s 			page 24
+
+
+bkp_deinit
+rcu_osci_stab_wait
+rcu_rtc_clock_config
+rtc_register_sync_wait
+rtc_lwoff_wait
+rtc_prescaler_set
+rtc_flag_clear
+memcpy
+t5omsi
+colinit
+l88init
+keyinit
+ADC3powerUpInit
+Lcd_SetType
+Lcd_Init
+LCD_Clear
+u0init
+eclic_global_interrupt_enable
+LCD_WR_Queue
+adc_flag_get
+adc_inserted_data_read
+adc_flag_clear
+usart_flag_get
+usart_data_receive
+LCD_DeleteChar
+t5expq
+colset
+l88row
+l88mem
+keyscan
+usart_data_transmit
+adc_regular_data_read
+LCD_ShowChar
+adc_software_trigger_enable

@@ -1,0 +1,558 @@
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s 			page 1
+
+
+   1              		.file	"main.c"
+   2              		.option nopic
+   3              		.attribute arch, "rv32i2p0_m2p0_a2p0_c2p0"
+   4              		.attribute unaligned_access, 0
+   5              		.attribute stack_align, 16
+   6              		.text
+   7              	.Ltext0:
+   8              		.cfi_sections	.debug_frame
+   9              		.section	.text.startup.main,"ax",@progbits
+  10              		.align	1
+  11              		.globl	main
+  13              	main:
+  14              	.LFB2:
+  15              		.file 1 "main.c"
+   1:main.c        **** #include "gd32vf103.h"
+   2:main.c        **** #include "drivers.h"
+   3:main.c        **** #include "lcd.h"
+   4:main.c        **** 
+   5:main.c        **** int main(void){
+  16              		.loc 1 5 15
+  17              		.cfi_startproc
+   6:main.c        ****     int ms=0, s=0, key, pKey=-1, c=0, idle=0;
+  18              		.loc 1 6 5
+  19              	.LVL0:
+   7:main.c        ****     int lookUpTbl[16]={127,130,0,0,128,0,0,126,129,0,0,0,0,0,0,0};
+  20              		.loc 1 7 5
+   5:main.c        ****     int ms=0, s=0, key, pKey=-1, c=0, idle=0;
+  21              		.loc 1 5 15 is_stmt 0
+  22 0000 5D71     		addi	sp,sp,-80
+  23              	.LCFI0:
+  24              		.cfi_def_cfa_offset 80
+  25              		.loc 1 7 9
+  26 0002 B7050000 		lui	a1,%hi(.LANCHOR0)
+  27 0006 13060004 		li	a2,64
+  28 000a 93850500 		addi	a1,a1,%lo(.LANCHOR0)
+  29 000e 0A85     		mv	a0,sp
+   5:main.c        ****     int ms=0, s=0, key, pKey=-1, c=0, idle=0;
+  30              		.loc 1 5 15
+  31 0010 86C6     		sw	ra,76(sp)
+  32 0012 A2C4     		sw	s0,72(sp)
+  33 0014 CAC0     		sw	s2,64(sp)
+  34 0016 A6C2     		sw	s1,68(sp)
+  35              		.cfi_offset 1, -4
+  36              		.cfi_offset 8, -8
+  37              		.cfi_offset 18, -16
+  38              		.cfi_offset 9, -12
+  39              		.loc 1 7 9
+  40 0018 97000000 		call	memcpy
+  40      E7800000 
+  41              	.LVL1:
+   8:main.c        ****     int currentBattery = 0;
+  42              		.loc 1 8 5 is_stmt 1
+   9:main.c        ****     int dac=0, speed=-100;
+  43              		.loc 1 9 5
+  10:main.c        ****     int adcr, tmpr;
+  44              		.loc 1 10 5
+  11:main.c        ****     
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s 			page 2
+
+
+  12:main.c        **** 
+  13:main.c        ****     t5omsi();                               // Initialize timer5 1kHz
+  45              		.loc 1 13 5
+  46 0020 97000000 		call	t5omsi
+  46      E7800000 
+  47              	.LVL2:
+  14:main.c        ****     colinit();                              // Initialize column toolbox
+  48              		.loc 1 14 5
+  49 0028 97000000 		call	colinit
+  49      E7800000 
+  50              	.LVL3:
+  15:main.c        ****     l88init();                              // Initialize 8*8 led toolbox
+  51              		.loc 1 15 5
+  52 0030 97000000 		call	l88init
+  52      E7800000 
+  53              	.LVL4:
+  16:main.c        ****     keyinit();                              // Initialize keyboard toolbox
+  54              		.loc 1 16 5
+  55 0038 97000000 		call	keyinit
+  55      E7800000 
+  56              	.LVL5:
+  17:main.c        ****     Lcd_SetType(LCD_NORMAL);                // or use LCD_INVERTED!
+  57              		.loc 1 17 5
+  58 0040 0145     		li	a0,0
+  59 0042 97000000 		call	Lcd_SetType
+  59      E7800000 
+  60              	.LVL6:
+  18:main.c        ****     Lcd_Init();
+  61              		.loc 1 18 5
+  62 004a 97000000 		call	Lcd_Init
+  62      E7800000 
+  63              	.LVL7:
+  19:main.c        ****     LCD_Clear(BLACK);
+  64              		.loc 1 19 5
+  65 0052 0145     		li	a0,0
+  66 0054 97000000 		call	LCD_Clear
+  66      E7800000 
+  67              	.LVL8:
+  20:main.c        ****     LCD_ShowStr(10, 10, "POLL VERSION", WHITE, TRANSPARENT);
+  68              		.loc 1 20 5
+  69 005c 4164     		li	s0,65536
+  70 005e 37060000 		lui	a2,%hi(.LC1)
+  71 0062 9306F4FF 		addi	a3,s0,-1
+  72 0066 0547     		li	a4,1
+  73 0068 13060600 		addi	a2,a2,%lo(.LC1)
+  74 006c A945     		li	a1,10
+  75 006e 2945     		li	a0,10
+  76 0070 97000000 		call	LCD_ShowStr
+  76      E7800000 
+  77              	.LVL9:
+  21:main.c        ****     LCD_ShowChar(10, 30, 126, 0, WHITE);
+  78              		.loc 1 21 5
+  79 0078 1307F4FF 		addi	a4,s0,-1
+  80 007c 8146     		li	a3,0
+  81 007e 1306E007 		li	a2,126
+  82 0082 F945     		li	a1,30
+  83 0084 2945     		li	a0,10
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s 			page 3
+
+
+  84 0086 97000000 		call	LCD_ShowChar
+  84      E7800000 
+  85              	.LVL10:
+   8:main.c        ****     int dac=0, speed=-100;
+  86              		.loc 1 8 9 is_stmt 0
+  87 008e 0149     		li	s2,0
+  22:main.c        **** 
+  23:main.c        ****     while (1) {
+  24:main.c        ****         idle++;                             // Manage Async events
+  25:main.c        ****         LCD_WR_Queue();                   // Manage LCD com queue!
+  26:main.c        **** 
+  27:main.c        ****         if (t5expq()) {                     // Manage periodic tasks
+  28:main.c        ****             l88row(colset());               // ...8*8LED and Keyboard
+  29:main.c        **** 
+  30:main.c        ****             if(currentBattery != 0){
+  31:main.c        ****               LCD_ShowChar(10, 30, currentBattery, 0, WHITE);
+  88              		.loc 1 31 15
+  89 0090 7D14     		addi	s0,s0,-1
+  90              	.LVL11:
+  91              	.L5:
+   8:main.c        ****     int dac=0, speed=-100;
+  92              		.loc 1 8 9
+  93 0092 8144     		li	s1,0
+  94              	.LVL12:
+  95              	.L2:
+  23:main.c        ****         idle++;                             // Manage Async events
+  96              		.loc 1 23 5 is_stmt 1
+  24:main.c        ****         LCD_WR_Queue();                   // Manage LCD com queue!
+  97              		.loc 1 24 9
+  24:main.c        ****         LCD_WR_Queue();                   // Manage LCD com queue!
+  98              		.loc 1 24 13 is_stmt 0
+  99 0094 8504     		addi	s1,s1,1
+ 100              	.LVL13:
+  25:main.c        **** 
+ 101              		.loc 1 25 9 is_stmt 1
+ 102 0096 97000000 		call	LCD_WR_Queue
+ 102      E7800000 
+ 103              	.LVL14:
+  27:main.c        ****             l88row(colset());               // ...8*8LED and Keyboard
+ 104              		.loc 1 27 9
+  27:main.c        ****             l88row(colset());               // ...8*8LED and Keyboard
+ 105              		.loc 1 27 13 is_stmt 0
+ 106 009e 97000000 		call	t5expq
+ 106      E7800000 
+ 107              	.LVL15:
+  27:main.c        ****             l88row(colset());               // ...8*8LED and Keyboard
+ 108              		.loc 1 27 12
+ 109 00a6 7DD5     		beq	a0,zero,.L2
+  28:main.c        **** 
+ 110              		.loc 1 28 13 is_stmt 1
+ 111 00a8 97000000 		call	colset
+ 111      E7800000 
+ 112              	.LVL16:
+ 113 00b0 97000000 		call	l88row
+ 113      E7800000 
+ 114              	.LVL17:
+  30:main.c        ****               LCD_ShowChar(10, 30, currentBattery, 0, WHITE);
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s 			page 4
+
+
+ 115              		.loc 1 30 13
+  30:main.c        ****               LCD_ShowChar(10, 30, currentBattery, 0, WHITE);
+ 116              		.loc 1 30 15 is_stmt 0
+ 117 00b8 630C0900 		beq	s2,zero,.L3
+ 118              		.loc 1 31 15 is_stmt 1
+ 119 00bc 2287     		mv	a4,s0
+ 120 00be 8146     		li	a3,0
+ 121 00c0 1376F90F 		andi	a2,s2,0xff
+ 122 00c4 F945     		li	a1,30
+ 123 00c6 2945     		li	a0,10
+ 124 00c8 97000000 		call	LCD_ShowChar
+ 124      E7800000 
+ 125              	.LVL18:
+ 126              	.L3:
+  32:main.c        ****             }
+  33:main.c        ****             
+  34:main.c        ****             if ((key=keyscan())>=0) {       // ...Any key pressed?
+ 127              		.loc 1 34 13
+ 128              		.loc 1 34 22 is_stmt 0
+ 129 00d0 97000000 		call	keyscan
+ 129      E7800000 
+ 130              	.LVL19:
+ 131              		.loc 1 34 16
+ 132 00d8 63470500 		blt	a0,zero,.L4
+  35:main.c        ****               currentBattery = lookUpTbl[key];
+ 133              		.loc 1 35 15 is_stmt 1
+ 134              		.loc 1 35 30 is_stmt 0
+ 135 00dc 0A05     		slli	a0,a0,2
+ 136              	.LVL20:
+ 137 00de 9C00     		addi	a5,sp,64
+ 138 00e0 3E95     		add	a0,a5,a0
+ 139 00e2 032905FC 		lw	s2,-64(a0)
+ 140              	.LVL21:
+ 141              	.L4:
+  36:main.c        ****             }
+  37:main.c        ****             l88mem(2,idle>>8);              // ...Performance monitor
+ 142              		.loc 1 37 13 is_stmt 1
+ 143 00e6 93D58440 		srai	a1,s1,8
+ 144 00ea 0945     		li	a0,2
+ 145 00ec 97000000 		call	l88mem
+ 145      E7800000 
+ 146              	.LVL22:
+  38:main.c        ****             l88mem(3,idle); idle=0;
+ 147              		.loc 1 38 13
+ 148 00f4 A685     		mv	a1,s1
+ 149 00f6 0D45     		li	a0,3
+ 150 00f8 97000000 		call	l88mem
+ 150      E7800000 
+ 151              	.LVL23:
+ 152              		.loc 1 38 29
+ 153 0100 49BF     		j	.L5
+ 154              		.cfi_endproc
+ 155              	.LFE2:
+ 157              		.section	.rodata
+ 158              		.align	2
+ 159              		.set	.LANCHOR0,. + 0
+ 160              	.LC0:
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s 			page 5
+
+
+ 161 0000 7F000000 		.word	127
+ 162 0004 82000000 		.word	130
+ 163 0008 00000000 		.word	0
+ 164 000c 00000000 		.word	0
+ 165 0010 80000000 		.word	128
+ 166 0014 00000000 		.word	0
+ 167 0018 00000000 		.word	0
+ 168 001c 7E000000 		.word	126
+ 169 0020 81000000 		.word	129
+ 170 0024 00000000 		.word	0
+ 171 0028 00000000 		.word	0
+ 172 002c 00000000 		.word	0
+ 173 0030 00000000 		.word	0
+ 174 0034 00000000 		.word	0
+ 175 0038 00000000 		.word	0
+ 176 003c 00000000 		.word	0
+ 177              		.section	.rodata.main.str1.4,"aMS",@progbits,1
+ 178              		.align	2
+ 179              	.LC1:
+ 180 0000 504F4C4C 		.string	"POLL VERSION"
+ 180      20564552 
+ 180      53494F4E 
+ 180      00
+ 181              		.text
+ 182              	.Letext0:
+ 183              		.file 2 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 184              		.file 3 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 185              		.file 4 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 186              		.file 5 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 187              		.file 6 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 188              		.file 7 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 189              		.file 8 "./../../firmware/GD32VF103_standard_peripheral/system_gd32vf103.h"
+ 190              		.file 9 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 191              		.file 10 "lcd.h"
+ 192              		.file 11 "drivers.h"
+ 193              		.file 12 "<built-in>"
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 main.c
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:13     .text.startup.main:0000000000000000 main
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:17     .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:18     .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:20     .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:21     .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:22     .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:24     .text.startup.main:0000000000000002 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:26     .text.startup.main:0000000000000002 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:31     .text.startup.main:0000000000000010 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:35     .text.startup.main:0000000000000018 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:36     .text.startup.main:0000000000000018 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:37     .text.startup.main:0000000000000018 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:38     .text.startup.main:0000000000000018 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:40     .text.startup.main:0000000000000018 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:43     .text.startup.main:0000000000000020 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:44     .text.startup.main:0000000000000020 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:45     .text.startup.main:0000000000000020 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:46     .text.startup.main:0000000000000020 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:49     .text.startup.main:0000000000000028 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:52     .text.startup.main:0000000000000030 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:55     .text.startup.main:0000000000000038 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:58     .text.startup.main:0000000000000040 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:62     .text.startup.main:000000000000004a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:65     .text.startup.main:0000000000000052 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:69     .text.startup.main:000000000000005c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:79     .text.startup.main:0000000000000078 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:87     .text.startup.main:000000000000008e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:89     .text.startup.main:0000000000000090 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:93     .text.startup.main:0000000000000092 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:97     .text.startup.main:0000000000000094 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:98     .text.startup.main:0000000000000094 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:99     .text.startup.main:0000000000000094 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:102    .text.startup.main:0000000000000096 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:105    .text.startup.main:000000000000009e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:106    .text.startup.main:000000000000009e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:109    .text.startup.main:00000000000000a6 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:111    .text.startup.main:00000000000000a8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:116    .text.startup.main:00000000000000b8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:117    .text.startup.main:00000000000000b8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:119    .text.startup.main:00000000000000bc .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:128    .text.startup.main:00000000000000d0 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:129    .text.startup.main:00000000000000d0 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:132    .text.startup.main:00000000000000d8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:134    .text.startup.main:00000000000000dc .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:135    .text.startup.main:00000000000000dc .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:143    .text.startup.main:00000000000000e6 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:148    .text.startup.main:00000000000000f4 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:153    .text.startup.main:0000000000000100 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:154    .text.startup.main:0000000000000102 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:159    .rodata:0000000000000000 .LANCHOR0
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:157    .text.startup.main:0000000000000102 .L0 
+                     .debug_frame:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:179    .rodata.main.str1.4:0000000000000000 .LC1
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:95     .text.startup.main:0000000000000094 .L2
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:126    .text.startup.main:00000000000000d0 .L3
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s 			page 7
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:141    .text.startup.main:00000000000000e6 .L4
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:91     .text.startup.main:0000000000000092 .L5
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2059   .debug_abbrev:0000000000000000 .Ldebug_abbrev0
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3005   .debug_str:00000000000004ed .LASF147
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2887   .debug_str:000000000000027a .LASF148
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2951   .debug_str:00000000000003a8 .LASF149
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2747   .debug_ranges:0000000000000000 .Ldebug_ranges0
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2753   .debug_line:0000000000000000 .Ldebug_line0
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2995   .debug_str:00000000000004ba .LASF0
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2795   .debug_str:00000000000000d9 .LASF1
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2933   .debug_str:000000000000035b .LASF2
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2757   .debug_str:000000000000000c .LASF3
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3009   .debug_str:000000000000057e .LASF4
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2767   .debug_str:000000000000003a .LASF5
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2839   .debug_str:000000000000019d .LASF9
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2863   .debug_str:0000000000000206 .LASF6
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2825   .debug_str:0000000000000156 .LASF7
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2775   .debug_str:000000000000006e .LASF8
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3021   .debug_str:00000000000005c5 .LASF10
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2857   .debug_str:00000000000001e6 .LASF120
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2985   .debug_str:0000000000000493 .LASF11
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2919   .debug_str:0000000000000313 .LASF12
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2791   .debug_str:00000000000000cb .LASF13
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2983   .debug_str:000000000000048b .LASF14
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3029   .debug_str:00000000000005e6 .LASF15
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2883   .debug_str:000000000000026d .LASF16
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2855   .debug_str:00000000000001df .LASF17
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2975   .debug_str:000000000000046b .LASF18
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2977   .debug_str:0000000000000473 .LASF19
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2927   .debug_str:0000000000000336 .LASF20
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3015   .debug_str:000000000000059d .LASF21
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2929   .debug_str:0000000000000341 .LASF22
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2939   .debug_str:0000000000000378 .LASF23
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2847   .debug_str:00000000000001c2 .LASF28
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3001   .debug_str:00000000000004da .LASF24
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2969   .debug_str:0000000000000456 .LASF25
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2841   .debug_str:00000000000001a8 .LASF26
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3025   .debug_str:00000000000005db .LASF27
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2853   .debug_str:00000000000001da .LASF29
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2787   .debug_str:00000000000000bb .LASF30
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3045   .debug_str:0000000000000631 .LASF31
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2805   .debug_str:0000000000000101 .LASF32
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3061   .debug_str:000000000000066f .LASF33
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2907   .debug_str:00000000000002d1 .LASF34
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2899   .debug_str:00000000000002aa .LASF35
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2981   .debug_str:0000000000000481 .LASF36
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2941   .debug_str:0000000000000381 .LASF37
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3041   .debug_str:0000000000000617 .LASF38
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2809   .debug_str:0000000000000110 .LASF39
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2759   .debug_str:0000000000000016 .LASF40
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2755   .debug_str:0000000000000000 .LASF41
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3007   .debug_str:0000000000000575 .LASF42
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2821   .debug_str:0000000000000147 .LASF43
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2909   .debug_str:00000000000002da .LASF44
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2961   .debug_str:0000000000000426 .LASF45
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2837   .debug_str:0000000000000198 .LASF46
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2943   .debug_str:000000000000038b .LASF47
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s 			page 8
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2801   .debug_str:00000000000000f3 .LASF48
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2993   .debug_str:00000000000004b4 .LASF49
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2953   .debug_str:0000000000000404 .LASF50
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2819   .debug_str:0000000000000140 .LASF51
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2865   .debug_str:0000000000000218 .LASF52
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2777   .debug_str:0000000000000085 .LASF53
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2813   .debug_str:0000000000000126 .LASF54
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2849   .debug_str:00000000000001ca .LASF55
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2897   .debug_str:00000000000002a3 .LASF56
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2979   .debug_str:000000000000047b .LASF57
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2793   .debug_str:00000000000000d2 .LASF58
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2797   .debug_str:00000000000000e5 .LASF59
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3035   .debug_str:0000000000000603 .LASF60
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2991   .debug_str:00000000000004ab .LASF61
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2829   .debug_str:000000000000016c .LASF62
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2871   .debug_str:0000000000000234 .LASF63
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2893   .debug_str:0000000000000297 .LASF64
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2955   .debug_str:000000000000040c .LASF65
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2945   .debug_str:0000000000000392 .LASF66
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2971   .debug_str:000000000000045e .LASF67
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2987   .debug_str:000000000000049f .LASF68
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2823   .debug_str:000000000000014f .LASF69
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2859   .debug_str:00000000000001f6 .LASF70
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2845   .debug_str:00000000000001ba .LASF71
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2959   .debug_str:0000000000000421 .LASF72
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2763   .debug_str:0000000000000026 .LASF73
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2967   .debug_str:000000000000043d .LASF74
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2963   .debug_str:000000000000042b .LASF75
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2915   .debug_str:00000000000002f9 .LASF76
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2965   .debug_str:0000000000000433 .LASF77
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2881   .debug_str:0000000000000265 .LASF78
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2851   .debug_str:00000000000001d0 .LASF79
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3055   .debug_str:0000000000000660 .LASF80
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2923   .debug_str:000000000000031f .LASF81
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2861   .debug_str:00000000000001fe .LASF82
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2827   .debug_str:0000000000000164 .LASF83
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2889   .debug_str:0000000000000281 .LASF84
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2765   .debug_str:0000000000000031 .LASF85
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3033   .debug_str:00000000000005f9 .LASF86
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2815   .debug_str:000000000000012e .LASF87
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2807   .debug_str:000000000000010b .LASF88
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2989   .debug_str:00000000000004a6 .LASF89
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2949   .debug_str:00000000000003a1 .LASF90
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3027   .debug_str:00000000000005e0 .LASF91
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2873   .debug_str:000000000000023a .LASF92
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2935   .debug_str:0000000000000369 .LASF93
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2761   .debug_str:000000000000001e .LASF94
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2973   .debug_str:0000000000000465 .LASF95
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2895   .debug_str:000000000000029d .LASF96
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3011   .debug_str:0000000000000591 .LASF97
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3023   .debug_str:00000000000005ce .LASF98
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3003   .debug_str:00000000000004e0 .LASF99
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2879   .debug_str:0000000000000258 .LASF100
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3043   .debug_str:0000000000000622 .LASF101
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2917   .debug_str:0000000000000304 .LASF102
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2875   .debug_str:0000000000000241 .LASF103
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3047   .debug_str:000000000000063a .LASF104
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s 			page 9
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2913   .debug_str:00000000000002ec .LASF105
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3053   .debug_str:0000000000000652 .LASF106
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2785   .debug_str:00000000000000ad .LASF107
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3031   .debug_str:00000000000005ef .LASF108
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2877   .debug_str:000000000000024c .LASF109
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3017   .debug_str:00000000000005a5 .LASF110
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2833   .debug_str:0000000000000185 .LASF111
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2783   .debug_str:000000000000009e .LASF112
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2831   .debug_str:0000000000000174 .LASF113
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2769   .debug_str:0000000000000043 .LASF114
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2771   .debug_str:0000000000000052 .LASF115
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2937   .debug_str:000000000000036f .LASF116
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2905   .debug_str:00000000000002ca .LASF117
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2903   .debug_str:00000000000002c1 .LASF118
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3037   .debug_str:0000000000000609 .LASF119
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2779   .debug_str:000000000000008e .LASF150
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2843   .debug_str:00000000000001ae .LASF121
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3019   .debug_str:00000000000005b2 .LASF122
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2911   .debug_str:00000000000002e2 .LASF123
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2773   .debug_str:0000000000000063 .LASF124
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3059   .debug_str:000000000000066a .LASF151
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:14     .text.startup.main:0000000000000000 .LFB2
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:155    .text.startup.main:0000000000000102 .LFE2
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2685   .debug_loc:0000000000000000 .LLST0
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2698   .debug_loc:0000000000000021 .LLST1
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2781   .debug_str:0000000000000099 .LASF125
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2921   .debug_str:000000000000031a .LASF126
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2705   .debug_loc:0000000000000034 .LLST2
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3049   .debug_str:000000000000063f .LASF127
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2869   .debug_str:0000000000000225 .LASF128
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2722   .debug_loc:000000000000005f .LLST3
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3039   .debug_str:0000000000000611 .LASF129
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3057   .debug_str:0000000000000665 .LASF130
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2835   .debug_str:0000000000000193 .LASF131
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:41     .text.startup.main:0000000000000020 .LVL1
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:47     .text.startup.main:0000000000000028 .LVL2
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:50     .text.startup.main:0000000000000030 .LVL3
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:53     .text.startup.main:0000000000000038 .LVL4
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:56     .text.startup.main:0000000000000040 .LVL5
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:60     .text.startup.main:000000000000004a .LVL6
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:63     .text.startup.main:0000000000000052 .LVL7
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:67     .text.startup.main:000000000000005c .LVL8
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:77     .text.startup.main:0000000000000078 .LVL9
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:85     .text.startup.main:000000000000008e .LVL10
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:103    .text.startup.main:000000000000009e .LVL14
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:107    .text.startup.main:00000000000000a6 .LVL15
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:112    .text.startup.main:00000000000000b0 .LVL16
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:114    .text.startup.main:00000000000000b8 .LVL17
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:125    .text.startup.main:00000000000000d0 .LVL18
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:130    .text.startup.main:00000000000000d8 .LVL19
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:146    .text.startup.main:00000000000000f4 .LVL22
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:151    .text.startup.main:0000000000000100 .LVL23
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2885   .debug_str:0000000000000273 .LASF152
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2891   .debug_str:0000000000000286 .LASF153
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3013   .debug_str:0000000000000596 .LASF132
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2811   .debug_str:000000000000011e .LASF133
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2931   .debug_str:0000000000000353 .LASF134
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s 			page 10
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2799   .debug_str:00000000000000eb .LASF135
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2957   .debug_str:0000000000000415 .LASF136
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:3051   .debug_str:0000000000000649 .LASF137
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2817   .debug_str:0000000000000136 .LASF138
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2999   .debug_str:00000000000004ce .LASF139
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2901   .debug_str:00000000000002b4 .LASF140
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2925   .debug_str:0000000000000329 .LASF141
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2947   .debug_str:000000000000039a .LASF142
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2789   .debug_str:00000000000000c4 .LASF143
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2997   .debug_str:00000000000004c7 .LASF144
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2803   .debug_str:00000000000000f9 .LASF145
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:2867   .debug_str:000000000000021e .LASF146
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:23     .text.startup.main:0000000000000002 .LCFI0
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:136    .text.startup.main:00000000000000de .LVL20
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:19     .text.startup.main:0000000000000000 .LVL0
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:94     .text.startup.main:0000000000000094 .LVL12
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:90     .text.startup.main:0000000000000092 .LVL11
+C:\Users\Duckb\AppData\Local\Temp\ccgFRROC.s:195    .debug_info:0000000000000000 .Ldebug_info0
+
+UNDEFINED SYMBOLS
+memcpy
+t5omsi
+colinit
+l88init
+keyinit
+Lcd_SetType
+Lcd_Init
+LCD_Clear
+LCD_ShowStr
+LCD_ShowChar
+LCD_WR_Queue
+t5expq
+colset
+l88row
+keyscan
+l88mem

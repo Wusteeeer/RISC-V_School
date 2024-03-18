@@ -1,0 +1,2240 @@
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 1
+
+
+   1              		.file	"main.c"
+   2              		.option nopic
+   3              		.attribute arch, "rv32i2p0_m2p0_a2p0_c2p0"
+   4              		.attribute unaligned_access, 0
+   5              		.attribute stack_align, 16
+   6              		.text
+   7              	.Ltext0:
+   8              		.cfi_sections	.debug_frame
+   9              		.section	.text.createCar,"ax",@progbits
+  10              		.align	1
+  11              		.globl	createCar
+  13              	createCar:
+  14              	.LFB2:
+  15              		.file 1 "main.c"
+   1:main.c        **** #include "gd32vf103.h"
+   2:main.c        **** #include "drivers.h"
+   3:main.c        **** #include "dac.h"
+   4:main.c        **** #include "pwm.h"
+   5:main.c        **** #include "adc.h"
+   6:main.c        **** #include "eclicw.h"
+   7:main.c        **** #include "stdlib.h"
+   8:main.c        **** #define MAXCARS 5
+   9:main.c        **** 
+  10:main.c        **** //TODO: ALLT ÄR BASICALLY KLART! Testa en massa och se om du kan förbättra bilarna på något s�
+  11:main.c        **** 
+  12:main.c        **** typedef struct car{
+  13:main.c        ****     
+  14:main.c        ****   int pos;
+  15:main.c        ****   int speed;
+  16:main.c        ****   int row;
+  17:main.c        ****   int moveTime;
+  18:main.c        **** 
+  19:main.c        **** 
+  20:main.c        **** }Car;
+  21:main.c        **** 
+  22:main.c        **** Car *createCar(int p, int s, int row){
+  16              		.loc 1 22 38
+  17              		.cfi_startproc
+  18              	.LVL0:
+  23:main.c        ****   
+  24:main.c        ****   Car *c = malloc(sizeof(struct car));
+  19              		.loc 1 24 3
+  22:main.c        ****   
+  20              		.loc 1 22 38 is_stmt 0
+  21 0000 0111     		addi	sp,sp,-32
+  22              	.LCFI0:
+  23              		.cfi_def_cfa_offset 32
+  24 0002 22CC     		sw	s0,24(sp)
+  25              		.cfi_offset 8, -8
+  26 0004 2A84     		mv	s0,a0
+  27              		.loc 1 24 12
+  28 0006 4145     		li	a0,16
+  29              	.LVL1:
+  22:main.c        ****   
+  30              		.loc 1 22 38
+  31 0008 06CE     		sw	ra,28(sp)
+  32              		.cfi_offset 1, -4
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 2
+
+
+  22:main.c        ****   
+  33              		.loc 1 22 38
+  34 000a 2EC6     		sw	a1,12(sp)
+  35 000c 32C4     		sw	a2,8(sp)
+  36              		.loc 1 24 12
+  37 000e 97000000 		call	malloc
+  37      E7800000 
+  38              	.LVL2:
+  25:main.c        **** 
+  26:main.c        ****   c->pos = p;
+  39              		.loc 1 26 3 is_stmt 1
+  27:main.c        ****   c->speed = s;
+  40              		.loc 1 27 12 is_stmt 0
+  41 0016 B245     		lw	a1,12(sp)
+  28:main.c        ****   c->row = row;
+  42              		.loc 1 28 10
+  43 0018 2246     		lw	a2,8(sp)
+  26:main.c        ****   c->speed = s;
+  44              		.loc 1 26 10
+  45 001a 00C1     		sw	s0,0(a0)
+  27:main.c        ****   c->speed = s;
+  46              		.loc 1 27 3 is_stmt 1
+  29:main.c        ****   c->moveTime = 0;
+  30:main.c        **** 
+  31:main.c        ****   return c;
+  32:main.c        **** 
+  33:main.c        **** }
+  47              		.loc 1 33 1 is_stmt 0
+  48 001c F240     		lw	ra,28(sp)
+  49              		.cfi_restore 1
+  50 001e 6244     		lw	s0,24(sp)
+  51              		.cfi_restore 8
+  52              	.LVL3:
+  27:main.c        ****   c->row = row;
+  53              		.loc 1 27 12
+  54 0020 4CC1     		sw	a1,4(a0)
+  28:main.c        ****   c->moveTime = 0;
+  55              		.loc 1 28 3 is_stmt 1
+  28:main.c        ****   c->moveTime = 0;
+  56              		.loc 1 28 10 is_stmt 0
+  57 0022 10C5     		sw	a2,8(a0)
+  29:main.c        ****   c->moveTime = 0;
+  58              		.loc 1 29 3 is_stmt 1
+  29:main.c        ****   c->moveTime = 0;
+  59              		.loc 1 29 15 is_stmt 0
+  60 0024 23260500 		sw	zero,12(a0)
+  31:main.c        **** 
+  61              		.loc 1 31 3 is_stmt 1
+  62              		.loc 1 33 1 is_stmt 0
+  63 0028 0561     		addi	sp,sp,32
+  64              	.LCFI1:
+  65              		.cfi_def_cfa_offset 0
+  66              	.LVL4:
+  67 002a 8280     		jr	ra
+  68              		.cfi_endproc
+  69              	.LFE2:
+  71              		.section	.text.moveCar,"ax",@progbits
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 3
+
+
+  72              		.align	1
+  73              		.globl	moveCar
+  75              	moveCar:
+  76              	.LFB3:
+  34:main.c        **** 
+  35:main.c        **** 
+  36:main.c        **** 
+  37:main.c        **** 
+  38:main.c        **** void moveCar(Car *c){
+  77              		.loc 1 38 21 is_stmt 1
+  78              		.cfi_startproc
+  79              	.LVL5:
+  39:main.c        ****   c->row = c->row + c->speed; //Shift it one step to the left (sll) by the speed
+  80              		.loc 1 39 3
+  81              		.loc 1 39 19 is_stmt 0
+  82 0000 1C45     		lw	a5,8(a0)
+  83 0002 5841     		lw	a4,4(a0)
+  84 0004 BA97     		add	a5,a5,a4
+  85              		.loc 1 39 10
+  86 0006 1CC5     		sw	a5,8(a0)
+  40:main.c        **** }
+  87              		.loc 1 40 1
+  88 0008 8280     		ret
+  89              		.cfi_endproc
+  90              	.LFE3:
+  92              		.section	.text.resetCar,"ax",@progbits
+  93              		.align	1
+  94              		.globl	resetCar
+  96              	resetCar:
+  97              	.LFB4:
+  41:main.c        **** 
+  42:main.c        **** void resetCar(Car *c, int newPos){
+  98              		.loc 1 42 34 is_stmt 1
+  99              		.cfi_startproc
+ 100              	.LVL6:
+  43:main.c        ****   c->moveTime = 0;
+ 101              		.loc 1 43 3
+  44:main.c        ****   c->speed = 0x1;
+ 102              		.loc 1 44 12 is_stmt 0
+ 103 0000 8547     		li	a5,1
+  45:main.c        **** 
+  46:main.c        ****   c->pos = 0x1 << newPos;
+ 104              		.loc 1 46 16
+ 105 0002 B395B700 		sll	a1,a5,a1
+ 106              	.LVL7:
+  43:main.c        ****   c->speed = 0x1;
+ 107              		.loc 1 43 15
+ 108 0006 23260500 		sw	zero,12(a0)
+  44:main.c        ****   c->speed = 0x1;
+ 109              		.loc 1 44 3 is_stmt 1
+  44:main.c        ****   c->speed = 0x1;
+ 110              		.loc 1 44 12 is_stmt 0
+ 111 000a 5CC1     		sw	a5,4(a0)
+ 112              		.loc 1 46 3 is_stmt 1
+ 113              		.loc 1 46 10 is_stmt 0
+ 114 000c 0CC1     		sw	a1,0(a0)
+  47:main.c        ****   
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 4
+
+
+  48:main.c        **** 
+  49:main.c        ****   c->row = 0x0;
+ 115              		.loc 1 49 3 is_stmt 1
+ 116              		.loc 1 49 10 is_stmt 0
+ 117 000e 23240500 		sw	zero,8(a0)
+  50:main.c        **** }
+ 118              		.loc 1 50 1
+ 119 0012 8280     		ret
+ 120              		.cfi_endproc
+ 121              	.LFE4:
+ 123              		.section	.text.mt40k_init,"ax",@progbits
+ 124              		.align	1
+ 125              		.globl	mt40k_init
+ 127              	mt40k_init:
+ 128              	.LFB5:
+  51:main.c        **** 
+  52:main.c        **** 
+  53:main.c        **** void mt40k_init(void (*pISR)(void)){
+ 129              		.loc 1 53 36 is_stmt 1
+ 130              		.cfi_startproc
+ 131              	.LVL8:
+  54:main.c        ****    eclicw_enable(CLIC_INT_TMR, 1, 1, pISR);
+ 132              		.loc 1 54 4
+  53:main.c        ****    eclicw_enable(CLIC_INT_TMR, 1, 1, pISR);
+ 133              		.loc 1 53 36 is_stmt 0
+ 134 0000 4111     		addi	sp,sp,-16
+ 135              	.LCFI2:
+ 136              		.cfi_def_cfa_offset 16
+ 137              		.loc 1 54 4
+ 138 0002 AA86     		mv	a3,a0
+ 139 0004 0546     		li	a2,1
+ 140 0006 8545     		li	a1,1
+ 141 0008 1D45     		li	a0,7
+ 142              	.LVL9:
+  53:main.c        ****    eclicw_enable(CLIC_INT_TMR, 1, 1, pISR);
+ 143              		.loc 1 53 36
+ 144 000a 06C6     		sw	ra,12(sp)
+ 145              		.cfi_offset 1, -4
+ 146              		.loc 1 54 4
+ 147 000c 97000000 		call	eclicw_enable
+ 147      E7800000 
+ 148              	.LVL10:
+  55:main.c        ****    // Set the timer expier (compar) value to 675 (27Mhz/40kHz).
+  56:main.c        ****    *( volatile uint64_t * )( TIMER_CTRL_ADDR + TIMER_MTIMECMP ) = 675;
+ 149              		.loc 1 56 4 is_stmt 1
+ 150              		.loc 1 56 65 is_stmt 0
+ 151 0014 B70700D1 		li	a5,-788529152
+ 152 0018 1306302A 		li	a2,675
+ 153 001c 90C7     		sw	a2,8(a5)
+ 154 001e 8146     		li	a3,0
+ 155 0020 D4C7     		sw	a3,12(a5)
+  57:main.c        ****    // Reset the timer value to zero.
+  58:main.c        ****    *( volatile uint64_t * )( TIMER_CTRL_ADDR + TIMER_MTIME ) = 0;
+ 156              		.loc 1 58 4 is_stmt 1
+  59:main.c        **** }
+ 157              		.loc 1 59 1 is_stmt 0
+ 158 0022 B240     		lw	ra,12(sp)
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 5
+
+
+ 159              		.cfi_restore 1
+  58:main.c        **** }
+ 160              		.loc 1 58 62
+ 161 0024 8146     		li	a3,0
+ 162 0026 94C3     		sw	a3,0(a5)
+ 163 0028 0147     		li	a4,0
+ 164 002a D8C3     		sw	a4,4(a5)
+ 165              		.loc 1 59 1
+ 166 002c 4101     		addi	sp,sp,16
+ 167              	.LCFI3:
+ 168              		.cfi_def_cfa_offset 0
+ 169 002e 8280     		jr	ra
+ 170              		.cfi_endproc
+ 171              	.LFE5:
+ 173              		.section	.text.lp,"ax",@progbits
+ 174              		.align	1
+ 175              		.globl	lp
+ 177              	lp:
+ 178              	.LFB6:
+  60:main.c        **** /*
+  61:main.c        **** void lp(void){
+  62:main.c        ****     static int x=0;
+  63:main.c        **** 
+  64:main.c        ****     // Be aware of possible spirous int updating mtimecmp...
+  65:main.c        ****     // LSW = -1; MSW = update; LSW = update, in this case safe.
+  66:main.c        ****     *( volatile uint64_t * )( TIMER_CTRL_ADDR + TIMER_MTIMECMP )+=675;
+  67:main.c        **** 
+  68:main.c        ****     // Calcylate next output value...
+  69:main.c        ****     DAC0set(x++%2?4000:0);
+  70:main.c        ****     l88mem(7,x);
+  71:main.c        **** }
+  72:main.c        **** */
+  73:main.c        **** 
+  74:main.c        **** void lp(void){
+ 179              		.loc 1 74 14 is_stmt 1
+ 180              		.cfi_startproc
+  75:main.c        ****     static int x=0, xp=0, y=0, yp=0;
+ 181              		.loc 1 75 5
+  76:main.c        ****     static int g=0b0010001100000000; //0.1367287359(<<16)
+ 182              		.loc 1 76 5
+  77:main.c        ****     static int p=0b1011100111111110; //0.7265425280(<<16)
+ 183              		.loc 1 77 5
+  78:main.c        **** 
+  79:main.c        ****     // Be aware of possible spirous int updating mtimecmp...
+  80:main.c        ****     // LSW = -1; MSW = update; LSW = update, in this case safe.
+  81:main.c        ****     *( volatile uint64_t * )( TIMER_CTRL_ADDR + TIMER_MTIMECMP )+=675;
+ 184              		.loc 1 81 5
+  74:main.c        ****     static int x=0, xp=0, y=0, yp=0;
+ 185              		.loc 1 74 14 is_stmt 0
+ 186 0000 0111     		addi	sp,sp,-32
+ 187              	.LCFI4:
+ 188              		.cfi_def_cfa_offset 32
+ 189              		.loc 1 81 65
+ 190 0002 B70500D1 		li	a1,-788529152
+  74:main.c        ****     static int x=0, xp=0, y=0, yp=0;
+ 191              		.loc 1 74 14
+ 192 0006 22CC     		sw	s0,24(sp)
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 6
+
+
+ 193              		.cfi_offset 8, -8
+ 194              		.loc 1 81 65
+ 195 0008 8045     		lw	s0,8(a1)
+  74:main.c        ****     static int x=0, xp=0, y=0, yp=0;
+ 196              		.loc 1 74 14
+ 197 000a 26CA     		sw	s1,20(sp)
+ 198              		.cfi_offset 9, -12
+ 199              		.loc 1 81 65
+ 200 000c C445     		lw	s1,12(a1)
+ 201 000e 1305342A 		addi	a0,s0,675
+  74:main.c        ****     static int x=0, xp=0, y=0, yp=0;
+ 202              		.loc 1 74 14
+ 203 0012 06CE     		sw	ra,28(sp)
+ 204 0014 4AC8     		sw	s2,16(sp)
+ 205 0016 4EC6     		sw	s3,12(sp)
+ 206 0018 52C4     		sw	s4,8(sp)
+ 207              		.cfi_offset 1, -4
+ 208              		.cfi_offset 18, -16
+ 209              		.cfi_offset 19, -20
+ 210              		.cfi_offset 20, -24
+ 211              		.loc 1 81 65
+ 212 001a 33368500 		sltu	a2,a0,s0
+  82:main.c        **** 
+  83:main.c        ****     // Calcylate next output value...
+  84:main.c        ****     xp=x; yp=y;
+ 213              		.loc 1 84 7
+ 214 001e B7090000 		lui	s3,%hi(.LANCHOR1)
+  81:main.c        **** 
+ 215              		.loc 1 81 65
+ 216 0022 88C5     		sw	a0,8(a1)
+ 217 0024 B3079600 		add	a5,a2,s1
+ 218              		.loc 1 84 7
+ 219 0028 93890900 		addi	s3,s3,%lo(.LANCHOR1)
+  81:main.c        **** 
+ 220              		.loc 1 81 65
+ 221 002c DCC5     		sw	a5,12(a1)
+ 222              		.loc 1 84 5 is_stmt 1
+ 223              		.loc 1 84 7 is_stmt 0
+ 224 002e 83A70900 		lw	a5,0(s3)
+ 225 0032 B7040000 		lui	s1,%hi(.LANCHOR0)
+ 226              		.loc 1 84 13
+ 227 0036 37040000 		lui	s0,%hi(.LANCHOR3)
+ 228              		.loc 1 84 7
+ 229 003a 93840400 		addi	s1,s1,%lo(.LANCHOR0)
+ 230              		.loc 1 84 13
+ 231 003e 13040400 		addi	s0,s0,%lo(.LANCHOR3)
+ 232              		.loc 1 84 7
+ 233 0042 9CC0     		sw	a5,0(s1)
+ 234              		.loc 1 84 11 is_stmt 1
+ 235              		.loc 1 84 13 is_stmt 0
+ 236 0044 1C40     		lw	a5,0(s0)
+  85:main.c        ****     x = ((adc_regular_data_read(ADC0)-2048))*g;
+ 237              		.loc 1 85 11
+ 238 0046 372A0140 		li	s4,1073815552
+  84:main.c        ****     x = ((adc_regular_data_read(ADC0)-2048))*g;
+ 239              		.loc 1 84 13
+ 240 004a 37090000 		lui	s2,%hi(.LANCHOR2)
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 7
+
+
+ 241 004e 13090900 		addi	s2,s2,%lo(.LANCHOR2)
+ 242              		.loc 1 85 11
+ 243 0052 13050A40 		addi	a0,s4,1024
+  84:main.c        ****     x = ((adc_regular_data_read(ADC0)-2048))*g;
+ 244              		.loc 1 84 13
+ 245 0056 2320F900 		sw	a5,0(s2)
+ 246              		.loc 1 85 5 is_stmt 1
+ 247              		.loc 1 85 11 is_stmt 0
+ 248 005a 97000000 		call	adc_regular_data_read
+ 248      E7800000 
+ 249              	.LVL11:
+  86:main.c        ****     y = (x+xp)+(int)(((int64_t)yp*(int64_t)p)>>16);
+ 250              		.loc 1 86 34
+ 251 0062 03270900 		lw	a4,0(s2)
+  85:main.c        ****     x = ((adc_regular_data_read(ADC0)-2048))*g;
+ 252              		.loc 1 85 45
+ 253 0066 8967     		li	a5,8192
+ 254              		.loc 1 86 34
+ 255 0068 B166     		li	a3,49152
+ 256 006a 9386E69F 		addi	a3,a3,-1538
+  85:main.c        ****     x = ((adc_regular_data_read(ADC0)-2048))*g;
+ 257              		.loc 1 85 38
+ 258 006e 13050580 		addi	a0,a0,-2048
+  85:main.c        ****     x = ((adc_regular_data_read(ADC0)-2048))*g;
+ 259              		.loc 1 85 45
+ 260 0072 93870730 		addi	a5,a5,768
+ 261 0076 B307F502 		mul	a5,a0,a5
+ 262              		.loc 1 86 34
+ 263 007a 3305D702 		mul	a0,a4,a3
+  85:main.c        ****     x = ((adc_regular_data_read(ADC0)-2048))*g;
+ 264              		.loc 1 85 7
+ 265 007e 23A0F900 		sw	a5,0(s3)
+ 266              		.loc 1 86 5 is_stmt 1
+ 267              		.loc 1 86 34 is_stmt 0
+ 268 0082 3317D702 		mulh	a4,a4,a3
+ 269              		.loc 1 86 46
+ 270 0086 93560501 		srli	a3,a0,16
+ 271              		.loc 1 86 11
+ 272 008a 8840     		lw	a0,0(s1)
+ 273 008c 3E95     		add	a0,a5,a0
+  87:main.c        ****     DAC0set((y>>16)+2048);              // ...and present it to hw-driver.
+ 274              		.loc 1 87 5
+ 275 008e 8567     		li	a5,4096
+ 276 0090 93870780 		addi	a5,a5,-2048
+  86:main.c        ****     y = (x+xp)+(int)(((int64_t)yp*(int64_t)p)>>16);
+ 277              		.loc 1 86 46
+ 278 0094 4207     		slli	a4,a4,16
+ 279 0096 D98E     		or	a3,a4,a3
+  86:main.c        ****     y = (x+xp)+(int)(((int64_t)yp*(int64_t)p)>>16);
+ 280              		.loc 1 86 15
+ 281 0098 3695     		add	a0,a0,a3
+  86:main.c        ****     y = (x+xp)+(int)(((int64_t)yp*(int64_t)p)>>16);
+ 282              		.loc 1 86 7
+ 283 009a 08C0     		sw	a0,0(s0)
+ 284              		.loc 1 87 5 is_stmt 1
+ 285              		.loc 1 87 15 is_stmt 0
+ 286 009c 4185     		srai	a0,a0,16
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 8
+
+
+ 287              		.loc 1 87 5
+ 288 009e 3E95     		add	a0,a0,a5
+ 289 00a0 97000000 		call	DAC0set
+ 289      E7800000 
+ 290              	.LVL12:
+  88:main.c        **** 
+  89:main.c        ****     adc_software_trigger_enable(ADC0, ADC_REGULAR_CHANNEL);
+ 291              		.loc 1 89 5 is_stmt 1
+  90:main.c        **** 
+  91:main.c        **** 
+  92:main.c        ****     
+  93:main.c        **** }
+ 292              		.loc 1 93 1 is_stmt 0
+ 293 00a8 6244     		lw	s0,24(sp)
+ 294              		.cfi_restore 8
+ 295 00aa F240     		lw	ra,28(sp)
+ 296              		.cfi_restore 1
+ 297 00ac D244     		lw	s1,20(sp)
+ 298              		.cfi_restore 9
+ 299 00ae 4249     		lw	s2,16(sp)
+ 300              		.cfi_restore 18
+ 301 00b0 B249     		lw	s3,12(sp)
+ 302              		.cfi_restore 19
+  89:main.c        **** 
+ 303              		.loc 1 89 5
+ 304 00b2 13050A40 		addi	a0,s4,1024
+ 305              		.loc 1 93 1
+ 306 00b6 224A     		lw	s4,8(sp)
+ 307              		.cfi_restore 20
+  89:main.c        **** 
+ 308              		.loc 1 89 5
+ 309 00b8 8545     		li	a1,1
+ 310              		.loc 1 93 1
+ 311 00ba 0561     		addi	sp,sp,32
+ 312              	.LCFI5:
+ 313              		.cfi_def_cfa_offset 0
+  89:main.c        **** 
+ 314              		.loc 1 89 5
+ 315 00bc 17030000 		tail	adc_software_trigger_enable
+ 315      67000300 
+ 316              	.LVL13:
+ 317              		.cfi_endproc
+ 318              	.LFE6:
+ 320              		.section	.text.initGameOver,"ax",@progbits
+ 321              		.align	1
+ 322              		.globl	initGameOver
+ 324              	initGameOver:
+ 325              	.LFB7:
+  94:main.c        **** 
+  95:main.c        **** void initGameOver(uint8_t *over){
+ 326              		.loc 1 95 33 is_stmt 1
+ 327              		.cfi_startproc
+ 328              	.LVL14:
+  96:main.c        ****   *over = 1;
+ 329              		.loc 1 96 3
+ 330              		.loc 1 96 9 is_stmt 0
+ 331 0000 8547     		li	a5,1
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 9
+
+
+ 332 0002 2300F500 		sb	a5,0(a0)
+  97:main.c        **** }
+ 333              		.loc 1 97 1
+ 334 0006 8280     		ret
+ 335              		.cfi_endproc
+ 336              	.LFE7:
+ 338              		.section	.text.startup.main,"ax",@progbits
+ 339              		.align	1
+ 340              		.globl	main
+ 342              	main:
+ 343              	.LFB8:
+  98:main.c        **** 
+  99:main.c        **** int main(void){
+ 344              		.loc 1 99 15 is_stmt 1
+ 345              		.cfi_startproc
+ 100:main.c        **** 
+ 101:main.c        ****     srand(42);
+ 346              		.loc 1 101 5
+  99:main.c        **** 
+ 347              		.loc 1 99 15 is_stmt 0
+ 348 0000 0571     		addi	sp,sp,-480
+ 349              	.LCFI6:
+ 350              		.cfi_def_cfa_offset 480
+ 351              		.loc 1 101 5
+ 352 0002 1305A002 		li	a0,42
+  99:main.c        **** 
+ 353              		.loc 1 99 15
+ 354 0006 232E111C 		sw	ra,476(sp)
+ 355 000a 232C811C 		sw	s0,472(sp)
+ 356 000e 2328211D 		sw	s2,464(sp)
+ 357 0012 2326311D 		sw	s3,460(sp)
+ 358 0016 2324411D 		sw	s4,456(sp)
+ 359 001a 2322511D 		sw	s5,452(sp)
+ 360 001e 2320611D 		sw	s6,448(sp)
+ 361 0022 232E711B 		sw	s7,444(sp)
+ 362 0026 232C811B 		sw	s8,440(sp)
+ 363 002a 232A911B 		sw	s9,436(sp)
+ 364 002e 2328A11B 		sw	s10,432(sp)
+ 365 0032 2326B11B 		sw	s11,428(sp)
+ 366 0036 232A911C 		sw	s1,468(sp)
+ 367              		.cfi_offset 1, -4
+ 368              		.cfi_offset 8, -8
+ 369              		.cfi_offset 18, -16
+ 370              		.cfi_offset 19, -20
+ 371              		.cfi_offset 20, -24
+ 372              		.cfi_offset 21, -28
+ 373              		.cfi_offset 22, -32
+ 374              		.cfi_offset 23, -36
+ 375              		.cfi_offset 24, -40
+ 376              		.cfi_offset 25, -44
+ 377              		.cfi_offset 26, -48
+ 378              		.cfi_offset 27, -52
+ 379              		.cfi_offset 9, -12
+ 380              		.loc 1 101 5
+ 381 003a 97000000 		call	srand
+ 381      E7800000 
+ 382              	.LVL15:
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 10
+
+
+ 102:main.c        **** 
+ 103:main.c        ****     int playerPos=0, speedFlag=0;
+ 383              		.loc 1 103 5 is_stmt 1
+ 104:main.c        ****     int carUniTime = 500;
+ 384              		.loc 1 104 5
+ 105:main.c        ****     int score=0, scoreFlag=0;
+ 385              		.loc 1 105 5
+ 106:main.c        ****     int spawnTime = 0, resetTime=0, speedTime=0;
+ 386              		.loc 1 106 5
+ 107:main.c        **** 
+ 108:main.c        ****     int adcr, tmpr;
+ 387              		.loc 1 108 5
+ 109:main.c        **** 
+ 110:main.c        ****     uint8_t gameOver = 0;
+ 388              		.loc 1 110 5
+ 111:main.c        **** 
+ 112:main.c        ****     Car *cars[100];
+ 389              		.loc 1 112 5
+ 113:main.c        ****     int amountOfCars = 0;
+ 390              		.loc 1 113 5
+ 114:main.c        **** 
+ 115:main.c        ****     t5omsi();                               // Initialize timer5 1kHz
+ 391              		.loc 1 115 5
+ 392 0042 97000000 		call	t5omsi
+ 392      E7800000 
+ 393              	.LVL16:
+ 116:main.c        ****     colinit();                              // Initialize column toolbox
+ 394              		.loc 1 116 5
+ 395 004a 97000000 		call	colinit
+ 395      E7800000 
+ 396              	.LVL17:
+ 117:main.c        ****     l88init();                              // Initialize 8*8 led toolbox
+ 397              		.loc 1 117 5
+ 398 0052 97000000 		call	l88init
+ 398      E7800000 
+ 399              	.LVL18:
+ 118:main.c        ****     keyinit();                              // Initialize keyboard toolbox
+ 400              		.loc 1 118 5
+ 401 005a 97000000 		call	keyinit
+ 401      E7800000 
+ 402              	.LVL19:
+ 119:main.c        ****     ADC3powerUpInit(1);                     // Initialize ADC0, Ch3 & Ch16
+ 403              		.loc 1 119 5
+ 404 0062 0545     		li	a0,1
+ 405 0064 97000000 		call	ADC3powerUpInit
+ 405      E7800000 
+ 406              	.LVL20:
+ 120:main.c        **** 
+ 121:main.c        ****     while (1) {
+ 122:main.c        **** 
+ 123:main.c        **** 
+ 124:main.c        ****       if(gameOver == 1){
+ 125:main.c        ****         if (t5expq()){
+ 126:main.c        ****           l88mem(1, score);
+ 127:main.c        ****           l88mem(0, score >> 16);
+ 128:main.c        ****           l88row(colset());
+ 129:main.c        ****           for (int i = 0; i < 8; i++)
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 11
+
+
+ 130:main.c        ****           {
+ 131:main.c        ****             l88mem(i, 0x0);
+ 132:main.c        ****           }
+ 133:main.c        ****         }
+ 134:main.c        **** 
+ 135:main.c        ****         continue;
+ 136:main.c        ****       }
+ 137:main.c        **** 
+ 138:main.c        ****       
+ 139:main.c        **** 
+ 140:main.c        **** 
+ 141:main.c        ****         if (adc_flag_get(ADC0,ADC_FLAG_EOC)==SET) { // ...ADC done?
+ 142:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+ 143:main.c        ****             tmpr = adc_inserted_data_read(ADC0, ADC_INSERTED_CHANNEL_0);
+ 144:main.c        ****             //l88mem(6,((0x680-tmpr)/5)+25);
+ 145:main.c        ****             adc_flag_clear(ADC0, ADC_FLAG_EOC);
+ 146:main.c        ****             adc_flag_clear(ADC0, ADC_FLAG_EOIC);
+ 147:main.c        ****           } else {
+ 148:main.c        **** 
+ 149:main.c        ****             //adcr is the read value from the potentiometer transformed from analog to digital sign
+ 150:main.c        ****             adcr = adc_regular_data_read(ADC0); // ......get data
+ 151:main.c        ****             adcr = adcr >> 9; //Divide it down to only allow values between 0..7
+ 152:main.c        **** 
+ 153:main.c        ****             int val = 0x80 >> adcr; //Move from the left by the transformed signal to make wheel fe
+ 154:main.c        **** 
+ 155:main.c        ****             playerPos = val;
+ 156:main.c        ****            
+ 157:main.c        ****             l88mem(6, val); //Show the player
+ 158:main.c        **** 
+ 159:main.c        ****             adc_flag_clear(ADC0, ADC_FLAG_EOC); // ......clear IF
+ 160:main.c        ****           }
+ 161:main.c        ****         }
+ 162:main.c        **** 
+ 163:main.c        ****         for (int i = 0; i < amountOfCars; i++)
+ 164:main.c        ****         {
+ 165:main.c        **** 
+ 166:main.c        **** 
+ 167:main.c        ****           int val = cars[i]->pos | rowGet(cars[i]->row); //Allow for multiple thing to be drawn on 
+ 168:main.c        **** 
+ 169:main.c        ****           if(cars[i]->pos == playerPos && cars[i]->row == 6){ //If a car and the player are at the 
+ 170:main.c        ****             
+ 171:main.c        ****             initGameOver(&gameOver);
+ 172:main.c        ****             continue;
+ 173:main.c        ****           }
+ 174:main.c        **** 
+ 175:main.c        **** 
+ 176:main.c        ****           if(cars[i]->row >= 7){ //If a car is below the player ? give point
+ 177:main.c        ****             if(scoreFlag==0){
+ 178:main.c        ****               score++;
+ 179:main.c        ****               
+ 180:main.c        ****               scoreFlag=1;
+ 181:main.c        **** 
+ 182:main.c        ****             }
+ 183:main.c        ****           }
+ 184:main.c        **** 
+ 185:main.c        ****           l88mem(cars[i]->row, val); //Load cars into memory
+ 186:main.c        **** 
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 12
+
+
+ 187:main.c        ****       
+ 188:main.c        ****         }
+ 189:main.c        **** 
+ 190:main.c        ****         if (t5expq()) {   // Manage periodic tasks
+ 191:main.c        ****           
+ 192:main.c        ****           l88row(colset());               // ...8*8LED and Keyboard
+ 193:main.c        ****           for (int i = 0; i < 8; i++)
+ 194:main.c        ****           {
+ 195:main.c        ****             l88mem(i, 0x0); //Erased everything after every draw to not leave remnants
+ 196:main.c        ****           }
+ 197:main.c        **** 
+ 198:main.c        **** 
+ 199:main.c        ****           if(spawnTime >= carUniTime * 2){ //Scale the spawning according to how fast the cars are
+ 200:main.c        ****             
+ 201:main.c        ****             int newPos = rand() % 8; //Get a random offset
+ 202:main.c        **** 
+ 203:main.c        ****             if(amountOfCars <= MAXCARS){ //As long as the amount of cars has not exceeded the max a
+ 204:main.c        ****               cars[amountOfCars] = createCar(0x1 << newPos, 0x1, 0x0); //Create a new car
+ 205:main.c        ****               amountOfCars++; 
+ 206:main.c        ****             }else{
+ 207:main.c        ****               
+ 208:main.c        ****               for (int i = 0; i < amountOfCars; i++)
+ 209:main.c        ****               {
+ 210:main.c        ****                 if(cars[i]->row >= 8){
+ 211:main.c        ****                   resetCar(cars[i], newPos); //Move car to new position
+ 212:main.c        ****                 }
+ 213:main.c        ****                
+ 214:main.c        ****               }
+ 215:main.c        ****               
+ 216:main.c        ****             }
+ 217:main.c        ****            
+ 218:main.c        ****             spawnTime = 0; //Reset time
+ 219:main.c        ****             scoreFlag = 0; //Reset score flag to allow for more scoring
+ 220:main.c        **** 
+ 221:main.c        ****           }
+ 222:main.c        **** 
+ 223:main.c        ****           spawnTime++; //Increase spawn timer
+ 224:main.c        ****           speedTime++; //Increase speed timer
+ 225:main.c        **** 
+ 226:main.c        ****           for (int i = 0; i < amountOfCars; i++)
+ 227:main.c        ****           {
+ 228:main.c        ****             cars[i]->moveTime++;
+ 229:main.c        **** 
+ 230:main.c        ****             if(cars[i]->moveTime >= carUniTime){
+ 231:main.c        ****               moveCar(cars[i]); //Move car after move timer has exceeded carunitime
+ 232:main.c        ****               cars[i]->moveTime = 0; //Reset move timer
+ 233:main.c        ****           
+ 234:main.c        ****             }
+ 235:main.c        **** 
+ 236:main.c        ****   
+ 237:main.c        ****           }
+ 238:main.c        **** 
+ 239:main.c        ****           //Increase speed of cars
+ 240:main.c        ****           if(speedTime >= 3000){
+ 407              		.loc 1 240 13 is_stmt 0
+ 408 006c 056C     		li	s8,4096
+ 141:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 13
+
+
+ 409              		.loc 1 141 13
+ 410 006e 37240140 		li	s0,1073815552
+ 411              		.loc 1 240 13
+ 412 0072 93077CBB 		addi	a5,s8,-1097
+ 110:main.c        **** 
+ 413              		.loc 1 110 13
+ 414 0076 814C     		li	s9,0
+ 113:main.c        **** 
+ 415              		.loc 1 113 9
+ 416 0078 0149     		li	s2,0
+ 106:main.c        **** 
+ 417              		.loc 1 106 37
+ 418 007a 814B     		li	s7,0
+ 106:main.c        **** 
+ 419              		.loc 1 106 9
+ 420 007c 014D     		li	s10,0
+ 105:main.c        ****     int spawnTime = 0, resetTime=0, speedTime=0;
+ 421              		.loc 1 105 18
+ 422 007e 814D     		li	s11,0
+ 105:main.c        ****     int spawnTime = 0, resetTime=0, speedTime=0;
+ 423              		.loc 1 105 9
+ 424 0080 014B     		li	s6,0
+ 104:main.c        ****     int score=0, scoreFlag=0;
+ 425              		.loc 1 104 9
+ 426 0082 130A401F 		li	s4,500
+ 103:main.c        ****     int carUniTime = 500;
+ 427              		.loc 1 103 9
+ 428 0086 814A     		li	s5,0
+ 124:main.c        ****         if (t5expq()){
+ 429              		.loc 1 124 9
+ 430 0088 8549     		li	s3,1
+ 141:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+ 431              		.loc 1 141 13
+ 432 008a 13040440 		addi	s0,s0,1024
+ 433              		.loc 1 240 13
+ 434 008e 3EC2     		sw	a5,4(sp)
+ 435              	.LVL21:
+ 436              	.L11:
+ 121:main.c        **** 
+ 437              		.loc 1 121 5 is_stmt 1
+ 124:main.c        ****         if (t5expq()){
+ 438              		.loc 1 124 7
+ 124:main.c        ****         if (t5expq()){
+ 439              		.loc 1 124 9 is_stmt 0
+ 440 0090 63983C05 		bne	s9,s3,.L12
+ 125:main.c        ****           l88mem(1, score);
+ 441              		.loc 1 125 9 is_stmt 1
+ 125:main.c        ****           l88mem(1, score);
+ 442              		.loc 1 125 13 is_stmt 0
+ 443 0094 97000000 		call	t5expq
+ 443      E7800000 
+ 444              	.LVL22:
+ 125:main.c        ****           l88mem(1, score);
+ 445              		.loc 1 125 12
+ 446 009c 75D9     		beq	a0,zero,.L11
+ 126:main.c        ****           l88mem(0, score >> 16);
+ 447              		.loc 1 126 11 is_stmt 1
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 14
+
+
+ 448 009e DA85     		mv	a1,s6
+ 449 00a0 0545     		li	a0,1
+ 450 00a2 97000000 		call	l88mem
+ 450      E7800000 
+ 451              	.LVL23:
+ 127:main.c        ****           l88row(colset());
+ 452              		.loc 1 127 11
+ 453 00aa 93550B41 		srai	a1,s6,16
+ 454 00ae 0145     		li	a0,0
+ 455 00b0 97000000 		call	l88mem
+ 455      E7800000 
+ 456              	.LVL24:
+ 128:main.c        ****           for (int i = 0; i < 8; i++)
+ 457              		.loc 1 128 11
+ 458 00b8 97000000 		call	colset
+ 458      E7800000 
+ 459              	.LVL25:
+ 460 00c0 97000000 		call	l88row
+ 460      E7800000 
+ 461              	.LVL26:
+ 129:main.c        ****           {
+ 462              		.loc 1 129 11
+ 463              	.LBB14:
+ 129:main.c        ****           {
+ 464              		.loc 1 129 16
+ 129:main.c        ****           {
+ 465              		.loc 1 129 20 is_stmt 0
+ 466 00c8 8144     		li	s1,0
+ 129:main.c        ****           {
+ 467              		.loc 1 129 11
+ 468 00ca 214C     		li	s8,8
+ 469              	.LVL27:
+ 470              	.L14:
+ 131:main.c        ****           }
+ 471              		.loc 1 131 13 is_stmt 1 discriminator 3
+ 472 00cc 2685     		mv	a0,s1
+ 473 00ce 8145     		li	a1,0
+ 129:main.c        ****           {
+ 474              		.loc 1 129 35 is_stmt 0 discriminator 3
+ 475 00d0 8504     		addi	s1,s1,1
+ 476              	.LVL28:
+ 131:main.c        ****           }
+ 477              		.loc 1 131 13 discriminator 3
+ 478 00d2 97000000 		call	l88mem
+ 478      E7800000 
+ 479              	.LVL29:
+ 129:main.c        ****           {
+ 480              		.loc 1 129 11 discriminator 3
+ 481 00da E39984FF 		bne	s1,s8,.L14
+ 482 00de 4DBF     		j	.L11
+ 483              	.LVL30:
+ 484              	.L12:
+ 485              	.LBE14:
+ 141:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+ 486              		.loc 1 141 9 is_stmt 1
+ 141:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+ 487              		.loc 1 141 13 is_stmt 0
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 15
+
+
+ 488 00e0 8945     		li	a1,2
+ 489 00e2 2285     		mv	a0,s0
+ 490 00e4 97000000 		call	adc_flag_get
+ 490      E7800000 
+ 491              	.LVL31:
+ 141:main.c        ****           if (adc_flag_get(ADC0,ADC_FLAG_EOIC)==SET) { //...ch3 or ch16?
+ 492              		.loc 1 141 12
+ 493 00ec 631C3503 		bne	a0,s3,.L15
+ 142:main.c        ****             tmpr = adc_inserted_data_read(ADC0, ADC_INSERTED_CHANNEL_0);
+ 494              		.loc 1 142 11 is_stmt 1
+ 142:main.c        ****             tmpr = adc_inserted_data_read(ADC0, ADC_INSERTED_CHANNEL_0);
+ 495              		.loc 1 142 15 is_stmt 0
+ 496 00f0 9145     		li	a1,4
+ 497 00f2 2285     		mv	a0,s0
+ 498 00f4 97000000 		call	adc_flag_get
+ 498      E7800000 
+ 499              	.LVL32:
+ 142:main.c        ****             tmpr = adc_inserted_data_read(ADC0, ADC_INSERTED_CHANNEL_0);
+ 500              		.loc 1 142 14
+ 501 00fc 6313350D 		bne	a0,s3,.L16
+ 143:main.c        ****             //l88mem(6,((0x680-tmpr)/5)+25);
+ 502              		.loc 1 143 13 is_stmt 1
+ 143:main.c        ****             //l88mem(6,((0x680-tmpr)/5)+25);
+ 503              		.loc 1 143 20 is_stmt 0
+ 504 0100 8145     		li	a1,0
+ 505 0102 2285     		mv	a0,s0
+ 506 0104 97000000 		call	adc_inserted_data_read
+ 506      E7800000 
+ 507              	.LVL33:
+ 145:main.c        ****             adc_flag_clear(ADC0, ADC_FLAG_EOIC);
+ 508              		.loc 1 145 13 is_stmt 1
+ 509 010c 8945     		li	a1,2
+ 510 010e 2285     		mv	a0,s0
+ 511 0110 97000000 		call	adc_flag_clear
+ 511      E7800000 
+ 512              	.LVL34:
+ 146:main.c        ****           } else {
+ 513              		.loc 1 146 13
+ 514 0118 9145     		li	a1,4
+ 515              	.L43:
+ 516              	.LBB15:
+ 159:main.c        ****           }
+ 517              		.loc 1 159 13 is_stmt 0
+ 518 011a 2285     		mv	a0,s0
+ 519 011c 97000000 		call	adc_flag_clear
+ 519      E7800000 
+ 520              	.LVL35:
+ 521              	.L15:
+ 522              	.LBE15:
+ 163:main.c        ****         {
+ 523              		.loc 1 163 9 is_stmt 1
+ 524              	.LBB16:
+ 163:main.c        ****         {
+ 525              		.loc 1 163 14
+ 163:main.c        ****         {
+ 526              		.loc 1 163 18 is_stmt 0
+ 527 0124 014C     		li	s8,0
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 16
+
+
+ 528              	.LBB17:
+ 176:main.c        ****             if(scoreFlag==0){
+ 529              		.loc 1 176 13
+ 530 0126 9944     		li	s1,6
+ 531              	.LVL36:
+ 532              	.L17:
+ 533              	.LBE17:
+ 163:main.c        ****         {
+ 534              		.loc 1 163 9 discriminator 1
+ 535 0128 631F890B 		bne	s2,s8,.L21
+ 536              	.LBE16:
+ 190:main.c        ****           
+ 537              		.loc 1 190 9 is_stmt 1
+ 190:main.c        ****           
+ 538              		.loc 1 190 13 is_stmt 0
+ 539 012c 97000000 		call	t5expq
+ 539      E7800000 
+ 540              	.LVL37:
+ 190:main.c        ****           
+ 541              		.loc 1 190 12
+ 542 0134 31DD     		beq	a0,zero,.L11
+ 192:main.c        ****           for (int i = 0; i < 8; i++)
+ 543              		.loc 1 192 11 is_stmt 1
+ 544 0136 97000000 		call	colset
+ 544      E7800000 
+ 545              	.LVL38:
+ 546 013e 97000000 		call	l88row
+ 546      E7800000 
+ 547              	.LVL39:
+ 193:main.c        ****           {
+ 548              		.loc 1 193 11
+ 549              	.LBB22:
+ 193:main.c        ****           {
+ 550              		.loc 1 193 16
+ 193:main.c        ****           {
+ 551              		.loc 1 193 20 is_stmt 0
+ 552 0146 8144     		li	s1,0
+ 553              	.LVL40:
+ 554              	.L22:
+ 195:main.c        ****           }
+ 555              		.loc 1 195 13 is_stmt 1 discriminator 3
+ 556 0148 2685     		mv	a0,s1
+ 557 014a 8145     		li	a1,0
+ 558 014c 97000000 		call	l88mem
+ 558      E7800000 
+ 559              	.LVL41:
+ 193:main.c        ****           {
+ 560              		.loc 1 193 35 is_stmt 0 discriminator 3
+ 561 0154 8504     		addi	s1,s1,1
+ 562              	.LVL42:
+ 193:main.c        ****           {
+ 563              		.loc 1 193 11 discriminator 3
+ 564 0156 A147     		li	a5,8
+ 565 0158 E398F4FE 		bne	s1,a5,.L22
+ 566              	.LBE22:
+ 199:main.c        ****             
+ 567              		.loc 1 199 11 is_stmt 1
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 17
+
+
+ 199:main.c        ****             
+ 568              		.loc 1 199 38 is_stmt 0
+ 569 015c 93171A00 		slli	a5,s4,1
+ 199:main.c        ****             
+ 570              		.loc 1 199 13
+ 571 0160 634CFD02 		bgt	a5,s10,.L23
+ 572              	.LBB23:
+ 201:main.c        **** 
+ 573              		.loc 1 201 13 is_stmt 1
+ 201:main.c        **** 
+ 574              		.loc 1 201 26 is_stmt 0
+ 575 0164 97000000 		call	rand
+ 575      E7800000 
+ 576              	.LVL43:
+ 203:main.c        ****               cars[amountOfCars] = createCar(0x1 << newPos, 0x1, 0x0); //Create a new car
+ 577              		.loc 1 203 15
+ 578 016c 9547     		li	a5,5
+ 201:main.c        **** 
+ 579              		.loc 1 201 17
+ 580 016e 33659502 		rem	a0,a0,s1
+ 581              	.LVL44:
+ 203:main.c        ****               cars[amountOfCars] = createCar(0x1 << newPos, 0x1, 0x0); //Create a new car
+ 582              		.loc 1 203 13 is_stmt 1
+ 203:main.c        ****               cars[amountOfCars] = createCar(0x1 << newPos, 0x1, 0x0); //Create a new car
+ 583              		.loc 1 203 15 is_stmt 0
+ 584 0172 63CE270B 		bgt	s2,a5,.L24
+ 204:main.c        ****               amountOfCars++; 
+ 585              		.loc 1 204 15 is_stmt 1
+ 204:main.c        ****               amountOfCars++; 
+ 586              		.loc 1 204 36 is_stmt 0
+ 587 0176 0146     		li	a2,0
+ 588 0178 8545     		li	a1,1
+ 589 017a 3395A900 		sll	a0,s3,a0
+ 590              	.LVL45:
+ 591 017e 97000000 		call	createCar
+ 591      E7800000 
+ 592              	.LVL46:
+ 204:main.c        ****               amountOfCars++; 
+ 593              		.loc 1 204 34
+ 594 0186 93172900 		slli	a5,s2,2
+ 595 018a 1813     		addi	a4,sp,416
+ 596 018c BA97     		add	a5,a4,a5
+ 597 018e 23A8A7E6 		sw	a0,-400(a5)
+ 205:main.c        ****             }else{
+ 598              		.loc 1 205 15 is_stmt 1
+ 205:main.c        ****             }else{
+ 599              		.loc 1 205 27 is_stmt 0
+ 600 0192 0509     		addi	s2,s2,1
+ 601              	.LVL47:
+ 602              	.L44:
+ 218:main.c        ****             scoreFlag = 0; //Reset score flag to allow for more scoring
+ 603              		.loc 1 218 23
+ 604 0194 014D     		li	s10,0
+ 605              	.LVL48:
+ 219:main.c        **** 
+ 606              		.loc 1 219 23
+ 607 0196 814D     		li	s11,0
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 18
+
+
+ 608              	.LVL49:
+ 609              	.L23:
+ 610              	.LBE23:
+ 223:main.c        ****           speedTime++; //Increase speed timer
+ 611              		.loc 1 223 11 is_stmt 1
+ 223:main.c        ****           speedTime++; //Increase speed timer
+ 612              		.loc 1 223 20 is_stmt 0
+ 613 0198 050D     		addi	s10,s10,1
+ 614              	.LVL50:
+ 224:main.c        **** 
+ 615              		.loc 1 224 11 is_stmt 1
+ 224:main.c        **** 
+ 616              		.loc 1 224 20 is_stmt 0
+ 617 019a 850B     		addi	s7,s7,1
+ 618              	.LVL51:
+ 226:main.c        ****           {
+ 619              		.loc 1 226 11 is_stmt 1
+ 620              	.LBB29:
+ 226:main.c        ****           {
+ 621              		.loc 1 226 16
+ 226:main.c        ****           {
+ 622              		.loc 1 226 20 is_stmt 0
+ 623 019c 8144     		li	s1,0
+ 624              	.LVL52:
+ 625              	.L27:
+ 226:main.c        ****           {
+ 626              		.loc 1 226 11 discriminator 1
+ 627 019e 631D990A 		bne	s2,s1,.L29
+ 628              	.LBE29:
+ 629              		.loc 1 240 11 is_stmt 1
+ 630              		.loc 1 240 13 is_stmt 0
+ 631 01a2 9247     		lw	a5,4(sp)
+ 632 01a4 63D87701 		ble	s7,a5,.L30
+ 241:main.c        ****             if(carUniTime >= 75){
+ 633              		.loc 1 241 13 is_stmt 1
+ 634              		.loc 1 241 15 is_stmt 0
+ 635 01a8 9307A004 		li	a5,74
+ 242:main.c        ****               carUniTime -= 20;
+ 243:main.c        ****             }
+ 244:main.c        ****             speedTime=0;
+ 636              		.loc 1 244 22
+ 637 01ac 814B     		li	s7,0
+ 638              	.LVL53:
+ 241:main.c        ****             if(carUniTime >= 75){
+ 639              		.loc 1 241 15
+ 640 01ae 63D34701 		ble	s4,a5,.L30
+ 242:main.c        ****               carUniTime -= 20;
+ 641              		.loc 1 242 15 is_stmt 1
+ 242:main.c        ****               carUniTime -= 20;
+ 642              		.loc 1 242 26 is_stmt 0
+ 643 01b2 311A     		addi	s4,s4,-20
+ 644              	.LVL54:
+ 645              	.L30:
+ 245:main.c        ****           }
+ 246:main.c        **** 
+ 247:main.c        ****           adc_software_trigger_enable(ADC0, ADC_REGULAR_CHANNEL); //Trigger another ADC conversion!
+ 646              		.loc 1 247 11 is_stmt 1
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 19
+
+
+ 647 01b4 8545     		li	a1,1
+ 648 01b6 2285     		mv	a0,s0
+ 649 01b8 97000000 		call	adc_software_trigger_enable
+ 649      E7800000 
+ 650              	.LVL55:
+ 651 01c0 C1BD     		j	.L11
+ 652              	.LVL56:
+ 653              	.L16:
+ 654              	.LBB30:
+ 150:main.c        ****             adcr = adcr >> 9; //Divide it down to only allow values between 0..7
+ 655              		.loc 1 150 13
+ 150:main.c        ****             adcr = adcr >> 9; //Divide it down to only allow values between 0..7
+ 656              		.loc 1 150 20 is_stmt 0
+ 657 01c2 2285     		mv	a0,s0
+ 658 01c4 97000000 		call	adc_regular_data_read
+ 658      E7800000 
+ 659              	.LVL57:
+ 151:main.c        **** 
+ 660              		.loc 1 151 13 is_stmt 1
+ 153:main.c        **** 
+ 661              		.loc 1 153 13
+ 151:main.c        **** 
+ 662              		.loc 1 151 18 is_stmt 0
+ 663 01cc 2585     		srai	a0,a0,9
+ 664              	.LVL58:
+ 153:main.c        **** 
+ 665              		.loc 1 153 17
+ 666 01ce 930A0008 		li	s5,128
+ 667              	.LVL59:
+ 668 01d2 B3DAAA40 		sra	s5,s5,a0
+ 669              	.LVL60:
+ 155:main.c        ****            
+ 670              		.loc 1 155 13 is_stmt 1
+ 157:main.c        **** 
+ 671              		.loc 1 157 13
+ 672 01d6 D685     		mv	a1,s5
+ 673 01d8 1945     		li	a0,6
+ 674              	.LVL61:
+ 675 01da 97000000 		call	l88mem
+ 675      E7800000 
+ 676              	.LVL62:
+ 159:main.c        ****           }
+ 677              		.loc 1 159 13
+ 678 01e2 8945     		li	a1,2
+ 679 01e4 1DBF     		j	.L43
+ 680              	.LVL63:
+ 681              	.L21:
+ 682              	.LBE30:
+ 683              	.LBB31:
+ 684              	.LBB20:
+ 167:main.c        **** 
+ 685              		.loc 1 167 11
+ 167:main.c        **** 
+ 686              		.loc 1 167 25 is_stmt 0
+ 687 01e6 1C08     		addi	a5,sp,16
+ 688 01e8 13172C00 		slli	a4,s8,2
+ 689 01ec 3E97     		add	a4,a5,a4
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 20
+
+
+ 690 01ee 1843     		lw	a4,0(a4)
+ 167:main.c        **** 
+ 691              		.loc 1 167 28
+ 692 01f0 0C43     		lw	a1,0(a4)
+ 167:main.c        **** 
+ 693              		.loc 1 167 36
+ 694 01f2 0847     		lw	a0,8(a4)
+ 695 01f4 3AC4     		sw	a4,8(sp)
+ 167:main.c        **** 
+ 696              		.loc 1 167 28
+ 697 01f6 2EC6     		sw	a1,12(sp)
+ 167:main.c        **** 
+ 698              		.loc 1 167 36
+ 699 01f8 97000000 		call	rowGet
+ 699      E7800000 
+ 700              	.LVL64:
+ 169:main.c        ****             
+ 701              		.loc 1 169 13
+ 702 0200 2247     		lw	a4,8(sp)
+ 167:main.c        **** 
+ 703              		.loc 1 167 15
+ 704 0202 B245     		lw	a1,12(sp)
+ 169:main.c        ****             
+ 705              		.loc 1 169 13
+ 706 0204 1443     		lw	a3,0(a4)
+ 167:main.c        **** 
+ 707              		.loc 1 167 15
+ 708 0206 C98D     		or	a1,a1,a0
+ 709              	.LVL65:
+ 169:main.c        ****             
+ 710              		.loc 1 169 11 is_stmt 1
+ 711 0208 0847     		lw	a0,8(a4)
+ 169:main.c        ****             
+ 712              		.loc 1 169 13 is_stmt 0
+ 713 020a 63945601 		bne	a3,s5,.L18
+ 169:main.c        ****             
+ 714              		.loc 1 169 40 discriminator 1
+ 715 020e 630E9500 		beq	a0,s1,.L31
+ 716              	.L18:
+ 176:main.c        ****             if(scoreFlag==0){
+ 717              		.loc 1 176 11 is_stmt 1
+ 176:main.c        ****             if(scoreFlag==0){
+ 718              		.loc 1 176 13 is_stmt 0
+ 719 0212 63D6A400 		ble	a0,s1,.L20
+ 177:main.c        ****               score++;
+ 720              		.loc 1 177 13 is_stmt 1
+ 177:main.c        ****               score++;
+ 721              		.loc 1 177 15 is_stmt 0
+ 722 0216 63940D00 		bne	s11,zero,.L20
+ 178:main.c        ****               
+ 723              		.loc 1 178 15 is_stmt 1
+ 178:main.c        ****               
+ 724              		.loc 1 178 20 is_stmt 0
+ 725 021a 050B     		addi	s6,s6,1
+ 726              	.LVL66:
+ 180:main.c        **** 
+ 727              		.loc 1 180 15 is_stmt 1
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 21
+
+
+ 180:main.c        **** 
+ 728              		.loc 1 180 24 is_stmt 0
+ 729 021c 854D     		li	s11,1
+ 730              	.LVL67:
+ 731              	.L20:
+ 185:main.c        **** 
+ 732              		.loc 1 185 11 is_stmt 1
+ 733 021e 97000000 		call	l88mem
+ 733      E7800000 
+ 734              	.LVL68:
+ 735              	.L19:
+ 736              	.LBE20:
+ 163:main.c        ****         {
+ 737              		.loc 1 163 44 is_stmt 0 discriminator 2
+ 738 0226 050C     		addi	s8,s8,1
+ 739              	.LVL69:
+ 740 0228 01B7     		j	.L17
+ 741              	.LVL70:
+ 742              	.L31:
+ 743              	.LBB21:
+ 744              	.LBB18:
+ 745              	.LBB19:
+  96:main.c        **** }
+ 746              		.loc 1 96 9
+ 747 022a 854C     		li	s9,1
+ 748              	.LVL71:
+ 749 022c EDBF     		j	.L19
+ 750              	.LVL72:
+ 751              	.L24:
+ 752              	.LBE19:
+ 753              	.LBE18:
+ 754              	.LBE21:
+ 755              	.LBE31:
+ 756              	.LBB32:
+ 757              	.LBB24:
+ 758              	.LBB25:
+ 759              	.LBB26:
+  46:main.c        ****   
+ 760              		.loc 1 46 16
+ 761 022e 3395A900 		sll	a0,s3,a0
+ 762              	.LVL73:
+ 763 0232 1408     		addi	a3,sp,16
+ 764              	.LBE26:
+ 765              	.LBE25:
+ 208:main.c        ****               {
+ 766              		.loc 1 208 24
+ 767 0234 0147     		li	a4,0
+ 210:main.c        ****                   resetCar(cars[i], newPos); //Move car to new position
+ 768              		.loc 1 210 19
+ 769 0236 1D46     		li	a2,7
+ 770              	.L26:
+ 771              	.LVL74:
+ 210:main.c        ****                   resetCar(cars[i], newPos); //Move car to new position
+ 772              		.loc 1 210 17 is_stmt 1
+ 210:main.c        ****                   resetCar(cars[i], newPos); //Move car to new position
+ 773              		.loc 1 210 24 is_stmt 0
+ 774 0238 9C42     		lw	a5,0(a3)
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 22
+
+
+ 210:main.c        ****                   resetCar(cars[i], newPos); //Move car to new position
+ 775              		.loc 1 210 19
+ 776 023a 8C47     		lw	a1,8(a5)
+ 777 023c 6359B600 		ble	a1,a2,.L25
+ 211:main.c        ****                 }
+ 778              		.loc 1 211 19 is_stmt 1
+ 779              	.LVL75:
+ 780              	.LBB28:
+ 781              	.LBB27:
+  43:main.c        ****   c->speed = 0x1;
+ 782              		.loc 1 43 3
+  43:main.c        ****   c->speed = 0x1;
+ 783              		.loc 1 43 15 is_stmt 0
+ 784 0240 23A60700 		sw	zero,12(a5)
+  44:main.c        **** 
+ 785              		.loc 1 44 3 is_stmt 1
+  44:main.c        **** 
+ 786              		.loc 1 44 12 is_stmt 0
+ 787 0244 23A23701 		sw	s3,4(a5)
+  46:main.c        ****   
+ 788              		.loc 1 46 3 is_stmt 1
+  46:main.c        ****   
+ 789              		.loc 1 46 10 is_stmt 0
+ 790 0248 88C3     		sw	a0,0(a5)
+  49:main.c        **** }
+ 791              		.loc 1 49 3 is_stmt 1
+  49:main.c        **** }
+ 792              		.loc 1 49 10 is_stmt 0
+ 793 024a 23A40700 		sw	zero,8(a5)
+ 794              	.LVL76:
+ 795              	.L25:
+ 796              	.LBE27:
+ 797              	.LBE28:
+ 208:main.c        ****               {
+ 798              		.loc 1 208 50 discriminator 2
+ 799 024e 0507     		addi	a4,a4,1
+ 800              	.LVL77:
+ 801 0250 9106     		addi	a3,a3,4
+ 208:main.c        ****               {
+ 802              		.loc 1 208 15 discriminator 2
+ 803 0252 E313E9FE 		bne	s2,a4,.L26
+ 804 0256 3DBF     		j	.L44
+ 805              	.LVL78:
+ 806              	.L29:
+ 807              	.LBE24:
+ 808              	.LBE32:
+ 809              	.LBB33:
+ 228:main.c        **** 
+ 810              		.loc 1 228 13 is_stmt 1
+ 228:main.c        **** 
+ 811              		.loc 1 228 17 is_stmt 0
+ 812 0258 1808     		addi	a4,sp,16
+ 813 025a 93972400 		slli	a5,s1,2
+ 814 025e BA97     		add	a5,a4,a5
+ 815 0260 9C43     		lw	a5,0(a5)
+ 228:main.c        **** 
+ 816              		.loc 1 228 30
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 23
+
+
+ 817 0262 D847     		lw	a4,12(a5)
+ 818 0264 0507     		addi	a4,a4,1
+ 819 0266 D8C7     		sw	a4,12(a5)
+ 230:main.c        ****               moveCar(cars[i]); //Move car after move timer has exceeded carunitime
+ 820              		.loc 1 230 13 is_stmt 1
+ 230:main.c        ****               moveCar(cars[i]); //Move car after move timer has exceeded carunitime
+ 821              		.loc 1 230 15 is_stmt 0
+ 822 0268 634B4701 		blt	a4,s4,.L28
+ 231:main.c        ****               cars[i]->moveTime = 0; //Reset move timer
+ 823              		.loc 1 231 15 is_stmt 1
+ 824 026c 3E85     		mv	a0,a5
+ 825 026e 3EC4     		sw	a5,8(sp)
+ 826 0270 97000000 		call	moveCar
+ 826      E7800000 
+ 827              	.LVL79:
+ 232:main.c        ****           
+ 828              		.loc 1 232 15
+ 232:main.c        ****           
+ 829              		.loc 1 232 33 is_stmt 0
+ 830 0278 A247     		lw	a5,8(sp)
+ 831 027a 23A60700 		sw	zero,12(a5)
+ 832              	.L28:
+ 226:main.c        ****           {
+ 833              		.loc 1 226 46 discriminator 2
+ 834 027e 8504     		addi	s1,s1,1
+ 835              	.LVL80:
+ 836 0280 39BF     		j	.L27
+ 837              	.LBE33:
+ 838              		.cfi_endproc
+ 839              	.LFE8:
+ 841              		.section	.sbss.x.4141,"aw",@nobits
+ 842              		.align	2
+ 843              		.set	.LANCHOR1,. + 0
+ 846              	x.4141:
+ 847 0000 00000000 		.zero	4
+ 848              		.section	.sbss.xp.4142,"aw",@nobits
+ 849              		.align	2
+ 850              		.set	.LANCHOR0,. + 0
+ 853              	xp.4142:
+ 854 0000 00000000 		.zero	4
+ 855              		.section	.sbss.y.4143,"aw",@nobits
+ 856              		.align	2
+ 857              		.set	.LANCHOR3,. + 0
+ 860              	y.4143:
+ 861 0000 00000000 		.zero	4
+ 862              		.section	.sbss.yp.4144,"aw",@nobits
+ 863              		.align	2
+ 864              		.set	.LANCHOR2,. + 0
+ 867              	yp.4144:
+ 868 0000 00000000 		.zero	4
+ 869              		.text
+ 870              	.Letext0:
+ 871              		.file 2 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 872              		.file 3 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 873              		.file 4 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 874              		.file 5 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 875              		.file 6 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 24
+
+
+ 876              		.file 7 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 877              		.file 8 "./../../firmware/GD32VF103_standard_peripheral/system_gd32vf103.h"
+ 878              		.file 9 "c:\\programming\\assembler\\toolchain-gd32v-v202-win\\toolchain-gd32v-v202-win\\compiler\
+ 879              		.file 10 "drivers.h"
+ 880              		.file 11 "./../../firmware/GD32VF103_standard_peripheral/Include/gd32vf103_adc.h"
+ 881              		.file 12 "adc.h"
+ 882              		.file 13 "dac.h"
+ 883              		.file 14 "eclicw.h"
+ 884              		.file 15 "./../../firmware/GD32VF103_standard_peripheral/gd32vf103.h"
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 25
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 main.c
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:13     .text.createCar:0000000000000000 createCar
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:17     .text.createCar:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:19     .text.createCar:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:20     .text.createCar:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:21     .text.createCar:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:23     .text.createCar:0000000000000002 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:25     .text.createCar:0000000000000004 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:28     .text.createCar:0000000000000006 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:31     .text.createCar:0000000000000008 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:32     .text.createCar:000000000000000a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:34     .text.createCar:000000000000000a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:37     .text.createCar:000000000000000e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:40     .text.createCar:0000000000000016 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:41     .text.createCar:0000000000000016 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:43     .text.createCar:0000000000000018 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:45     .text.createCar:000000000000001a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:47     .text.createCar:000000000000001c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:48     .text.createCar:000000000000001c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:49     .text.createCar:000000000000001e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:51     .text.createCar:0000000000000020 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:54     .text.createCar:0000000000000020 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:56     .text.createCar:0000000000000022 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:57     .text.createCar:0000000000000022 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:59     .text.createCar:0000000000000024 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:60     .text.createCar:0000000000000024 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:62     .text.createCar:0000000000000028 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:63     .text.createCar:0000000000000028 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:65     .text.createCar:000000000000002a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:68     .text.createCar:000000000000002c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:75     .text.moveCar:0000000000000000 moveCar
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:78     .text.moveCar:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:80     .text.moveCar:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:81     .text.moveCar:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:82     .text.moveCar:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:86     .text.moveCar:0000000000000006 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:88     .text.moveCar:0000000000000008 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:89     .text.moveCar:000000000000000a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:96     .text.resetCar:0000000000000000 resetCar
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:99     .text.resetCar:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:101    .text.resetCar:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:102    .text.resetCar:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:103    .text.resetCar:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:105    .text.resetCar:0000000000000002 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:108    .text.resetCar:0000000000000006 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:110    .text.resetCar:000000000000000a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:111    .text.resetCar:000000000000000a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:113    .text.resetCar:000000000000000c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:114    .text.resetCar:000000000000000c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:116    .text.resetCar:000000000000000e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:117    .text.resetCar:000000000000000e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:119    .text.resetCar:0000000000000012 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:120    .text.resetCar:0000000000000014 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:127    .text.mt40k_init:0000000000000000 mt40k_init
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:130    .text.mt40k_init:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:132    .text.mt40k_init:0000000000000000 .L0 
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 26
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:133    .text.mt40k_init:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:134    .text.mt40k_init:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:136    .text.mt40k_init:0000000000000002 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:138    .text.mt40k_init:0000000000000002 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:144    .text.mt40k_init:000000000000000a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:145    .text.mt40k_init:000000000000000c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:147    .text.mt40k_init:000000000000000c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:150    .text.mt40k_init:0000000000000014 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:151    .text.mt40k_init:0000000000000014 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:157    .text.mt40k_init:0000000000000022 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:158    .text.mt40k_init:0000000000000022 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:159    .text.mt40k_init:0000000000000024 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:161    .text.mt40k_init:0000000000000024 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:166    .text.mt40k_init:000000000000002c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:168    .text.mt40k_init:000000000000002e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:170    .text.mt40k_init:0000000000000030 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:177    .text.lp:0000000000000000 lp
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:180    .text.lp:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:181    .text.lp:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:182    .text.lp:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:183    .text.lp:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:184    .text.lp:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:185    .text.lp:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:186    .text.lp:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:188    .text.lp:0000000000000002 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:190    .text.lp:0000000000000002 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:192    .text.lp:0000000000000006 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:193    .text.lp:0000000000000008 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:195    .text.lp:0000000000000008 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:197    .text.lp:000000000000000a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:198    .text.lp:000000000000000c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:200    .text.lp:000000000000000c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:203    .text.lp:0000000000000012 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:207    .text.lp:000000000000001a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:208    .text.lp:000000000000001a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:209    .text.lp:000000000000001a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:210    .text.lp:000000000000001a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:212    .text.lp:000000000000001a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:214    .text.lp:000000000000001e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:216    .text.lp:0000000000000022 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:219    .text.lp:0000000000000028 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:221    .text.lp:000000000000002c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:223    .text.lp:000000000000002e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:224    .text.lp:000000000000002e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:227    .text.lp:0000000000000036 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:229    .text.lp:000000000000003a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:231    .text.lp:000000000000003e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:233    .text.lp:0000000000000042 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:235    .text.lp:0000000000000044 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:236    .text.lp:0000000000000044 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:238    .text.lp:0000000000000046 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:240    .text.lp:000000000000004a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:243    .text.lp:0000000000000052 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:245    .text.lp:0000000000000056 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:247    .text.lp:000000000000005a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:248    .text.lp:000000000000005a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:251    .text.lp:0000000000000062 .L0 
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 27
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:253    .text.lp:0000000000000066 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:255    .text.lp:0000000000000068 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:258    .text.lp:000000000000006e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:260    .text.lp:0000000000000072 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:263    .text.lp:000000000000007a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:265    .text.lp:000000000000007e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:267    .text.lp:0000000000000082 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:268    .text.lp:0000000000000082 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:270    .text.lp:0000000000000086 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:272    .text.lp:000000000000008a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:275    .text.lp:000000000000008e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:278    .text.lp:0000000000000094 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:281    .text.lp:0000000000000098 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:283    .text.lp:000000000000009a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:285    .text.lp:000000000000009c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:286    .text.lp:000000000000009c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:288    .text.lp:000000000000009e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:292    .text.lp:00000000000000a8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:293    .text.lp:00000000000000a8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:294    .text.lp:00000000000000aa .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:296    .text.lp:00000000000000ac .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:298    .text.lp:00000000000000ae .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:300    .text.lp:00000000000000b0 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:302    .text.lp:00000000000000b2 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:304    .text.lp:00000000000000b2 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:306    .text.lp:00000000000000b6 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:307    .text.lp:00000000000000b8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:309    .text.lp:00000000000000b8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:311    .text.lp:00000000000000ba .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:313    .text.lp:00000000000000bc .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:315    .text.lp:00000000000000bc .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:317    .text.lp:00000000000000c4 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:324    .text.initGameOver:0000000000000000 initGameOver
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:327    .text.initGameOver:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:329    .text.initGameOver:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:330    .text.initGameOver:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:331    .text.initGameOver:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:334    .text.initGameOver:0000000000000006 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:335    .text.initGameOver:0000000000000008 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:342    .text.startup.main:0000000000000000 main
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:345    .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:346    .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:347    .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:348    .text.startup.main:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:350    .text.startup.main:0000000000000002 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:352    .text.startup.main:0000000000000002 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:354    .text.startup.main:0000000000000006 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:367    .text.startup.main:000000000000003a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:368    .text.startup.main:000000000000003a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:369    .text.startup.main:000000000000003a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:370    .text.startup.main:000000000000003a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:371    .text.startup.main:000000000000003a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:372    .text.startup.main:000000000000003a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:373    .text.startup.main:000000000000003a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:374    .text.startup.main:000000000000003a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:375    .text.startup.main:000000000000003a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:376    .text.startup.main:000000000000003a .L0 
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 28
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:377    .text.startup.main:000000000000003a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:378    .text.startup.main:000000000000003a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:379    .text.startup.main:000000000000003a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:381    .text.startup.main:000000000000003a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:384    .text.startup.main:0000000000000042 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:385    .text.startup.main:0000000000000042 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:386    .text.startup.main:0000000000000042 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:387    .text.startup.main:0000000000000042 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:388    .text.startup.main:0000000000000042 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:389    .text.startup.main:0000000000000042 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:390    .text.startup.main:0000000000000042 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:391    .text.startup.main:0000000000000042 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:392    .text.startup.main:0000000000000042 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:395    .text.startup.main:000000000000004a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:398    .text.startup.main:0000000000000052 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:401    .text.startup.main:000000000000005a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:404    .text.startup.main:0000000000000062 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:408    .text.startup.main:000000000000006c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:410    .text.startup.main:000000000000006e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:412    .text.startup.main:0000000000000072 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:414    .text.startup.main:0000000000000076 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:416    .text.startup.main:0000000000000078 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:418    .text.startup.main:000000000000007a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:420    .text.startup.main:000000000000007c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:422    .text.startup.main:000000000000007e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:424    .text.startup.main:0000000000000080 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:426    .text.startup.main:0000000000000082 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:428    .text.startup.main:0000000000000086 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:430    .text.startup.main:0000000000000088 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:432    .text.startup.main:000000000000008a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:434    .text.startup.main:000000000000008e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:438    .text.startup.main:0000000000000090 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:439    .text.startup.main:0000000000000090 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:440    .text.startup.main:0000000000000090 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:442    .text.startup.main:0000000000000094 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:443    .text.startup.main:0000000000000094 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:446    .text.startup.main:000000000000009c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:448    .text.startup.main:000000000000009e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:453    .text.startup.main:00000000000000aa .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:458    .text.startup.main:00000000000000b8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:464    .text.startup.main:00000000000000c8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:465    .text.startup.main:00000000000000c8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:466    .text.startup.main:00000000000000c8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:468    .text.startup.main:00000000000000ca .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:472    .text.startup.main:00000000000000cc .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:475    .text.startup.main:00000000000000d0 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:478    .text.startup.main:00000000000000d2 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:481    .text.startup.main:00000000000000da .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:487    .text.startup.main:00000000000000e0 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:488    .text.startup.main:00000000000000e0 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:493    .text.startup.main:00000000000000ec .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:495    .text.startup.main:00000000000000f0 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:496    .text.startup.main:00000000000000f0 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:501    .text.startup.main:00000000000000fc .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:503    .text.startup.main:0000000000000100 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:504    .text.startup.main:0000000000000100 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:509    .text.startup.main:000000000000010c .L0 
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 29
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:514    .text.startup.main:0000000000000118 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:518    .text.startup.main:000000000000011a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:525    .text.startup.main:0000000000000124 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:526    .text.startup.main:0000000000000124 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:527    .text.startup.main:0000000000000124 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:530    .text.startup.main:0000000000000126 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:535    .text.startup.main:0000000000000128 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:538    .text.startup.main:000000000000012c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:539    .text.startup.main:000000000000012c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:542    .text.startup.main:0000000000000134 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:544    .text.startup.main:0000000000000136 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:550    .text.startup.main:0000000000000146 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:551    .text.startup.main:0000000000000146 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:552    .text.startup.main:0000000000000146 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:556    .text.startup.main:0000000000000148 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:561    .text.startup.main:0000000000000154 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:564    .text.startup.main:0000000000000156 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:568    .text.startup.main:000000000000015c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:569    .text.startup.main:000000000000015c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:571    .text.startup.main:0000000000000160 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:574    .text.startup.main:0000000000000164 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:575    .text.startup.main:0000000000000164 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:578    .text.startup.main:000000000000016c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:580    .text.startup.main:000000000000016e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:583    .text.startup.main:0000000000000172 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:584    .text.startup.main:0000000000000172 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:586    .text.startup.main:0000000000000176 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:587    .text.startup.main:0000000000000176 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:594    .text.startup.main:0000000000000186 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:599    .text.startup.main:0000000000000192 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:600    .text.startup.main:0000000000000192 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:604    .text.startup.main:0000000000000194 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:607    .text.startup.main:0000000000000196 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:612    .text.startup.main:0000000000000198 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:613    .text.startup.main:0000000000000198 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:616    .text.startup.main:000000000000019a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:617    .text.startup.main:000000000000019a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:621    .text.startup.main:000000000000019c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:622    .text.startup.main:000000000000019c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:623    .text.startup.main:000000000000019c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:627    .text.startup.main:000000000000019e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:630    .text.startup.main:00000000000001a2 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:631    .text.startup.main:00000000000001a2 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:634    .text.startup.main:00000000000001a8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:635    .text.startup.main:00000000000001a8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:637    .text.startup.main:00000000000001ac .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:640    .text.startup.main:00000000000001ae .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:642    .text.startup.main:00000000000001b2 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:643    .text.startup.main:00000000000001b2 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:647    .text.startup.main:00000000000001b4 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:656    .text.startup.main:00000000000001c2 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:657    .text.startup.main:00000000000001c2 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:661    .text.startup.main:00000000000001cc .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:662    .text.startup.main:00000000000001cc .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:663    .text.startup.main:00000000000001cc .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:666    .text.startup.main:00000000000001ce .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:671    .text.startup.main:00000000000001d6 .L0 
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 30
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:672    .text.startup.main:00000000000001d6 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:678    .text.startup.main:00000000000001e2 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:686    .text.startup.main:00000000000001e6 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:687    .text.startup.main:00000000000001e6 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:692    .text.startup.main:00000000000001f0 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:694    .text.startup.main:00000000000001f2 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:697    .text.startup.main:00000000000001f6 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:699    .text.startup.main:00000000000001f8 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:702    .text.startup.main:0000000000000200 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:704    .text.startup.main:0000000000000202 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:706    .text.startup.main:0000000000000204 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:708    .text.startup.main:0000000000000206 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:711    .text.startup.main:0000000000000208 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:713    .text.startup.main:000000000000020a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:715    .text.startup.main:000000000000020e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:718    .text.startup.main:0000000000000212 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:719    .text.startup.main:0000000000000212 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:721    .text.startup.main:0000000000000216 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:722    .text.startup.main:0000000000000216 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:724    .text.startup.main:000000000000021a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:725    .text.startup.main:000000000000021a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:728    .text.startup.main:000000000000021c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:729    .text.startup.main:000000000000021c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:733    .text.startup.main:000000000000021e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:738    .text.startup.main:0000000000000226 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:747    .text.startup.main:000000000000022a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:761    .text.startup.main:000000000000022e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:767    .text.startup.main:0000000000000234 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:769    .text.startup.main:0000000000000236 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:773    .text.startup.main:0000000000000238 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:774    .text.startup.main:0000000000000238 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:776    .text.startup.main:000000000000023a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:782    .text.startup.main:0000000000000240 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:783    .text.startup.main:0000000000000240 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:784    .text.startup.main:0000000000000240 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:786    .text.startup.main:0000000000000244 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:787    .text.startup.main:0000000000000244 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:789    .text.startup.main:0000000000000248 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:790    .text.startup.main:0000000000000248 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:792    .text.startup.main:000000000000024a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:793    .text.startup.main:000000000000024a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:799    .text.startup.main:000000000000024e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:803    .text.startup.main:0000000000000252 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:811    .text.startup.main:0000000000000258 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:812    .text.startup.main:0000000000000258 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:817    .text.startup.main:0000000000000262 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:821    .text.startup.main:0000000000000268 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:822    .text.startup.main:0000000000000268 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:824    .text.startup.main:000000000000026c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:829    .text.startup.main:0000000000000278 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:830    .text.startup.main:0000000000000278 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:834    .text.startup.main:000000000000027e .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:838    .text.startup.main:0000000000000282 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:843    .sbss.x.4141:0000000000000000 .LANCHOR1
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:846    .sbss.x.4141:0000000000000000 x.4141
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:850    .sbss.xp.4142:0000000000000000 .LANCHOR0
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:853    .sbss.xp.4142:0000000000000000 xp.4142
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 31
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:857    .sbss.y.4143:0000000000000000 .LANCHOR3
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:860    .sbss.y.4143:0000000000000000 y.4143
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:864    .sbss.yp.4144:0000000000000000 .LANCHOR2
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:867    .sbss.yp.4144:0000000000000000 yp.4144
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:71     .text.createCar:000000000000002c .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:92     .text.moveCar:000000000000000a .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:123    .text.resetCar:0000000000000014 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:173    .text.mt40k_init:0000000000000030 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:320    .text.lp:00000000000000c4 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:338    .text.initGameOver:0000000000000008 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:841    .text.startup.main:0000000000000282 .L0 
+                     .debug_frame:0000000000000000 .L0 
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:484    .text.startup.main:00000000000000e0 .L12
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:436    .text.startup.main:0000000000000090 .L11
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:470    .text.startup.main:00000000000000cc .L14
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:521    .text.startup.main:0000000000000124 .L15
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:653    .text.startup.main:00000000000001c2 .L16
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:681    .text.startup.main:00000000000001e6 .L21
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:554    .text.startup.main:0000000000000148 .L22
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:609    .text.startup.main:0000000000000198 .L23
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:751    .text.startup.main:000000000000022e .L24
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:806    .text.startup.main:0000000000000258 .L29
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:645    .text.startup.main:00000000000001b4 .L30
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:515    .text.startup.main:000000000000011a .L43
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:716    .text.startup.main:0000000000000212 .L18
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:742    .text.startup.main:000000000000022a .L31
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:731    .text.startup.main:000000000000021e .L20
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:532    .text.startup.main:0000000000000128 .L17
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:735    .text.startup.main:0000000000000226 .L19
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:795    .text.startup.main:000000000000024e .L25
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:770    .text.startup.main:0000000000000238 .L26
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:602    .text.startup.main:0000000000000194 .L44
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:832    .text.startup.main:000000000000027e .L28
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:625    .text.startup.main:000000000000019e .L27
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:3555   .debug_abbrev:0000000000000000 .Ldebug_abbrev0
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5126   .debug_str:00000000000000f3 .LASF240
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5328   .debug_str:00000000000005dc .LASF241
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5470   .debug_str:00000000000008bf .LASF242
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5020   .debug_ranges:0000000000000000 .Ldebug_ranges0
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5076   .debug_line:0000000000000000 .Ldebug_line0
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5178   .debug_str:000000000000029b .LASF243
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5354   .debug_str:000000000000065c .LASF0
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5564   .debug_str:0000000000000b00 .LASF1
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5270   .debug_str:0000000000000491 .LASF2
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5186   .debug_str:00000000000002bd .LASF3
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5400   .debug_str:0000000000000755 .LASF4
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5464   .debug_str:0000000000000894 .LASF5
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5518   .debug_str:0000000000000a15 .LASF6
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5172   .debug_str:000000000000027d .LASF7
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5566   .debug_str:0000000000000b0d .LASF8
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5418   .debug_str:00000000000007b1 .LASF9
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5466   .debug_str:000000000000089f .LASF10
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5462   .debug_str:0000000000000889 .LASF11
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5256   .debug_str:000000000000044b .LASF12
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5082   .debug_str:0000000000000011 .LASF13
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5546   .debug_str:0000000000000a9f .LASF14
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5352   .debug_str:0000000000000651 .LASF15
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 32
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5150   .debug_str:00000000000001ff .LASF16
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5120   .debug_str:00000000000000cd .LASF17
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5414   .debug_str:0000000000000790 .LASF18
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5226   .debug_str:00000000000003a9 .LASF19
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5196   .debug_str:00000000000002fa .LASF20
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5496   .debug_str:00000000000009a1 .LASF21
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5296   .debug_str:0000000000000526 .LASF22
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5210   .debug_str:0000000000000365 .LASF23
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5176   .debug_str:000000000000028e .LASF24
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5300   .debug_str:0000000000000541 .LASF25
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5128   .debug_str:000000000000017b .LASF26
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5478   .debug_str:000000000000093c .LASF27
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5170   .debug_str:0000000000000270 .LASF28
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5092   .debug_str:000000000000003d .LASF29
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5484   .debug_str:000000000000095d .LASF30
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5510   .debug_str:00000000000009eb .LASF31
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5306   .debug_str:0000000000000562 .LASF32
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5310   .debug_str:0000000000000581 .LASF33
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5134   .debug_str:0000000000000196 .LASF34
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5432   .debug_str:0000000000000802 .LASF35
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5154   .debug_str:000000000000021c .LASF36
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5094   .debug_str:000000000000004d .LASF37
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5236   .debug_str:00000000000003e9 .LASF38
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5200   .debug_str:0000000000000326 .LASF39
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5520   .debug_str:0000000000000a1e .LASF40
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5318   .debug_str:00000000000005ac .LASF41
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5390   .debug_str:0000000000000716 .LASF42
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5428   .debug_str:00000000000007ed .LASF43
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5234   .debug_str:00000000000003dd .LASF44
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5230   .debug_str:00000000000003c3 .LASF45
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5452   .debug_str:000000000000085d .LASF46
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5322   .debug_str:00000000000005be .LASF47
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5106   .debug_str:000000000000008c .LASF48
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5404   .debug_str:000000000000076a .LASF49
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5152   .debug_str:0000000000000212 .LASF50
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5536   .debug_str:0000000000000a6a .LASF51
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5344   .debug_str:000000000000062c .LASF52
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5218   .debug_str:0000000000000382 .LASF53
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5522   .debug_str:0000000000000a28 .LASF54
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5392   .debug_str:0000000000000722 .LASF55
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5206   .debug_str:000000000000034d .LASF56
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5506   .debug_str:00000000000009ce .LASF57
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5468   .debug_str:00000000000008ac .LASF58
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5272   .debug_str:000000000000049e .LASF59
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5258   .debug_str:0000000000000456 .LASF60
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5224   .debug_str:000000000000039b .LASF61
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5532   .debug_str:0000000000000a55 .LASF62
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5144   .debug_str:00000000000001e0 .LASF63
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5568   .debug_str:0000000000000b16 .LASF64
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5334   .debug_str:00000000000005fb .LASF65
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5360   .debug_str:0000000000000682 .LASF66
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5190   .debug_str:00000000000002d8 .LASF67
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5148   .debug_str:00000000000001f5 .LASF72
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5194   .debug_str:00000000000002ec .LASF68
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5474   .debug_str:0000000000000928 .LASF69
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5540   .debug_str:0000000000000a7a .LASF70
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5162   .debug_str:000000000000024b .LASF71
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 33
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5308   .debug_str:0000000000000576 .LASF73
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5266   .debug_str:000000000000047a .LASF74
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5508   .debug_str:00000000000009e1 .LASF75
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5314   .debug_str:0000000000000597 .LASF76
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5262   .debug_str:000000000000046a .LASF77
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5420   .debug_str:00000000000007ba .LASF78
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5192   .debug_str:00000000000002e4 .LASF79
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5528   .debug_str:0000000000000a44 .LASF80
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5550   .debug_str:0000000000000abb .LASF81
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5480   .debug_str:000000000000094b .LASF82
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5278   .debug_str:00000000000004c4 .LASF193
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5444   .debug_str:0000000000000840 .LASF83
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5396   .debug_str:000000000000073f .LASF84
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5450   .debug_str:0000000000000856 .LASF85
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5534   .debug_str:0000000000000a63 .LASF86
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5408   .debug_str:000000000000077c .LASF87
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5084   .debug_str:000000000000001c .LASF88
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5146   .debug_str:00000000000001ef .LASF89
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5410   .debug_str:0000000000000784 .LASF90
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5386   .debug_str:0000000000000701 .LASF91
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5088   .debug_str:0000000000000030 .LASF92
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5446   .debug_str:0000000000000846 .LASF93
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5526   .debug_str:0000000000000a3c .LASF94
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5282   .debug_str:00000000000004dc .LASF95
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5440   .debug_str:0000000000000830 .LASF96
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5290   .debug_str:0000000000000508 .LASF101
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5456   .debug_str:0000000000000873 .LASF97
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5298   .debug_str:0000000000000539 .LASF98
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5342   .debug_str:0000000000000626 .LASF99
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5246   .debug_str:0000000000000423 .LASF100
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5110   .debug_str:000000000000009e .LASF102
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5116   .debug_str:00000000000000ba .LASF103
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5560   .debug_str:0000000000000aea .LASF104
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5542   .debug_str:0000000000000a8d .LASF105
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5366   .debug_str:00000000000006ab .LASF106
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5184   .debug_str:00000000000002b4 .LASF107
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5494   .debug_str:0000000000000997 .LASF108
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5394   .debug_str:0000000000000735 .LASF109
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5398   .debug_str:000000000000074b .LASF110
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5558   .debug_str:0000000000000adf .LASF111
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5156   .debug_str:0000000000000229 .LASF112
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5556   .debug_str:0000000000000ad7 .LASF113
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5422   .debug_str:00000000000007d1 .LASF114
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5490   .debug_str:0000000000000980 .LASF115
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5514   .debug_str:0000000000000a06 .LASF116
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5382   .debug_str:00000000000006f1 .LASF117
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5208   .debug_str:0000000000000360 .LASF118
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5214   .debug_str:0000000000000376 .LASF119
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5512   .debug_str:00000000000009ff .LASF120
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5434   .debug_str:000000000000080e .LASF121
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5168   .debug_str:000000000000026a .LASF122
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5544   .debug_str:0000000000000a97 .LASF123
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5380   .debug_str:00000000000006ea .LASF124
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5158   .debug_str:0000000000000237 .LASF125
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5502   .debug_str:00000000000009c0 .LASF126
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5242   .debug_str:0000000000000415 .LASF127
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5096   .debug_str:000000000000005a .LASF128
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 34
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5098   .debug_str:0000000000000060 .LASF129
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5406   .debug_str:0000000000000776 .LASF130
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5216   .debug_str:000000000000037b .LASF131
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5370   .debug_str:00000000000006ba .LASF132
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5114   .debug_str:00000000000000b4 .LASF133
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5430   .debug_str:00000000000007f9 .LASF134
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5252   .debug_str:000000000000043b .LASF135
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5458   .debug_str:0000000000000879 .LASF136
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5122   .debug_str:00000000000000e0 .LASF137
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5376   .debug_str:00000000000006d6 .LASF138
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5276   .debug_str:00000000000004bc .LASF139
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5202   .debug_str:0000000000000333 .LASF140
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5284   .debug_str:00000000000004ee .LASF141
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5228   .debug_str:00000000000003bc .LASF142
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5426   .debug_str:00000000000007e5 .LASF143
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5372   .debug_str:00000000000006c0 .LASF144
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5504   .debug_str:00000000000009c9 .LASF145
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5350   .debug_str:0000000000000646 .LASF146
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5198   .debug_str:000000000000030d .LASF147
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5524   .debug_str:0000000000000a34 .LASF148
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5274   .debug_str:00000000000004b1 .LASF149
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5302   .debug_str:000000000000054f .LASF150
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5530   .debug_str:0000000000000a4d .LASF151
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5166   .debug_str:0000000000000260 .LASF152
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5264   .debug_str:0000000000000475 .LASF153
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5336   .debug_str:0000000000000610 .LASF154
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5104   .debug_str:0000000000000084 .LASF155
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5254   .debug_str:0000000000000443 .LASF156
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5368   .debug_str:00000000000006b5 .LASF157
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5304   .debug_str:0000000000000559 .LASF158
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5248   .debug_str:0000000000000428 .LASF159
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5320   .debug_str:00000000000005b6 .LASF160
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5090   .debug_str:0000000000000038 .LASF161
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5212   .debug_str:0000000000000371 .LASF162
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5442   .debug_str:0000000000000839 .LASF163
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5340   .debug_str:0000000000000620 .LASF164
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5316   .debug_str:00000000000005a5 .LASF165
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5338   .debug_str:000000000000061a .LASF166
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5424   .debug_str:00000000000007dd .LASF167
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5402   .debug_str:0000000000000764 .LASF168
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5130   .debug_str:0000000000000189 .LASF169
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5538   .debug_str:0000000000000a75 .LASF170
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5188   .debug_str:00000000000002cb .LASF171
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5436   .debug_str:0000000000000814 .LASF172
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5102   .debug_str:0000000000000077 .LASF173
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5180   .debug_str:00000000000002a0 .LASF174
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5330   .debug_str:00000000000005e3 .LASF175
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5378   .debug_str:00000000000006df .LASF176
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5448   .debug_str:0000000000000851 .LASF177
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5472   .debug_str:000000000000091b .LASF178
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5416   .debug_str:00000000000007a3 .LASF179
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5374   .debug_str:00000000000006c8 .LASF180
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5118   .debug_str:00000000000000c3 .LASF181
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5286   .debug_str:00000000000004f5 .LASF182
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5562   .debug_str:0000000000000af3 .LASF183
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5160   .debug_str:000000000000023d .LASF184
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5438   .debug_str:0000000000000821 .LASF185
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 35
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5548   .debug_str:0000000000000aaa .LASF186
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5364   .debug_str:000000000000069c .LASF187
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5112   .debug_str:00000000000000a3 .LASF188
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5356   .debug_str:000000000000066e .LASF189
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5516   .debug_str:0000000000000a0e .LASF190
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5324   .debug_str:00000000000005ce .LASF191
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5108   .debug_str:0000000000000096 .LASF192
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5086   .debug_str:0000000000000025 .LASF244
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5164   .debug_str:0000000000000254 .LASF194
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5204   .debug_str:000000000000033a .LASF195
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5488   .debug_str:0000000000000976 .LASF196
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5244   .debug_str:000000000000041d .LASF197
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5482   .debug_str:0000000000000954 .LASF198
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5174   .debug_str:0000000000000289 .LASF218
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:343    .text.startup.main:0000000000000000 .LFB8
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:839    .text.startup.main:0000000000000282 .LFE8
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4574   .debug_loc:0000000000000000 .LLST8
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5554   .debug_str:0000000000000acd .LASF199
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4587   .debug_loc:0000000000000021 .LLST9
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5552   .debug_str:0000000000000ac3 .LASF200
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5358   .debug_str:0000000000000677 .LASF201
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4603   .debug_loc:000000000000004b .LLST10
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5498   .debug_str:00000000000009b4 .LASF202
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4616   .debug_loc:000000000000006c .LLST11
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5080   .debug_str:0000000000000007 .LASF203
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4628   .debug_loc:000000000000008b .LLST12
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5460   .debug_str:000000000000087f .LASF204
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4649   .debug_loc:00000000000000c1 .LLST13
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5312   .debug_str:000000000000058d .LASF205
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5476   .debug_str:0000000000000932 .LASF206
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4665   .debug_loc:00000000000000eb .LLST14
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5326   .debug_str:00000000000005d7 .LASF207
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4681   .debug_loc:0000000000000115 .LLST15
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5412   .debug_str:000000000000078b .LASF245
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5250   .debug_str:0000000000000432 .LASF208
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4696   .debug_loc:0000000000000137 .LLST16
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5268   .debug_str:000000000000048c .LASF209
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5388   .debug_str:0000000000000709 .LASF210
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4730   .debug_loc:000000000000018f .LLST17
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:463    .text.startup.main:00000000000000c8 .LBB14
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:485    .text.startup.main:00000000000000e0 .LBE14
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4742   .debug_loc:00000000000001ae .LLST18
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:479    .text.startup.main:00000000000000da .LVL29
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4768   .debug_loc:00000000000001f0 .LLST19
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:520    .text.startup.main:0000000000000124 .LVL35
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:659    .text.startup.main:00000000000001cc .LVL57
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:676    .text.startup.main:00000000000001e2 .LVL62
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4775   .debug_loc:0000000000000203 .LLST20
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4791   .debug_loc:000000000000022d .LLST21
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:744    .text.startup.main:000000000000022a .LBB18
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:753    .text.startup.main:000000000000022e .LBE18
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:700    .text.startup.main:0000000000000200 .LVL64
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:734    .text.startup.main:0000000000000226 .LVL68
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:549    .text.startup.main:0000000000000146 .LBB22
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:566    .text.startup.main:000000000000015c .LBE22
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4802   .debug_loc:000000000000024b .LLST22
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:559    .text.startup.main:0000000000000154 .LVL41
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 36
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5078   .debug_str:0000000000000000 .LASF211
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4818   .debug_loc:0000000000000275 .LLST23
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:757    .text.startup.main:000000000000022e .LBB24
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:807    .text.startup.main:0000000000000258 .LBE24
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4829   .debug_loc:0000000000000293 .LLST24
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:758    .text.startup.main:000000000000022e .LBB25
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4836   .debug_loc:00000000000002a6 .LLST25
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:576    .text.startup.main:000000000000016c .LVL43
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:592    .text.startup.main:0000000000000186 .LVL46
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4843   .debug_loc:00000000000002b9 .LLST26
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:827    .text.startup.main:0000000000000278 .LVL79
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:382    .text.startup.main:0000000000000042 .LVL15
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:393    .text.startup.main:000000000000004a .LVL16
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:396    .text.startup.main:0000000000000052 .LVL17
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:399    .text.startup.main:000000000000005a .LVL18
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:402    .text.startup.main:0000000000000062 .LVL19
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:406    .text.startup.main:000000000000006c .LVL20
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:444    .text.startup.main:000000000000009c .LVL22
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:451    .text.startup.main:00000000000000aa .LVL23
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:456    .text.startup.main:00000000000000b8 .LVL24
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:459    .text.startup.main:00000000000000c0 .LVL25
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:461    .text.startup.main:00000000000000c8 .LVL26
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:491    .text.startup.main:00000000000000ec .LVL31
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:499    .text.startup.main:00000000000000fc .LVL32
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:507    .text.startup.main:000000000000010c .LVL33
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:512    .text.startup.main:0000000000000118 .LVL34
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:540    .text.startup.main:0000000000000134 .LVL37
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:545    .text.startup.main:000000000000013e .LVL38
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:547    .text.startup.main:0000000000000146 .LVL39
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:650    .text.startup.main:00000000000001c0 .LVL55
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5124   .debug_str:00000000000000e6 .LASF213
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5220   .debug_str:000000000000038e .LASF215
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:178    .text.lp:0000000000000000 .LFB6
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:318    .text.lp:00000000000000c4 .LFE6
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4859   .debug_loc:00000000000002e3 .LLST7
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:249    .text.lp:0000000000000062 .LVL11
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:290    .text.lp:00000000000000a8 .LVL12
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:316    .text.lp:00000000000000c4 .LVL13
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5232   .debug_str:00000000000003d2 .LASF212
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:128    .text.mt40k_init:0000000000000000 .LFB5
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:171    .text.mt40k_init:0000000000000030 .LFE5
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4877   .debug_loc:000000000000030f .LLST5
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5136   .debug_str:00000000000001a2 .LASF217
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4895   .debug_loc:000000000000033b .LLST6
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:148    .text.mt40k_init:0000000000000014 .LVL10
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5332   .debug_str:00000000000005f2 .LASF214
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5384   .debug_str:00000000000006f9 .LASF216
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:76     .text.moveCar:0000000000000000 .LFB3
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:90     .text.moveCar:000000000000000a .LFE3
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5486   .debug_str:000000000000096c .LASF219
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:14     .text.createCar:0000000000000000 .LFB2
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:69     .text.createCar:000000000000002c .LFE2
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4913   .debug_loc:0000000000000367 .LLST0
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4931   .debug_loc:0000000000000393 .LLST1
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4947   .debug_loc:00000000000003bd .LLST2
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4964   .debug_loc:00000000000003e8 .LLST3
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:38     .text.createCar:0000000000000016 .LVL2
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 37
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:97     .text.resetCar:0000000000000000 .LFB4
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:121    .text.resetCar:0000000000000014 .LFE4
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:4981   .debug_loc:0000000000000413 .LLST4
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:325    .text.initGameOver:0000000000000000 .LFB7
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:336    .text.initGameOver:0000000000000008 .LFE7
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5138   .debug_str:00000000000001a7 .LASF220
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5294   .debug_str:0000000000000517 .LASF221
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5142   .debug_str:00000000000001ca .LASF222
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5132   .debug_str:000000000000018f .LASF223
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5182   .debug_str:00000000000002af .LASF224
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5500   .debug_str:00000000000009ba .LASF225
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5260   .debug_str:0000000000000463 .LASF226
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5222   .debug_str:0000000000000393 .LASF227
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5280   .debug_str:00000000000004d4 .LASF228
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5346   .debug_str:0000000000000637 .LASF229
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5100   .debug_str:0000000000000067 .LASF230
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5292   .debug_str:0000000000000510 .LASF231
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5348   .debug_str:000000000000063f .LASF232
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5288   .debug_str:0000000000000501 .LASF233
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5362   .debug_str:000000000000068f .LASF234
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5238   .debug_str:00000000000003f6 .LASF235
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5140   .debug_str:00000000000001ae .LASF236
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5240   .debug_str:000000000000040d .LASF237
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5492   .debug_str:0000000000000989 .LASF238
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:5454   .debug_str:000000000000086c .LASF239
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:349    .text.startup.main:0000000000000002 .LCFI6
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:435    .text.startup.main:0000000000000090 .LVL21
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:667    .text.startup.main:00000000000001d2 .LVL59
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:669    .text.startup.main:00000000000001d6 .LVL60
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:726    .text.startup.main:000000000000021c .LVL66
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:730    .text.startup.main:000000000000021e .LVL67
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:605    .text.startup.main:0000000000000196 .LVL48
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:608    .text.startup.main:0000000000000198 .LVL49
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:638    .text.startup.main:00000000000001ae .LVL53
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:644    .text.startup.main:00000000000001b4 .LVL54
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:664    .text.startup.main:00000000000001ce .LVL58
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:674    .text.startup.main:00000000000001da .LVL61
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:483    .text.startup.main:00000000000000e0 .LVL30
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:531    .text.startup.main:0000000000000128 .LVL36
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:652    .text.startup.main:00000000000001c2 .LVL56
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:680    .text.startup.main:00000000000001e6 .LVL63
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:748    .text.startup.main:000000000000022c .LVL71
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:750    .text.startup.main:000000000000022e .LVL72
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:469    .text.startup.main:00000000000000cc .LVL27
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:476    .text.startup.main:00000000000000d2 .LVL28
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:709    .text.startup.main:0000000000000208 .LVL65
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:741    .text.startup.main:000000000000022a .LVL70
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:553    .text.startup.main:0000000000000148 .LVL40
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:624    .text.startup.main:000000000000019e .LVL52
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:805    .text.startup.main:0000000000000258 .LVL78
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:581    .text.startup.main:0000000000000172 .LVL44
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:590    .text.startup.main:000000000000017e .LVL45
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:762    .text.startup.main:0000000000000232 .LVL73
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:771    .text.startup.main:0000000000000238 .LVL74
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:779    .text.startup.main:0000000000000240 .LVL75
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:794    .text.startup.main:000000000000024e .LVL76
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:618    .text.startup.main:000000000000019c .LVL51
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 38
+
+
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:187    .text.lp:0000000000000002 .LCFI4
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:312    .text.lp:00000000000000bc .LCFI5
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:135    .text.mt40k_init:0000000000000002 .LCFI2
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:167    .text.mt40k_init:000000000000002e .LCFI3
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:131    .text.mt40k_init:0000000000000000 .LVL8
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:142    .text.mt40k_init:000000000000000a .LVL9
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:22     .text.createCar:0000000000000002 .LCFI0
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:64     .text.createCar:000000000000002a .LCFI1
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:18     .text.createCar:0000000000000000 .LVL0
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:29     .text.createCar:0000000000000008 .LVL1
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:52     .text.createCar:0000000000000020 .LVL3
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:66     .text.createCar:000000000000002a .LVL4
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:100    .text.resetCar:0000000000000000 .LVL6
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:106    .text.resetCar:0000000000000006 .LVL7
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:886    .debug_info:0000000000000000 .Ldebug_info0
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:516    .text.startup.main:000000000000011a .LBB15
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:522    .text.startup.main:0000000000000124 .LBE15
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:654    .text.startup.main:00000000000001c2 .LBB30
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:682    .text.startup.main:00000000000001e6 .LBE30
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:524    .text.startup.main:0000000000000124 .LBB16
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:536    .text.startup.main:000000000000012c .LBE16
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:683    .text.startup.main:00000000000001e6 .LBB31
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:755    .text.startup.main:000000000000022e .LBE31
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:528    .text.startup.main:0000000000000126 .LBB17
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:533    .text.startup.main:0000000000000128 .LBE17
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:684    .text.startup.main:00000000000001e6 .LBB20
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:736    .text.startup.main:0000000000000226 .LBE20
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:743    .text.startup.main:000000000000022a .LBB21
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:754    .text.startup.main:000000000000022e .LBE21
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:572    .text.startup.main:0000000000000164 .LBB23
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:610    .text.startup.main:0000000000000198 .LBE23
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:756    .text.startup.main:000000000000022e .LBB32
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:808    .text.startup.main:0000000000000258 .LBE32
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:765    .text.startup.main:0000000000000234 .LBE25
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:780    .text.startup.main:0000000000000240 .LBB28
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:797    .text.startup.main:000000000000024e .LBE28
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:620    .text.startup.main:000000000000019c .LBB29
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:628    .text.startup.main:00000000000001a2 .LBE29
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:809    .text.startup.main:0000000000000258 .LBB33
+C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s:837    .text.startup.main:0000000000000282 .LBE33
+
+UNDEFINED SYMBOLS
+malloc
+eclicw_enable
+adc_regular_data_read
+DAC0set
+adc_software_trigger_enable
+srand
+t5omsi
+colinit
+l88init
+keyinit
+ADC3powerUpInit
+t5expq
+l88mem
+colset
+l88row
+GAS LISTING C:\Users\Duckb\AppData\Local\Temp\ccayx2Sd.s 			page 39
+
+
+adc_flag_get
+adc_inserted_data_read
+adc_flag_clear
+rand
+rowGet
